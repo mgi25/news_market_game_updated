@@ -1,7 +1,7 @@
 import os
 
-HOST = os.getenv("NMG_HOST", "0.0.0.0")
-PORT = int(os.getenv("NMG_PORT", "8000"))
+HOST = "0.0.0.0"
+PORT = int(os.getenv("PORT", os.getenv("NMG_PORT", "8000")))
 
 # Admin password (change this before event)
 ADMIN_PASSWORD = os.getenv("NMG_ADMIN_PASSWORD", "admin123")
