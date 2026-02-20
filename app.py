@@ -38,6 +38,35 @@ drift_pct: Dict[str, float] = {t: 0.0 for t in prices.keys()}
 
 rng = random.Random(42)
 
+# -------------------- Background thread (Render/Gunicorn safe) --------------------
+tick_thread_started = False
+tick_thread_lock = threading.Lock()
+
+
+def background_loop():
+    while True:
+        time.sleep(config.TICK_SECONDS)
+        market_tick()
+
+
+def ensure_tick_thread():
+    """
+    Start the tick thread lazily (first request) to avoid Gunicorn fork/preload issues.
+    """
+    global tick_thread_started
+    if tick_thread_started:
+        return
+    with tick_thread_lock:
+        if tick_thread_started:
+            return
+        threading.Thread(target=background_loop, daemon=True).start()
+        tick_thread_started = True
+
+
+@app.before_request
+def _start_bg_once():
+    ensure_tick_thread()
+
 # -------------------- Helpers --------------------
 def ensure_player(name: str):
     if name not in players:
@@ -172,16 +201,9 @@ def market_tick():
             px = prices[t]
             noise = rng.uniform(-config.MARKET_NOISE_PCT, config.MARKET_NOISE_PCT)
             d = drift_pct.get(t, 0.0)
-            jitter = rng.uniform(-abs(d)*0.35, abs(d)*0.35) if d != 0 else 0.0
+            jitter = rng.uniform(-abs(d) * 0.35, abs(d) * 0.35) if d != 0 else 0.0
             pct = noise + d + jitter
             prices[t] = max(1.0, px * (1.0 + pct))
-
-def background_loop():
-    while True:
-        time.sleep(config.TICK_SECONDS)
-        market_tick()
-
-threading.Thread(target=background_loop, daemon=True).start()
 
 # -------------------- Routes --------------------
 @app.get("/")
@@ -210,7 +232,7 @@ def admin():
 def api_bootstrap():
     return jsonify({"companies": COMPANIES, "sectors": SECTORS})
 
-@app.get("/api/state")
+@app.get("/api latest_state")
 def api_state():
     player = (request.args.get("player") or "").strip()
     with state_lock:
@@ -227,6 +249,11 @@ def api_state():
         if port:
             out["portfolio"] = port
         return jsonify(out)
+
+# NOTE: keep old route name too (if your frontend calls /api/state)
+@app.get("/api/state")
+def api_state_alias():
+    return api_state()
 
 @app.post("/api/trade")
 def api_trade():
@@ -342,4 +369,5 @@ def api_admin_reset():
     return jsonify({"ok": True})
 
 if __name__ == "__main__":
+    # Local run only (Render should use gunicorn)
     app.run(host=config.HOST, port=config.PORT, debug=False, threaded=True)
