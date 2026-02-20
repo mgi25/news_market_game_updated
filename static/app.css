@@ -75,6 +75,30 @@ a{color:inherit; text-decoration:none}
 .bigHeadline{font-size:26px}
 .mono{font-family:var(--mono)}
 
+
+.reactionPanel{
+  margin-top:12px;
+  padding:10px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;
+  background: rgba(255,255,255,.02);
+}
+.reactionPanel.active{border-color: rgba(122,162,255,.4)}
+.reactionTop{display:flex; align-items:center; justify-content:space-between; gap:8px}
+.reactionMeta{font-size:12px; margin-top:6px}
+.progressTrack{margin-top:8px; width:100%; height:8px; border-radius:999px; background: rgba(255,255,255,.08); overflow:hidden}
+.progressFill{height:100%; width:0%; background: linear-gradient(90deg, #7AA2FF, #31D17A); transition: width .35s ease}
+.pulse{
+  border-radius:999px;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.08em;
+  padding:4px 8px;
+  border:1px solid var(--line);
+}
+.pulse.calm{color:var(--muted)}
+.pulse.medium{color:#FFD166; border-color: rgba(255,209,102,.45)}
+.pulse.high{color:#FF5C7A; border-color: rgba(255,92,122,.5)}
 .news{padding:14px}
 .news-headline{font-size:18px; font-weight:850; line-height:1.25}
 .news-summary{margin-top:8px; color:var(--muted); line-height:1.5}

@@ -30,6 +30,7 @@ players: Dict[str, Dict] = {}  # player -> {"cash": float, "holdings": {ticker: 
 
 round_no = 0
 status = "IDLE"  # IDLE or REACTION
+reaction_start_ts: Optional[float] = None
 reaction_end_ts: Optional[float] = None
 current_news_internal: Optional[Dict] = None
 
@@ -73,6 +74,7 @@ def ensure_player(name: str):
         players[name] = {
             "cash": float(config.START_CASH),
             "holdings": {},
+            "trades": [],
         }
 
 def portfolio_value(name: str) -> Dict:
@@ -88,7 +90,24 @@ def portfolio_value(name: str) -> Dict:
         "holdings_value": holdings_value,
         "total_value": total,
         "holdings": p["holdings"],
+        "recent_trades": p.get("trades", [])[-8:],
     }
+
+def reaction_meta() -> Dict:
+    if status != "REACTION" or reaction_end_ts is None or reaction_start_ts is None:
+        return {"active": False, "pulse": "CALM", "affected": 0, "progress": 0}
+
+    affected = sum(1 for v in drift_pct.values() if abs(v) > 1e-8)
+    mean_abs_drift = sum(abs(v) for v in drift_pct.values()) / max(1, len(drift_pct))
+    pulse = "CALM"
+    if mean_abs_drift >= 0.0010:
+        pulse = "HIGH"
+    elif mean_abs_drift >= 0.00045:
+        pulse = "MEDIUM"
+
+    elapsed = max(0.0, time.time() - reaction_start_ts)
+    progress = min(100, int((elapsed / max(config.REACTION_SECONDS, 1)) * 100))
+    return {"active": True, "pulse": pulse, "affected": affected, "progress": progress}
 
 def compute_leaderboard() -> List[Dict]:
     out = []
@@ -132,7 +151,7 @@ def movers_top(n=6) -> List[Dict]:
     return moves[:n]
 
 def apply_news_effect(news: Dict):
-    global status, reaction_end_ts, current_news_internal, round_no
+    global status, reaction_start_ts, reaction_end_ts, current_news_internal, round_no
 
     direction = news["direction"]      # hidden
     intensity = news["intensity"]      # hidden
@@ -180,14 +199,16 @@ def apply_news_effect(news: Dict):
     round_no += 1
     current_news_internal = news
     status = "REACTION"
+    reaction_start_ts = time.time()
     reaction_end_ts = time.time() + config.REACTION_SECONDS
 
 def end_reaction_if_needed():
-    global status, reaction_end_ts, current_news_internal
+    global status, reaction_start_ts, reaction_end_ts, current_news_internal
     if status == "REACTION" and reaction_end_ts is not None and time.time() >= reaction_end_ts:
         for t in drift_pct.keys():
             drift_pct[t] = 0.0
         status = "IDLE"
+        reaction_start_ts = None
         reaction_end_ts = None
         current_news_internal = None
 
@@ -245,6 +266,7 @@ def api_state():
             "prices": prices,
             "leaderboard": compute_leaderboard(),
             "movers": movers_top(6),
+            "reaction_meta": reaction_meta(),
         }
         if port:
             out["portfolio"] = port
@@ -293,6 +315,16 @@ def api_trade():
             h["qty"] -= qty
             if h["qty"] == 0:
                 del p["holdings"][ticker]
+
+        p.setdefault("trades", []).append({
+            "ts": int(time.time()),
+            "ticker": ticker,
+            "side": side,
+            "qty": qty,
+            "price": px,
+        })
+        if len(p["trades"]) > 100:
+            p["trades"] = p["trades"][-100:]
 
         return jsonify({"ok": True})
 
@@ -355,13 +387,14 @@ def api_admin_reset():
     if not check_admin(password):
         return jsonify({"ok": False, "error": "Unauthorized"}), 401
 
-    global prices, prev_prices, players, round_no, status, reaction_end_ts, current_news_internal
+    global prices, prev_prices, players, round_no, status, reaction_start_ts, reaction_end_ts, current_news_internal
     with state_lock:
         prices = {c["ticker"]: float(c["start_price"]) for c in COMPANIES}
         prev_prices = dict(prices)
         players = {}
         round_no = 0
         status = "IDLE"
+        reaction_start_ts = None
         reaction_end_ts = None
         current_news_internal = None
         for t in drift_pct.keys():
