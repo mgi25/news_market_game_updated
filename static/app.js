@@ -8,6 +8,10 @@ function fmtPrice(x){
   if (x === null || x === undefined) return "—";
   return Number(x).toLocaleString(undefined, {maximumFractionDigits: 4});
 }
+function fmtPct(x){
+  if (x === null || x === undefined) return "—";
+  return `${x >= 0 ? "+" : ""}${(x*100).toFixed(2)}%`;
+}
 
 let COMPANIES = [];
 let SECTORS = [];
@@ -15,6 +19,8 @@ let lastPrices = {};
 let qtyDraft = {};
 let currentNews = null;
 let adminAuthed = false;
+let quoteCache = {};
+let historyCache = {};
 
 function fmtTime(ts){
   if(!ts) return "—";
@@ -84,6 +90,8 @@ function buildMarketTable(){
       <td><span class="badge">${c.sector}</span></td>
       <td class="right mono" id="px-${c.ticker}">—</td>
       <td class="right mono" id="mv-${c.ticker}">—</td>
+      <td class="right mono smallNum" id="sp-${c.ticker}">—</td>
+      <td class="mono spark" id="sk-${c.ticker}">▁▁▁▁▁</td>
       <td class="right">
         <input class="qtyInput" id="qty-${c.ticker}" type="number" min="1" step="1" value="1">
       </td>
@@ -180,7 +188,7 @@ async function doTrade(ticker, side){
     showToast(data.error || "Trade failed");
     return;
   }
-  showToast(`${side} ${ticker} × ${q}`);
+  showToast(`${side} ${ticker} × ${q} @ ${fmtPrice(data.fill_price)} (fee ${fmtMoney(data.fee)})`);
 }
 
 function renderHoldings(holdings, prices){
@@ -188,7 +196,7 @@ function renderHoldings(holdings, prices){
   if(!body) return;
   const rows = Object.keys(holdings || {});
   if(rows.length === 0){
-    body.innerHTML = `<tr><td colspan="6" class="muted">No holdings yet.</td></tr>`;
+    body.innerHTML = `<tr><td colspan="7" class="muted">No holdings yet.</td></tr>`;
     return;
   }
   const tickerToCompany = {};
@@ -206,6 +214,7 @@ function renderHoldings(holdings, prices){
       <td class="right mono">${h.qty}</td>
       <td class="right mono">${fmtPrice(h.avg)}</td>
       <td class="right mono">${fmtPrice(now)}</td>
+      <td class="right mono ${now >= h.avg ? "moveUp" : "moveDown"}">${fmtMoney((now-h.avg)*h.qty)}</td>
       <td class="right mono"><b>${fmtMoney(value)}</b></td>
     `;
     body.appendChild(tr);
@@ -249,7 +258,7 @@ function renderTrades(trades){
   if(!body) return;
   const rows = trades || [];
   if(rows.length === 0){
-    body.innerHTML = `<tr><td colspan="5" class="muted">No trades yet.</td></tr>`;
+    body.innerHTML = `<tr><td colspan="6" class="muted">No trades yet.</td></tr>`;
     return;
   }
 
@@ -263,9 +272,20 @@ function renderTrades(trades){
       <td class="mono ${cls}">${t.side || ""}</td>
       <td class="right mono">${t.qty || 0}</td>
       <td class="right mono">${fmtPrice(t.price)}</td>
+      <td class="right mono">${fmtMoney(t.fee || 0)}</td>
     `;
     body.appendChild(tr);
   }
+}
+
+
+function sparkline(arr){
+  if(!arr || !arr.length) return "▁▁▁▁▁";
+  const blocks = "▁▂▃▄▅▆▇█";
+  const min = Math.min(...arr);
+  const max = Math.max(...arr);
+  const span = Math.max(1e-9, max-min);
+  return arr.slice(-14).map(v=>blocks[Math.max(0, Math.min(7, Math.floor(((v-min)/span)*7)))]).join("");
 }
 
 function renderMovers(movers){
@@ -287,7 +307,7 @@ function renderMovers(movers){
   }
 }
 
-function updateMarketCells(prices){
+function updateMarketCells(prices, quotes = {}, history = {}){
   for(const t in prices){
     const px = prices[t];
     const last = lastPrices[t] ?? px;
@@ -299,10 +319,24 @@ function updateMarketCells(prices){
 
     const pxEl = $(`px-${t}`);
     const mvEl = $(`mv-${t}`);
+    const spEl = $(`sp-${t}`);
+    const skEl = $(`sk-${t}`);
     if(pxEl) pxEl.textContent = fmtPrice(px);
     if(mvEl){
       mvEl.textContent = `${sign}${(pct*100).toFixed(2)}%`;
       mvEl.className = `right mono ${cls}`;
+      mvEl.classList.remove("flashUp", "flashDown");
+      mvEl.classList.add(pct >= 0 ? "flashUp" : "flashDown");
+      setTimeout(()=>mvEl.classList.remove("flashUp", "flashDown"), 350);
+    }
+    if(spEl){
+      const sp = quotes[t]?.spread_pct;
+      spEl.textContent = sp ? `${(sp*100).toFixed(2)}%` : "—";
+    }
+    if(skEl){
+      const series = history[t] || [];
+      skEl.textContent = sparkline(series);
+      skEl.className = `mono spark ${pct >= 0 ? "up" : "down"}`;
     }
 
     const qEl = $(`qty-${t}`);
@@ -330,7 +364,9 @@ async function pollState(){
 
   setNews(s.news || null);
   renderReaction(s.reaction_meta || null);
-  updateMarketCells(s.prices || {});
+  quoteCache = s.quotes || {};
+  historyCache = s.history || {};
+  updateMarketCells(s.prices || {}, quoteCache, historyCache);
 
   if(player){
     $("cashText").textContent = fmtMoney(s.portfolio.cash);

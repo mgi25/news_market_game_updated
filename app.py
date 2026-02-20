@@ -1,7 +1,9 @@
 import json
+import math
 import random
 import threading
 import time
+from collections import deque
 from typing import Dict, Optional, List
 
 from flask import Flask, render_template, request, jsonify, redirect
@@ -26,6 +28,10 @@ state_lock = threading.Lock()
 prices: Dict[str, float] = {c["ticker"]: float(c["start_price"]) for c in COMPANIES}
 prev_prices: Dict[str, float] = dict(prices)
 
+price_history: Dict[str, deque] = {
+    c["ticker"]: deque([float(c["start_price"])] * 30, maxlen=30) for c in COMPANIES
+}
+
 players: Dict[str, Dict] = {}  # player -> {"cash": float, "holdings": {ticker: {"qty": int, "avg": float}}}
 
 round_no = 0
@@ -36,6 +42,11 @@ current_news_internal: Optional[Dict] = None
 
 # per-ticker drift (pct per tick)
 drift_pct: Dict[str, float] = {t: 0.0 for t in prices.keys()}
+vol_state: Dict[str, float] = {t: config.MARKET_NOISE_PCT for t in prices.keys()}
+momentum_pct: Dict[str, float] = {t: 0.0 for t in prices.keys()}
+fundamental_price: Dict[str, float] = {c["ticker"]: float(c["start_price"]) for c in COMPANIES}
+sector_shock_pct: Dict[str, float] = {s: 0.0 for s in SECTORS}
+market_shock_pct: float = 0.0
 
 rng = random.Random(42)
 
@@ -150,6 +161,20 @@ def movers_top(n=6) -> List[Dict]:
     moves.sort(key=lambda x: abs(x["pct"]), reverse=True)
     return moves[:n]
 
+def quotes_for_all() -> Dict[str, Dict]:
+    out = {}
+    for t, px in prices.items():
+        v = max(0.0005, vol_state.get(t, config.MARKET_NOISE_PCT))
+        # Wider spread in volatile names.
+        spread_pct = min(0.012, max(0.0008, v * 2.2))
+        half = px * spread_pct * 0.5
+        out[t] = {
+            "bid": max(0.01, px - half),
+            "ask": px + half,
+            "spread_pct": spread_pct,
+        }
+    return out
+
 def apply_news_effect(news: Dict):
     global status, reaction_start_ts, reaction_end_ts, current_news_internal, round_no
 
@@ -212,19 +237,59 @@ def end_reaction_if_needed():
         reaction_end_ts = None
         current_news_internal = None
 
+def _step_shock(x: float, decay=0.88, shock_scale=0.00045) -> float:
+    return (x * decay) + rng.gauss(0.0, shock_scale)
+
 def market_tick():
-    global prev_prices
+    global prev_prices, market_shock_pct
     with state_lock:
         end_reaction_if_needed()
         prev_prices = dict(prices)
 
+        market_shock_pct = _step_shock(market_shock_pct, decay=0.93, shock_scale=0.00038)
+        for s in list(sector_shock_pct.keys()):
+            sector_shock_pct[s] = _step_shock(sector_shock_pct[s], decay=0.90, shock_scale=0.00055)
+
         for t in list(prices.keys()):
             px = prices[t]
-            noise = rng.uniform(-config.MARKET_NOISE_PCT, config.MARKET_NOISE_PCT)
+            c = TICKER_TO_COMPANY[t]
+            sec = c["sector"]
+
+            # Volatility clustering (GARCH-like simplified update).
+            prev_ret = 0.0 if prev_prices[t] == 0 else (px - prev_prices[t]) / prev_prices[t]
+            v_prev = vol_state.get(t, config.MARKET_NOISE_PCT)
+            v_new = (0.86 * v_prev) + (0.12 * abs(prev_ret)) + 0.00012
+            v_new = min(0.02, max(0.0006, v_new))
+            vol_state[t] = v_new
+
             d = drift_pct.get(t, 0.0)
-            jitter = rng.uniform(-abs(d) * 0.35, abs(d) * 0.35) if d != 0 else 0.0
-            pct = noise + d + jitter
-            prices[t] = max(1.0, px * (1.0 + pct))
+            if d != 0:
+                # News impact decays over time instead of flat drift.
+                drift_pct[t] *= 0.96
+
+            # Fundamentals drift slowly; price mean-reverts gently to them.
+            fundamental_price[t] *= (1.0 + rng.gauss(0.0, 0.00018))
+            valuation_gap = (fundamental_price[t] - px) / max(px, 1.0)
+            mean_revert = valuation_gap * 0.06
+
+            # Momentum persistence, then partial decay.
+            mom = momentum_pct.get(t, 0.0)
+            momentum_term = mom * 0.32
+            momentum_pct[t] = (mom * 0.65) + (prev_ret * 0.35)
+
+            idio_noise = rng.gauss(0.0, v_new)
+            pct = (
+                idio_noise
+                + d
+                + mean_revert
+                + momentum_term
+                + market_shock_pct * 0.55
+                + sector_shock_pct.get(sec, 0.0) * 0.65
+            )
+
+            new_px = max(1.0, px * (1.0 + pct))
+            prices[t] = new_px
+            price_history[t].append(new_px)
 
 # -------------------- Routes --------------------
 @app.get("/")
@@ -267,6 +332,8 @@ def api_state():
             "leaderboard": compute_leaderboard(),
             "movers": movers_top(6),
             "reaction_meta": reaction_meta(),
+            "quotes": quotes_for_all(),
+            "history": {t: list(h) for t, h in price_history.items()},
         }
         if port:
             out["portfolio"] = port
@@ -290,11 +357,24 @@ def api_trade():
 
     with state_lock:
         ensure_player(player)
-        px = float(prices[ticker])
+        quote = quotes_for_all().get(ticker) or {}
+        mark_px = float(prices[ticker])
+        bid_px = float(quote.get("bid", mark_px * 0.999))
+        ask_px = float(quote.get("ask", mark_px * 1.001))
+        spread_pct = float(quote.get("spread_pct", 0.001))
+
+        # Size-based slippage: grows non-linearly with order size.
+        slippage_pct = min(0.02, spread_pct * (0.35 + (math.sqrt(qty) * 0.11)))
+        if side == "BUY":
+            px = ask_px * (1.0 + slippage_pct)
+        else:
+            px = bid_px * (1.0 - slippage_pct)
+
+        fee = max(1.0, px * qty * 0.0008)
         p = players[player]
 
         if side == "BUY":
-            cost = px * qty
+            cost = (px * qty) + fee
             if p["cash"] < cost:
                 return jsonify({"ok": False, "error": "Not enough cash"}), 400
             p["cash"] -= cost
@@ -311,7 +391,7 @@ def api_trade():
             h = p["holdings"].get(ticker)
             if not h or h["qty"] < qty:
                 return jsonify({"ok": False, "error": "Not enough holdings"}), 400
-            p["cash"] += px * qty
+            p["cash"] += (px * qty) - fee
             h["qty"] -= qty
             if h["qty"] == 0:
                 del p["holdings"][ticker]
@@ -322,11 +402,13 @@ def api_trade():
             "side": side,
             "qty": qty,
             "price": px,
+            "fee": fee,
+            "mark": mark_px,
         })
         if len(p["trades"]) > 100:
             p["trades"] = p["trades"][-100:]
 
-        return jsonify({"ok": True})
+        return jsonify({"ok": True, "fill_price": px, "fee": fee, "mark_price": mark_px})
 
 # -------- Admin APIs --------
 @app.post("/api/admin/login")
