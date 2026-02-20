@@ -21,6 +21,7 @@
 *{box-sizing:border-box}
 body{
   margin:0;
+  overflow-x:hidden;
   font-family:var(--sans);
   color:var(--text);
   background:
@@ -122,7 +123,7 @@ input, select{
 input:focus, select:focus{border-color:rgba(79,140,255,.7); box-shadow:0 0 0 3px rgba(79,140,255,.16)}
 select{max-width:220px}
 
-.tableWrap{padding:0 14px 14px; overflow-x:auto; overflow-y:hidden}
+.tableWrap{padding:0 14px 14px; overflow-x:auto; overflow-y:hidden; max-width:100%}
 .table{width:100%; border-collapse:collapse; table-layout:auto}
 .table th, .table td{
   padding:10px 8px;
@@ -215,3 +216,7 @@ select{max-width:220px}
 
 .chartCard{width:min(980px, 95vw)}
 #chartCanvas{width:100%; height:auto; border:1px solid rgba(163,190,255,.22); border-radius:12px; background:#0c1731}
+
+
+.chartWindowBody{padding:0 14px 14px}
+#inlineChartCanvas{width:100%; height:auto; border:1px solid rgba(163,190,255,.22); border-radius:12px; background:#0c1731}

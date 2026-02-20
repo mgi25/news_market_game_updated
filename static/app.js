@@ -136,6 +136,11 @@ async function bootstrap(){
 
   fillSectorFilter();
   buildMarketTable();
+
+  if(COMPANIES.length){
+    chartTicker = COMPANIES[0].ticker;
+    drawChart(chartTicker, chartMode);
+  }
 }
 
 function openNewsModal(){
@@ -327,6 +332,9 @@ function openChartModal(ticker){
   modal.style.display = "flex";
   modal.setAttribute("aria-hidden","false");
   drawChart(ticker, chartMode);
+
+  const inlineCard = $("inlineChartCard");
+  if(inlineCard) inlineCard.scrollIntoView({behavior:"smooth", block:"start"});
 }
 
 function closeChartModal(){
@@ -336,8 +344,7 @@ function closeChartModal(){
   modal.setAttribute("aria-hidden","true");
 }
 
-function drawChart(ticker, mode){
-  const canvas = $("chartCanvas");
+function drawChartOnCanvas(canvas, ticker, mode){
   if(!canvas) return;
   const ctx = canvas.getContext("2d");
   if(!ctx) return;
@@ -388,6 +395,15 @@ function drawChart(ticker, mode){
   ctx.fillStyle = "#aebddd";
   ctx.font = "12px sans-serif";
   ctx.fillText(mode === "candle" ? "Candlestick" : "Line", pad+8, pad+14);
+}
+
+function drawChart(ticker, mode){
+  drawChartOnCanvas($("chartCanvas"), ticker, mode);
+  drawChartOnCanvas($("inlineChartCanvas"), ticker, mode);
+
+  const c = COMPANIES.find(x=>x.ticker===ticker);
+  const inlineTitle = $("inlineChartTitle");
+  if(inlineTitle) inlineTitle.textContent = `${ticker} · ${c?.name || ""} · Chart Window`;
 }
 
 function updateMarketCells(prices, quotes = {}, history = {}){
