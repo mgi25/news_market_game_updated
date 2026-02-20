@@ -24,6 +24,7 @@ let historyCache = {};
 let ohlcCache = {};
 let chartTicker = null;
 let chartMode = "line";
+let impactMapCache = {};
 
 function fmtTime(ts){
   if(!ts) return "—";
@@ -91,6 +92,7 @@ function buildMarketTable(){
       <td class="mono"><b>${c.ticker}</b></td>
       <td>${c.name}</td>
       <td><span class="badge">${c.sector}</span></td>
+      <td id="im-${c.ticker}"><span class="impactBadge impact-none">None</span></td>
       <td class="right mono" id="px-${c.ticker}">—</td>
       <td class="right mono" id="mv-${c.ticker}">—</td>
       <td class="right mono smallNum" id="sp-${c.ticker}">—</td>
@@ -441,7 +443,15 @@ function drawChart(ticker, mode){
   if(inlineTitle) inlineTitle.textContent = `${ticker} · ${c?.name || ""} · Chart Window`;
 }
 
-function updateMarketCells(prices, quotes = {}, history = {}){
+function impactBadge(level){
+  const v = (level || "NONE").toUpperCase();
+  if(v === "DIRECT") return '<span class="impactBadge impact-direct">Direct</span>';
+  if(v === "SECTOR") return '<span class="impactBadge impact-sector">Sector</span>';
+  if(v === "LINKED") return '<span class="impactBadge impact-linked">Linked</span>';
+  return '<span class="impactBadge impact-none">None</span>';
+}
+
+function updateMarketCells(prices, quotes = {}, history = {}, impactMap = {}){
   for(const t in prices){
     const px = prices[t];
     const last = lastPrices[t] ?? px;
@@ -455,6 +465,8 @@ function updateMarketCells(prices, quotes = {}, history = {}){
     const mvEl = $(`mv-${t}`);
     const spEl = $(`sp-${t}`);
     const skEl = $(`sk-${t}`);
+    const imEl = $(`im-${t}`);
+    const rowEl = pxEl ? pxEl.closest("tr") : null;
     if(pxEl) pxEl.textContent = fmtPrice(px);
     if(mvEl){
       mvEl.textContent = `${sign}${(pct*100).toFixed(2)}%`;
@@ -471,6 +483,14 @@ function updateMarketCells(prices, quotes = {}, history = {}){
       const series = history[t] || [];
       skEl.textContent = sparkline(series);
       skEl.className = `mono spark ${pct >= 0 ? "up" : "down"}`;
+    }
+    if(imEl){
+      const impact = impactMap[t] || "NONE";
+      imEl.innerHTML = impactBadge(impact);
+      if(rowEl){
+        rowEl.classList.toggle("impact-row", impact !== "NONE");
+        rowEl.classList.toggle("nonimpact-row", impact === "NONE");
+      }
     }
 
     const qEl = $(`qty-${t}`);
@@ -498,10 +518,11 @@ async function pollState(){
 
   setNews(s.news || null);
   renderReaction(s.reaction_meta || null);
+  impactMapCache = s.impact_map || {};
   quoteCache = s.quotes || {};
   historyCache = s.history || {};
   ohlcCache = s.ohlc || {};
-  updateMarketCells(s.prices || {}, quoteCache, historyCache);
+  updateMarketCells(s.prices || {}, quoteCache, historyCache, impactMapCache);
   if(chartTicker){
     drawChart(chartTicker, chartMode);
   }

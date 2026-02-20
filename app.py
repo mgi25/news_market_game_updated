@@ -60,6 +60,8 @@ news_pressure_pct: Dict[str, float] = {t: 0.0 for t in prices.keys()}
 fundamental_price: Dict[str, float] = {c["ticker"]: float(c["start_price"]) for c in COMPANIES}
 sector_shock_pct: Dict[str, float] = {s: 0.0 for s in SECTORS}
 market_shock_pct: float = 0.0
+reaction_noise_scale: Dict[str, float] = {t: 1.0 for t in prices.keys()}
+current_impact_map: Dict[str, str] = {}
 
 rng = random.Random(42)
 
@@ -151,6 +153,8 @@ def public_news(n: Optional[Dict]) -> Optional[Dict]:
         "summary": n.get("summary"),
         "body": n.get("body"),
         "bullets": n.get("bullets") or [],
+        "affected_tickers": sorted([t for t, lvl in current_impact_map.items() if lvl != "NONE"]),
+        "affected_sectors": sorted(set((n.get("sectors") or []))),
     }
 
 def seconds_left() -> Optional[int]:
@@ -189,7 +193,7 @@ def quotes_for_all() -> Dict[str, Dict]:
     return out
 
 def apply_news_effect(news: Dict):
-    global status, reaction_start_ts, reaction_end_ts, current_news_internal, round_no
+    global status, reaction_start_ts, reaction_end_ts, current_news_internal, round_no, current_impact_map
 
     direction = news["direction"]      # hidden
     intensity = news["intensity"]      # hidden
@@ -221,20 +225,32 @@ def apply_news_effect(news: Dict):
     # reset all drift first
     for t in drift_pct.keys():
         drift_pct[t] = 0.0
+        reaction_noise_scale[t] = 0.55
+
+    new_impact_map: Dict[str, str] = {}
 
     for t in drift_pct.keys():
         c = TICKER_TO_COMPANY[t]
         if t in direct:
             w = config.DIRECT_WEIGHT
+            new_impact_map[t] = "DIRECT"
+            reaction_noise_scale[t] = 1.35
         elif c["sector"] in sector_set:
             w = config.SECTOR_WEIGHT
+            new_impact_map[t] = "SECTOR"
+            reaction_noise_scale[t] = 1.15
         elif c["sector"] in linked_sectors:
             w = config.LINKED_WEIGHT
+            new_impact_map[t] = "LINKED"
+            reaction_noise_scale[t] = 0.95
         else:
             w = 0.0
+            new_impact_map[t] = "NONE"
         drift_pct[t] = base_drift * w
         if w > 0:
             news_pressure_pct[t] += (base_drift * w) * 0.8
+
+    current_impact_map = new_impact_map
 
     round_no += 1
     current_news_internal = news
@@ -243,14 +259,16 @@ def apply_news_effect(news: Dict):
     reaction_end_ts = time.time() + config.REACTION_SECONDS
 
 def end_reaction_if_needed():
-    global status, reaction_start_ts, reaction_end_ts, current_news_internal
+    global status, reaction_start_ts, reaction_end_ts, current_news_internal, current_impact_map
     if status == "REACTION" and reaction_end_ts is not None and time.time() >= reaction_end_ts:
         for t in drift_pct.keys():
             drift_pct[t] = 0.0
+            reaction_noise_scale[t] = 1.0
         status = "IDLE"
         reaction_start_ts = None
         reaction_end_ts = None
         current_news_internal = None
+        current_impact_map = {}
 
 def _step_shock(x: float, decay=0.88, shock_scale=0.00045) -> float:
     return (x * decay) + rng.gauss(0.0, shock_scale)
@@ -294,7 +312,7 @@ def market_tick():
             momentum_term = mom * 0.32
             momentum_pct[t] = (mom * 0.65) + (prev_ret * 0.35)
 
-            idio_noise = rng.gauss(0.0, v_new)
+            idio_noise = rng.gauss(0.0, v_new * reaction_noise_scale.get(t, 1.0))
             pct = (
                 idio_noise
                 + d
@@ -304,6 +322,17 @@ def market_tick():
                 + market_shock_pct * 0.55
                 + sector_shock_pct.get(sec, 0.0) * 0.65
             )
+
+            if status == "REACTION":
+                impact_level = current_impact_map.get(t, "NONE")
+                if impact_level == "DIRECT":
+                    pct *= 1.22
+                elif impact_level == "SECTOR":
+                    pct *= 1.10
+                elif impact_level == "LINKED":
+                    pct *= 0.86
+                else:
+                    pct *= 0.42
 
             new_px = max(1.0, px * (1.0 + pct))
             prices[t] = new_px
@@ -343,7 +372,7 @@ def admin():
 def api_bootstrap():
     return jsonify({"companies": COMPANIES, "sectors": SECTORS})
 
-@app.get("/api latest_state")
+@app.get("/api/latest_state")
 def api_state():
     player = (request.args.get("player") or "").strip()
     with state_lock:
@@ -357,6 +386,7 @@ def api_state():
             "leaderboard": compute_leaderboard(),
             "movers": movers_top(6),
             "reaction_meta": reaction_meta(),
+            "impact_map": current_impact_map,
             "quotes": quotes_for_all(),
             "history": {t: list(h) for t, h in price_history.items()},
             "ohlc": {t: list(h) for t, h in ohlc_history.items()},
@@ -495,7 +525,7 @@ def api_admin_reset():
     if not check_admin(password):
         return jsonify({"ok": False, "error": "Unauthorized"}), 401
 
-    global prices, prev_prices, players, round_no, status, reaction_start_ts, reaction_end_ts, current_news_internal, market_shock_pct
+    global prices, prev_prices, players, round_no, status, reaction_start_ts, reaction_end_ts, current_news_internal, market_shock_pct, current_impact_map
     with state_lock:
         prices = {c["ticker"]: float(c["start_price"]) for c in COMPANIES}
         prev_prices = dict(prices)
@@ -510,6 +540,7 @@ def api_admin_reset():
             momentum_pct[t] = 0.0
             news_pressure_pct[t] = 0.0
             fundamental_price[t] = prices[t]
+            reaction_noise_scale[t] = 1.0
             price_history[t] = deque([prices[t]] * 30, maxlen=30)
             ohlc_history[t] = deque([
                 {
@@ -523,6 +554,7 @@ def api_admin_reset():
         for s in sector_shock_pct.keys():
             sector_shock_pct[s] = 0.0
         market_shock_pct = 0.0
+        current_impact_map = {}
     return jsonify({"ok": True})
 
 if __name__ == "__main__":
