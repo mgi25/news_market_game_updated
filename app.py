@@ -31,6 +31,18 @@ prev_prices: Dict[str, float] = dict(prices)
 price_history: Dict[str, deque] = {
     c["ticker"]: deque([float(c["start_price"])] * 30, maxlen=30) for c in COMPANIES
 }
+ohlc_history: Dict[str, deque] = {
+    c["ticker"]: deque([
+        {
+            "ts": int(time.time()),
+            "o": float(c["start_price"]),
+            "h": float(c["start_price"]),
+            "l": float(c["start_price"]),
+            "c": float(c["start_price"]),
+        }
+    ], maxlen=80)
+    for c in COMPANIES
+}
 
 players: Dict[str, Dict] = {}  # player -> {"cash": float, "holdings": {ticker: {"qty": int, "avg": float}}}
 
@@ -44,6 +56,7 @@ current_news_internal: Optional[Dict] = None
 drift_pct: Dict[str, float] = {t: 0.0 for t in prices.keys()}
 vol_state: Dict[str, float] = {t: config.MARKET_NOISE_PCT for t in prices.keys()}
 momentum_pct: Dict[str, float] = {t: 0.0 for t in prices.keys()}
+news_pressure_pct: Dict[str, float] = {t: 0.0 for t in prices.keys()}
 fundamental_price: Dict[str, float] = {c["ticker"]: float(c["start_price"]) for c in COMPANIES}
 sector_shock_pct: Dict[str, float] = {s: 0.0 for s in SECTORS}
 market_shock_pct: float = 0.0
@@ -220,6 +233,8 @@ def apply_news_effect(news: Dict):
         else:
             w = 0.0
         drift_pct[t] = base_drift * w
+        if w > 0:
+            news_pressure_pct[t] += (base_drift * w) * 0.8
 
     round_no += 1
     current_news_internal = news
@@ -263,9 +278,11 @@ def market_tick():
             vol_state[t] = v_new
 
             d = drift_pct.get(t, 0.0)
+            pressure = news_pressure_pct.get(t, 0.0)
             if d != 0:
                 # News impact decays over time instead of flat drift.
                 drift_pct[t] *= 0.96
+            news_pressure_pct[t] = pressure * 0.90
 
             # Fundamentals drift slowly; price mean-reverts gently to them.
             fundamental_price[t] *= (1.0 + rng.gauss(0.0, 0.00018))
@@ -281,6 +298,7 @@ def market_tick():
             pct = (
                 idio_noise
                 + d
+                + pressure
                 + mean_revert
                 + momentum_term
                 + market_shock_pct * 0.55
@@ -290,6 +308,13 @@ def market_tick():
             new_px = max(1.0, px * (1.0 + pct))
             prices[t] = new_px
             price_history[t].append(new_px)
+            ohlc_history[t].append({
+                "ts": int(time.time()),
+                "o": px,
+                "h": max(px, new_px),
+                "l": min(px, new_px),
+                "c": new_px,
+            })
 
 # -------------------- Routes --------------------
 @app.get("/")
@@ -334,6 +359,7 @@ def api_state():
             "reaction_meta": reaction_meta(),
             "quotes": quotes_for_all(),
             "history": {t: list(h) for t, h in price_history.items()},
+            "ohlc": {t: list(h) for t, h in ohlc_history.items()},
         }
         if port:
             out["portfolio"] = port
@@ -469,7 +495,7 @@ def api_admin_reset():
     if not check_admin(password):
         return jsonify({"ok": False, "error": "Unauthorized"}), 401
 
-    global prices, prev_prices, players, round_no, status, reaction_start_ts, reaction_end_ts, current_news_internal
+    global prices, prev_prices, players, round_no, status, reaction_start_ts, reaction_end_ts, current_news_internal, market_shock_pct
     with state_lock:
         prices = {c["ticker"]: float(c["start_price"]) for c in COMPANIES}
         prev_prices = dict(prices)
@@ -481,6 +507,22 @@ def api_admin_reset():
         current_news_internal = None
         for t in drift_pct.keys():
             drift_pct[t] = 0.0
+            momentum_pct[t] = 0.0
+            news_pressure_pct[t] = 0.0
+            fundamental_price[t] = prices[t]
+            price_history[t] = deque([prices[t]] * 30, maxlen=30)
+            ohlc_history[t] = deque([
+                {
+                    "ts": int(time.time()),
+                    "o": prices[t],
+                    "h": prices[t],
+                    "l": prices[t],
+                    "c": prices[t],
+                }
+            ], maxlen=80)
+        for s in sector_shock_pct.keys():
+            sector_shock_pct[s] = 0.0
+        market_shock_pct = 0.0
     return jsonify({"ok": True})
 
 if __name__ == "__main__":
