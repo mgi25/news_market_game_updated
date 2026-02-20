@@ -209,3 +209,7 @@ select{max-width:220px}
   .qtyInput{width:58px}
   .btn.small{padding:6px 7px; font-size:10px}
 }
+
+
+.chartCard{width:min(980px, 95vw)}
+#chartCanvas{width:100%; height:auto; border:1px solid rgba(163,190,255,.22); border-radius:12px; background:#0c1731}

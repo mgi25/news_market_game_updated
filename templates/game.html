@@ -57,7 +57,7 @@
               <th class="right">Spread</th>
               <th>Trend</th>
               <th class="right">Qty</th>
-              <th class="right">Action</th>
+              <th class="right">Actions</th>
             </tr>
           </thead>
           <tbody id="marketBody"></tbody>
@@ -152,6 +152,21 @@
     </div>
     <div class="modalBody" id="modalBody"></div>
     <ul class="modalBullets" id="modalBullets"></ul>
+  </div>
+</div>
+
+<!-- Chart modal -->
+<div class="modal" id="chartModal" style="display:none" aria-hidden="true">
+  <div class="modalCard chartCard" role="dialog" aria-modal="true" aria-labelledby="chartTitle">
+    <div class="modalTop">
+      <div class="modalTitle" id="chartTitle">Stock chart</div>
+      <div class="row">
+        <button class="btn ghost small" id="lineChartBtn">Line</button>
+        <button class="btn ghost small" id="candleChartBtn">Candlestick</button>
+        <button class="btn ghost small" id="closeChartBtn">Close</button>
+      </div>
+    </div>
+    <canvas id="chartCanvas" width="820" height="360" aria-label="Stock chart canvas"></canvas>
   </div>
 </div>
 

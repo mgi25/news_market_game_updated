@@ -21,6 +21,9 @@ let currentNews = null;
 let adminAuthed = false;
 let quoteCache = {};
 let historyCache = {};
+let ohlcCache = {};
+let chartTicker = null;
+let chartMode = "line";
 
 function fmtTime(ts){
   if(!ts) return "—";
@@ -99,6 +102,7 @@ function buildMarketTable(){
         <div class="actions">
           <button class="btn small" id="buy-${c.ticker}">Buy</button>
           <button class="btn small ghost" id="sell-${c.ticker}">Sell</button>
+          <button class="btn small ghost" id="chart-${c.ticker}">See chart</button>
         </div>
       </td>
     `;
@@ -112,6 +116,7 @@ function buildMarketTable(){
 
     $(`buy-${c.ticker}`).addEventListener("click", ()=> doTrade(c.ticker, "BUY"));
     $(`sell-${c.ticker}`).addEventListener("click", ()=> doTrade(c.ticker, "SELL"));
+    $(`chart-${c.ticker}`).addEventListener("click", ()=> openChartModal(c.ticker));
   }
 
   $("search")?.addEventListener("input", applyFilters);
@@ -307,6 +312,77 @@ function renderMovers(movers){
   }
 }
 
+
+function openChartModal(ticker){
+  chartTicker = ticker;
+  chartMode = chartMode || "line";
+  const title = $("chartTitle");
+  const c = COMPANIES.find(x=>x.ticker===ticker);
+  if(title) title.textContent = `${ticker} · ${c?.name || ""}`;
+  $("chartModal").style.display = "flex";
+  $("chartModal").setAttribute("aria-hidden","false");
+  drawChart(ticker, chartMode);
+}
+
+function closeChartModal(){
+  $("chartModal").style.display = "none";
+  $("chartModal").setAttribute("aria-hidden","true");
+}
+
+function drawChart(ticker, mode){
+  const canvas = $("chartCanvas");
+  if(!canvas) return;
+  const ctx = canvas.getContext("2d");
+  if(!ctx) return;
+  const w = canvas.width, h = canvas.height;
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle = "#0c1731";
+  ctx.fillRect(0,0,w,h);
+
+  const pad = 32;
+  const dataLine = (historyCache[ticker] || []).slice(-60);
+  const dataCandle = (ohlcCache[ticker] || []).slice(-40);
+  if(mode === "candle" && dataCandle.length){
+    const highs = dataCandle.map(x=>x.h);
+    const lows = dataCandle.map(x=>x.l);
+    const max = Math.max(...highs), min = Math.min(...lows);
+    const span = Math.max(1e-9, max-min);
+    const step = (w - pad*2) / dataCandle.length;
+    dataCandle.forEach((bar, i)=>{
+      const x = pad + (i+0.5)*step;
+      const yH = h-pad - ((bar.h-min)/span)*(h-pad*2);
+      const yL = h-pad - ((bar.l-min)/span)*(h-pad*2);
+      const yO = h-pad - ((bar.o-min)/span)*(h-pad*2);
+      const yC = h-pad - ((bar.c-min)/span)*(h-pad*2);
+      const up = bar.c >= bar.o;
+      ctx.strokeStyle = up ? "#33d17f" : "#ff6a88";
+      ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.moveTo(x, yH); ctx.lineTo(x, yL); ctx.stroke();
+      ctx.fillStyle = up ? "#33d17f" : "#ff6a88";
+      const top = Math.min(yO,yC), bh = Math.max(2, Math.abs(yC-yO));
+      ctx.fillRect(x-step*0.28, top, step*0.56, bh);
+    });
+  } else if(dataLine.length){
+    const max = Math.max(...dataLine), min = Math.min(...dataLine);
+    const span = Math.max(1e-9, max-min);
+    ctx.strokeStyle = "#4f8cff";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    dataLine.forEach((v,i)=>{
+      const x = pad + (i/(Math.max(1,dataLine.length-1)))*(w-pad*2);
+      const y = h-pad - ((v-min)/span)*(h-pad*2);
+      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    });
+    ctx.stroke();
+  }
+
+  ctx.strokeStyle = "rgba(163,190,255,.35)";
+  ctx.beginPath(); ctx.moveTo(pad,pad); ctx.lineTo(pad,h-pad); ctx.lineTo(w-pad,h-pad); ctx.stroke();
+  ctx.fillStyle = "#aebddd";
+  ctx.font = "12px sans-serif";
+  ctx.fillText(mode === "candle" ? "Candlestick" : "Line", pad+8, pad+14);
+}
+
 function updateMarketCells(prices, quotes = {}, history = {}){
   for(const t in prices){
     const px = prices[t];
@@ -366,7 +442,11 @@ async function pollState(){
   renderReaction(s.reaction_meta || null);
   quoteCache = s.quotes || {};
   historyCache = s.history || {};
+  ohlcCache = s.ohlc || {};
   updateMarketCells(s.prices || {}, quoteCache, historyCache);
+  if(chartTicker){
+    drawChart(chartTicker, chartMode);
+  }
 
   if(player){
     $("cashText").textContent = fmtMoney(s.portfolio.cash);
@@ -494,6 +574,11 @@ window.addEventListener("DOMContentLoaded", async ()=>{
       if(e.target && e.target.id === "newsModal") closeNewsModal();
     });
   }
+
+  if($("lineChartBtn")) $("lineChartBtn").addEventListener("click", ()=>{ chartMode = "line"; if(chartTicker) drawChart(chartTicker, chartMode); });
+  if($("candleChartBtn")) $("candleChartBtn").addEventListener("click", ()=>{ chartMode = "candle"; if(chartTicker) drawChart(chartTicker, chartMode); });
+  if($("closeChartBtn")) $("closeChartBtn").addEventListener("click", closeChartModal);
+  if($("chartModal")) $("chartModal").addEventListener("click", (e)=>{ if(e.target && e.target.id === "chartModal") closeChartModal(); });
 
   if(window.NMG_ADMIN){
     $("loginBtn").addEventListener("click", adminLogin);
