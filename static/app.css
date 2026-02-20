@@ -243,3 +243,11 @@ select{max-width:210px}
   .btn{padding:9px 11px}
   .actions{justify-content:flex-start}
 }
+
+
+.spark{font-family: var(--mono); letter-spacing:1px; opacity:.9}
+.spark.up{color:var(--good)}
+.spark.down{color:var(--bad)}
+.table td.flashUp{background: rgba(49,209,122,.12)}
+.table td.flashDown{background: rgba(255,92,122,.12)}
+.smallNum{font-size:12px; color:var(--muted)}
