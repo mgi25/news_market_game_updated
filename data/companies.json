@@ -1,0 +1,338 @@
+[
+  {
+    "ticker": "NEX",
+    "name": "NexaSoft",
+    "sector": "Tech",
+    "start_price": 96.0
+  },
+  {
+    "ticker": "CLO",
+    "name": "CloudNova",
+    "sector": "Tech",
+    "start_price": 74.0
+  },
+  {
+    "ticker": "SYN",
+    "name": "SynapseAI",
+    "sector": "Tech",
+    "start_price": 105.0
+  },
+  {
+    "ticker": "QUA",
+    "name": "QuantumByte",
+    "sector": "Tech",
+    "start_price": 138.0
+  },
+  {
+    "ticker": "ROB",
+    "name": "RoboLink",
+    "sector": "Tech",
+    "start_price": 61.0
+  },
+  {
+    "ticker": "BYT",
+    "name": "ByteHarbor",
+    "sector": "Tech",
+    "start_price": 64.0
+  },
+  {
+    "ticker": "VER",
+    "name": "VertexSystems",
+    "sector": "Tech",
+    "start_price": 160.0
+  },
+  {
+    "ticker": "PRI",
+    "name": "PrimeBank",
+    "sector": "Banking",
+    "start_price": 123.0
+  },
+  {
+    "ticker": "UNI",
+    "name": "UnionFinance",
+    "sector": "Banking",
+    "start_price": 67.0
+  },
+  {
+    "ticker": "MET",
+    "name": "MetroBankCorp",
+    "sector": "Banking",
+    "start_price": 101.0
+  },
+  {
+    "ticker": "CRE",
+    "name": "CrediSure",
+    "sector": "Banking",
+    "start_price": 129.0
+  },
+  {
+    "ticker": "PAY",
+    "name": "PayNexa",
+    "sector": "Banking",
+    "start_price": 62.0
+  },
+  {
+    "ticker": "APE",
+    "name": "ApexCapital",
+    "sector": "Banking",
+    "start_price": 119.0
+  },
+  {
+    "ticker": "SIL",
+    "name": "SilverTrust",
+    "sector": "Banking",
+    "start_price": 82.0
+  },
+  {
+    "ticker": "VOL",
+    "name": "VoltOil",
+    "sector": "Energy",
+    "start_price": 59.0
+  },
+  {
+    "ticker": "GRE",
+    "name": "GreenGrid",
+    "sector": "Energy",
+    "start_price": 66.0
+  },
+  {
+    "ticker": "TER",
+    "name": "TerraFuel",
+    "sector": "Energy",
+    "start_price": 110.0
+  },
+  {
+    "ticker": "HYD",
+    "name": "HydroCore",
+    "sector": "Energy",
+    "start_price": 108.0
+  },
+  {
+    "ticker": "SUN",
+    "name": "SunPeakEnergy",
+    "sector": "Energy",
+    "start_price": 63.0
+  },
+  {
+    "ticker": "ATL",
+    "name": "AtlasGas",
+    "sector": "Energy",
+    "start_price": 85.0
+  },
+  {
+    "ticker": "COR",
+    "name": "CoreRefine",
+    "sector": "Energy",
+    "start_price": 66.0
+  },
+  {
+    "ticker": "MED",
+    "name": "MediPulse",
+    "sector": "Healthcare",
+    "start_price": 125.0
+  },
+  {
+    "ticker": "NOV",
+    "name": "NovaCare",
+    "sector": "Healthcare",
+    "start_price": 109.0
+  },
+  {
+    "ticker": "LIF",
+    "name": "LifeSpring Labs",
+    "sector": "Healthcare",
+    "start_price": 62.0
+  },
+  {
+    "ticker": "CUR",
+    "name": "CureBridge",
+    "sector": "Healthcare",
+    "start_price": 160.0
+  },
+  {
+    "ticker": "HEA",
+    "name": "HealthAxis",
+    "sector": "Healthcare",
+    "start_price": 127.0
+  },
+  {
+    "ticker": "BIO",
+    "name": "BioVantage",
+    "sector": "Healthcare",
+    "start_price": 70.0
+  },
+  {
+    "ticker": "CLI",
+    "name": "ClinixOne",
+    "sector": "Healthcare",
+    "start_price": 83.0
+  },
+  {
+    "ticker": "FRE",
+    "name": "FreshCart",
+    "sector": "Consumer",
+    "start_price": 135.0
+  },
+  {
+    "ticker": "DAI",
+    "name": "DailyGoods",
+    "sector": "Consumer",
+    "start_price": 135.0
+  },
+  {
+    "ticker": "URB",
+    "name": "UrbanMart",
+    "sector": "Consumer",
+    "start_price": 129.0
+  },
+  {
+    "ticker": "SNA",
+    "name": "SnackWave",
+    "sector": "Consumer",
+    "start_price": 62.0
+  },
+  {
+    "ticker": "HOM",
+    "name": "HomeHaven",
+    "sector": "Consumer",
+    "start_price": 128.0
+  },
+  {
+    "ticker": "STY",
+    "name": "StyleNest",
+    "sector": "Consumer",
+    "start_price": 129.0
+  },
+  {
+    "ticker": "QUI",
+    "name": "QuickBites",
+    "sector": "Consumer",
+    "start_price": 105.0
+  },
+  {
+    "ticker": "SKY",
+    "name": "SkyTel",
+    "sector": "Telecom",
+    "start_price": 61.0
+  },
+  {
+    "ticker": "FIB",
+    "name": "FiberLink",
+    "sector": "Telecom",
+    "start_price": 83.0
+  },
+  {
+    "ticker": "WAV",
+    "name": "WaveConnect",
+    "sector": "Telecom",
+    "start_price": 60.0
+  },
+  {
+    "ticker": "MEB",
+    "name": "MetroNet",
+    "sector": "Telecom",
+    "start_price": 126.0
+  },
+  {
+    "ticker": "SIG",
+    "name": "SignalOne",
+    "sector": "Telecom",
+    "start_price": 164.0
+  },
+  {
+    "ticker": "ORB",
+    "name": "OrbitCom",
+    "sector": "Telecom",
+    "start_price": 72.0
+  },
+  {
+    "ticker": "PUL",
+    "name": "PulseMobile",
+    "sector": "Telecom",
+    "start_price": 92.0
+  },
+  {
+    "ticker": "IRO",
+    "name": "IronWorks",
+    "sector": "Industrials",
+    "start_price": 108.0
+  },
+  {
+    "ticker": "BUI",
+    "name": "BuildForge",
+    "sector": "Industrials",
+    "start_price": 73.0
+  },
+  {
+    "ticker": "TRA",
+    "name": "TransRoute",
+    "sector": "Industrials",
+    "start_price": 124.0
+  },
+  {
+    "ticker": "MAC",
+    "name": "MachinaCo",
+    "sector": "Industrials",
+    "start_price": 70.0
+  },
+  {
+    "ticker": "AER",
+    "name": "AeroFrame",
+    "sector": "Industrials",
+    "start_price": 128.0
+  },
+  {
+    "ticker": "LOG",
+    "name": "LogiPeak",
+    "sector": "Industrials",
+    "start_price": 94.0
+  },
+  {
+    "ticker": "POR",
+    "name": "Portline",
+    "sector": "Industrials",
+    "start_price": 126.0
+  },
+  {
+    "ticker": "BRI",
+    "name": "Brickstone",
+    "sector": "RealEstate",
+    "start_price": 159.0
+  },
+  {
+    "ticker": "URC",
+    "name": "UrbanRise",
+    "sector": "RealEstate",
+    "start_price": 142.0
+  },
+  {
+    "ticker": "LAN",
+    "name": "LandmarkHomes",
+    "sector": "RealEstate",
+    "start_price": 78.0
+  },
+  {
+    "ticker": "MEC",
+    "name": "MetroSpaces",
+    "sector": "RealEstate",
+    "start_price": 68.0
+  },
+  {
+    "ticker": "PRB",
+    "name": "PrimePlots",
+    "sector": "RealEstate",
+    "start_price": 129.0
+  },
+  {
+    "ticker": "VIS",
+    "name": "VistaResidency",
+    "sector": "RealEstate",
+    "start_price": 128.0
+  },
+  {
+    "ticker": "COB",
+    "name": "CoreRent",
+    "sector": "RealEstate",
+    "start_price": 136.0
+  }
+]

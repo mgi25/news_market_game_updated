@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>{{ title or "News Market Game" }}</title>
+  <link rel="stylesheet" href="/static/app.css">
+  <script defer src="/static/app.js"></script>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">
+      <span class="dot"></span>
+      <span>News Market Game</span>
+    </div>
+    <div class="top-actions">
+      {% if player_name %}
+        <span class="pill">Player: <b>{{ player_name }}</b></span>
+      {% endif %}
+      <a class="pill link" href="/presenter" target="_blank">Presenter</a>
+      <a class="pill link" href="/admin" target="_blank">Admin</a>
+    </div>
+  </div>
+
+  <div class="wrap">
+    {% block content %}{% endblock %}
+  </div>
+
+  <div class="toast" id="toast" style="display:none"></div>
+</body>
+</html>

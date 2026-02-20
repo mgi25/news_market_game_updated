@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid">
+  <div class="col">
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="label">CURRENT ROUND</div>
+          <div class="big" id="roundNo">0</div>
+        </div>
+        <div>
+          <div class="label">STATUS</div>
+          <div class="big" id="statusText">IDLE</div>
+        </div>
+        <div>
+          <div class="label">TIMER</div>
+          <div class="big mono" id="timerText">—</div>
+        </div>
+      </div>
+
+      <div class="news">
+        <div class="label">NEWS</div>
+        <div class="news-headline" id="newsHeadline">Waiting for the next headline…</div>
+        <div class="news-summary" id="newsSummary"></div>
+        <div class="news-actions">
+          <button class="btn ghost small" id="readMoreBtn" style="display:none">Read more</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Market</div>
+      <div class="toolbar">
+        <input id="search" placeholder="Search ticker or company..." />
+        <select id="sectorFilter">
+          <option value="">All sectors</option>
+        </select>
+      </div>
+      <div class="tableWrap">
+        <table class="table" id="marketTable">
+          <thead>
+            <tr>
+              <th>Ticker</th>
+              <th>Company</th>
+              <th>Sector</th>
+              <th class="right">Price</th>
+              <th class="right">Move</th>
+              <th class="right">Qty</th>
+              <th class="right">Action</th>
+            </tr>
+          </thead>
+          <tbody id="marketBody"></tbody>
+        </table>
+      </div>
+      <div class="hint muted">Trading is always enabled. Read the news, then decide when to buy or sell.</div>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="card">
+      <div class="card-title">My portfolio</div>
+      <div class="portfolioTop">
+        <div>
+          <div class="label">Cash</div>
+          <div class="big mono" id="cashText">0</div>
+        </div>
+        <div>
+          <div class="label">Holdings value</div>
+          <div class="big mono" id="holdingsText">0</div>
+        </div>
+        <div>
+          <div class="label">Total value</div>
+          <div class="big mono" id="totalText">0</div>
+        </div>
+      </div>
+      <div class="tableWrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Ticker</th>
+              <th>Company</th>
+              <th class="right">Qty</th>
+              <th class="right">Avg</th>
+              <th class="right">Now</th>
+              <th class="right">Value</th>
+            </tr>
+          </thead>
+          <tbody id="holdingsBody">
+            <tr><td colspan="6" class="muted">No holdings yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Leaderboard</div>
+      <div class="tableWrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Player</th>
+              <th class="right">Total value</th>
+            </tr>
+          </thead>
+          <tbody id="leaderBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- News modal -->
+<div class="modal" id="newsModal" style="display:none" aria-hidden="true">
+  <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modalTop">
+      <div class="modalTitle" id="modalTitle"></div>
+      <button class="btn ghost small" id="closeModalBtn">Close</button>
+    </div>
+    <div class="modalBody" id="modalBody"></div>
+    <ul class="modalBullets" id="modalBullets"></ul>
+  </div>
+</div>
+
+<script>
+  window.NMG_PLAYER = {{ player_name|tojson }};
+</script>
+{% endblock %}

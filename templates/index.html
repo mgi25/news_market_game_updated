@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="center">
+  <div class="card login">
+    <h1>Join the game</h1>
+    <p class="muted">Enter your name to start trading with virtual money.</p>
+    <form method="GET" action="/game" class="row">
+      <input name="player" placeholder="Your name" maxlength="24" required />
+      <button class="btn">Enter</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid admin">
+  <div class="col">
+    <div class="card">
+      <div class="card-title">Admin controls</div>
+      <div class="row">
+        <input id="adminPass" type="password" placeholder="Admin password"/>
+        <button class="btn" id="loginBtn">Unlock</button>
+      </div>
+
+      <div class="row" style="margin-top:10px">
+        <button class="btn ghost" id="randomNewsBtn" disabled>Trigger random news</button>
+        <button class="btn danger" id="resetBtn" disabled>Reset game</button>
+      </div>
+
+      <div class="muted" style="margin-top:10px">
+        Players will NOT see direction/intensity/sector tags. They only see the story.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Current status</div>
+      <div class="kv">
+        <div><span class="k">Round</span><span class="v" id="roundNo">0</span></div>
+        <div><span class="k">Status</span><span class="v" id="statusText">IDLE</span></div>
+        <div><span class="k">Timer</span><span class="v mono" id="timerText">—</span></div>
+        <div><span class="k">Headline</span><span class="v" id="headlineText">—</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="card">
+      <div class="card-title">News library</div>
+      <div class="toolbar">
+        <input id="newsSearch" placeholder="Search news headline..." />
+      </div>
+      <div class="tableWrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Headline</th>
+              <th>Scope</th>
+              <th>Dir</th>
+              <th>Intensity</th>
+              <th class="right">Action</th>
+            </tr>
+          </thead>
+          <tbody id="newsBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  window.NMG_ADMIN = true;
+</script>
+{% endblock %}
