@@ -316,17 +316,24 @@ function renderMovers(movers){
 function openChartModal(ticker){
   chartTicker = ticker;
   chartMode = chartMode || "line";
+  const modal = $("chartModal");
+  if(!modal){
+    showToast("Chart view is unavailable right now.");
+    return;
+  }
   const title = $("chartTitle");
   const c = COMPANIES.find(x=>x.ticker===ticker);
   if(title) title.textContent = `${ticker} · ${c?.name || ""}`;
-  $("chartModal").style.display = "flex";
-  $("chartModal").setAttribute("aria-hidden","false");
+  modal.style.display = "flex";
+  modal.setAttribute("aria-hidden","false");
   drawChart(ticker, chartMode);
 }
 
 function closeChartModal(){
-  $("chartModal").style.display = "none";
-  $("chartModal").setAttribute("aria-hidden","true");
+  const modal = $("chartModal");
+  if(!modal) return;
+  modal.style.display = "none";
+  modal.setAttribute("aria-hidden","true");
 }
 
 function drawChart(ticker, mode){
@@ -579,6 +586,14 @@ window.addEventListener("DOMContentLoaded", async ()=>{
   if($("candleChartBtn")) $("candleChartBtn").addEventListener("click", ()=>{ chartMode = "candle"; if(chartTicker) drawChart(chartTicker, chartMode); });
   if($("closeChartBtn")) $("closeChartBtn").addEventListener("click", closeChartModal);
   if($("chartModal")) $("chartModal").addEventListener("click", (e)=>{ if(e.target && e.target.id === "chartModal") closeChartModal(); });
+  if($("marketBody")){
+    $("marketBody").addEventListener("click", (e)=>{
+      const btn = e.target.closest('button[id^="chart-"]');
+      if(!btn) return;
+      const ticker = btn.id.replace("chart-", "");
+      if(ticker) openChartModal(ticker);
+    });
+  }
 
   if(window.NMG_ADMIN){
     $("loginBtn").addEventListener("click", adminLogin);
