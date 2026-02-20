@@ -16,6 +16,12 @@ let qtyDraft = {};
 let currentNews = null;
 let adminAuthed = false;
 
+function fmtTime(ts){
+  if(!ts) return "—";
+  const d = new Date(ts * 1000);
+  return d.toLocaleTimeString([], {hour:"2-digit", minute:"2-digit", second:"2-digit"});
+}
+
 function showToast(msg){
   const el = $("toast");
   if(!el) return;
@@ -221,6 +227,47 @@ function renderLeaderboard(lb){
   });
 }
 
+
+function renderReaction(meta){
+  const pulseEl = $("pulseText");
+  const affectedEl = $("affectedText");
+  const progressEl = $("reactionProgress");
+  const panelEl = $("reactionPanel");
+  if(!pulseEl || !affectedEl || !progressEl || !panelEl) return;
+
+  const pulse = (meta && meta.pulse) ? meta.pulse : "CALM";
+  pulseEl.textContent = pulse;
+  pulseEl.className = `pulse ${pulse.toLowerCase()}`;
+  affectedEl.textContent = (meta && Number.isFinite(meta.affected)) ? String(meta.affected) : "0";
+  const progress = (meta && Number.isFinite(meta.progress)) ? meta.progress : 0;
+  progressEl.style.width = `${Math.max(0, Math.min(100, progress))}%`;
+  panelEl.classList.toggle("active", !!(meta && meta.active));
+}
+
+function renderTrades(trades){
+  const body = $("tradesBody");
+  if(!body) return;
+  const rows = trades || [];
+  if(rows.length === 0){
+    body.innerHTML = `<tr><td colspan="5" class="muted">No trades yet.</td></tr>`;
+    return;
+  }
+
+  body.innerHTML = "";
+  for(const t of [...rows].reverse()){
+    const cls = (t.side || "").toUpperCase() === "BUY" ? "moveUp" : "moveDown";
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td class="mono">${fmtTime(t.ts)}</td>
+      <td class="mono"><b>${t.ticker || ""}</b></td>
+      <td class="mono ${cls}">${t.side || ""}</td>
+      <td class="right mono">${t.qty || 0}</td>
+      <td class="right mono">${fmtPrice(t.price)}</td>
+    `;
+    body.appendChild(tr);
+  }
+}
+
 function renderMovers(movers){
   const body = $("moversBody");
   if(!body) return;
@@ -282,6 +329,7 @@ async function pollState(){
   $("timerText") && ($("timerText").textContent = secondsToMMSS(s.timer_s));
 
   setNews(s.news || null);
+  renderReaction(s.reaction_meta || null);
   updateMarketCells(s.prices || {});
 
   if(player){
@@ -289,6 +337,7 @@ async function pollState(){
     $("holdingsText").textContent = fmtMoney(s.portfolio.holdings_value);
     $("totalText").textContent = fmtMoney(s.portfolio.total_value);
     renderHoldings(s.portfolio.holdings, s.prices);
+    renderTrades(s.portfolio.recent_trades || []);
   }
   renderLeaderboard(s.leaderboard);
 

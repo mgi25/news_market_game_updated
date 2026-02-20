@@ -25,6 +25,15 @@
         <div class="news-actions">
           <button class="btn ghost small" id="readMoreBtn" style="display:none">Read more</button>
         </div>
+
+        <div class="reactionPanel" id="reactionPanel">
+          <div class="reactionTop">
+            <span class="label">MARKET PULSE</span>
+            <span class="pulse calm" id="pulseText">CALM</span>
+          </div>
+          <div class="reactionMeta muted">Affected stocks: <b id="affectedText">0</b></div>
+          <div class="progressTrack"><div class="progressFill" id="reactionProgress"></div></div>
+        </div>
       </div>
     </div>
 
@@ -87,6 +96,26 @@
           </thead>
           <tbody id="holdingsBody">
             <tr><td colspan="6" class="muted">No holdings yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Recent trades</div>
+      <div class="tableWrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Ticker</th>
+              <th>Side</th>
+              <th class="right">Qty</th>
+              <th class="right">Price</th>
+            </tr>
+          </thead>
+          <tbody id="tradesBody">
+            <tr><td colspan="5" class="muted">No trades yet.</td></tr>
           </tbody>
         </table>
       </div>
