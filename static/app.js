@@ -321,7 +321,7 @@ function renderMovers(movers){
 function openChartModal(ticker){
   chartTicker = ticker;
   chartMode = chartMode || "line";
-  const modal = $("chartModal");
+  const modal = ensureChartModal();
   if(!modal){
     showToast("Chart view is unavailable right now.");
     return;
@@ -335,6 +335,41 @@ function openChartModal(ticker){
 
   const inlineCard = $("inlineChartCard");
   if(inlineCard) inlineCard.scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+function ensureChartModal(){
+  let modal = $("chartModal");
+  if(modal) return modal;
+
+  modal = document.createElement("div");
+  modal.className = "modal";
+  modal.id = "chartModal";
+  modal.style.display = "none";
+  modal.setAttribute("aria-hidden", "true");
+  modal.innerHTML = `
+    <div class="modalCard chartCard" role="dialog" aria-modal="true" aria-labelledby="chartTitle">
+      <div class="modalTop">
+        <div class="modalTitle" id="chartTitle">Stock chart</div>
+        <div class="row">
+          <button class="btn ghost small" id="lineChartBtn">Line</button>
+          <button class="btn ghost small" id="candleChartBtn">Candlestick</button>
+          <button class="btn ghost small" id="closeChartBtn">Close</button>
+        </div>
+      </div>
+      <canvas id="chartCanvas" width="820" height="360" aria-label="Stock chart canvas"></canvas>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  const lineBtn = $("lineChartBtn");
+  const candleBtn = $("candleChartBtn");
+  const closeBtn = $("closeChartBtn");
+  if(lineBtn) lineBtn.addEventListener("click", ()=>{ chartMode = "line"; if(chartTicker) drawChart(chartTicker, chartMode); });
+  if(candleBtn) candleBtn.addEventListener("click", ()=>{ chartMode = "candle"; if(chartTicker) drawChart(chartTicker, chartMode); });
+  if(closeBtn) closeBtn.addEventListener("click", closeChartModal);
+  modal.addEventListener("click", (e)=>{ if(e.target && e.target.id === "chartModal") closeChartModal(); });
+
+  return modal;
 }
 
 function closeChartModal(){
@@ -585,6 +620,8 @@ async function adminReset(){
 
 window.addEventListener("DOMContentLoaded", async ()=>{
   await bootstrap();
+
+  ensureChartModal();
 
   if($("readMoreBtn")){
     $("readMoreBtn").addEventListener("click", openNewsModal);

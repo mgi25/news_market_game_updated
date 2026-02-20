@@ -123,14 +123,14 @@ input, select{
 input:focus, select:focus{border-color:rgba(79,140,255,.7); box-shadow:0 0 0 3px rgba(79,140,255,.16)}
 select{max-width:220px}
 
-.tableWrap{padding:0 14px 14px; overflow-x:auto; overflow-y:hidden; max-width:100%}
+.tableWrap{padding:0 14px 14px; overflow:hidden; max-width:100%}
 .table{width:100%; border-collapse:collapse; table-layout:auto}
 .table th, .table td{
   padding:10px 8px;
   border-bottom:1px solid rgba(163,190,255,.16);
   font-size:12px;
   vertical-align:middle;
-  white-space:nowrap;
+  white-space:normal;
 }
 .table th{color:var(--muted); font-weight:700; text-align:left}
 .table tr:hover td{background:rgba(79,140,255,.07)}
@@ -151,7 +151,7 @@ select{max-width:220px}
 .btn.danger:hover{background:rgba(255,106,136,.25)}
 
 .qtyInput{width:68px; text-align:right; font-family:var(--mono); padding:7px 8px}
-.actions{display:flex; gap:6px; justify-content:flex-end; flex-wrap:nowrap}
+.actions{display:flex; gap:6px; justify-content:flex-end; flex-wrap:wrap}
 .actions .btn{white-space:nowrap; min-width:56px}
 .portfolioTop{display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; padding:0 14px 12px}
 .portfolioTop > div{padding:10px; border:1px solid rgba(163,190,255,.18); background:rgba(10,19,40,.45); border-radius:12px}
@@ -178,12 +178,8 @@ select{max-width:220px}
 .table td.flashDown{background:rgba(255,106,136,.16)}
 .smallNum{font-size:11px; color:var(--muted)}
 
-/* keep market columns readable and allow horizontal scroll on narrower screens */
-#marketTable{min-width:960px}
-#marketTable th:nth-child(2), #marketTable td:nth-child(2){min-width:140px}
-#marketTable th:nth-child(3), #marketTable td:nth-child(3){min-width:88px}
-#marketTable th:nth-child(7), #marketTable td:nth-child(7){min-width:92px}
-#marketTable th:nth-child(9), #marketTable td:nth-child(9){min-width:220px}
+/* keep market columns readable without forcing horizontal scroll */
+#marketTable{min-width:0}
 
 @media (max-width:1100px){
   .grid{grid-template-columns:1fr}
