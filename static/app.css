@@ -137,6 +137,13 @@ select{max-width:220px}
 .right{text-align:right}
 
 .badge{display:inline-flex; align-items:center; padding:4px 8px; border-radius:999px; border:1px solid rgba(163,190,255,.25); background:rgba(79,140,255,.08); font-size:11px; color:#c9d7f3}
+.impactBadge{display:inline-flex; align-items:center; padding:4px 8px; border-radius:999px; font-size:11px; font-weight:800; border:1px solid rgba(163,190,255,.25)}
+.impact-direct{color:#061b12; background:rgba(51,209,127,.9); border-color:rgba(51,209,127,.95)}
+.impact-sector{color:#fff7dd; background:rgba(255,209,102,.28); border-color:rgba(255,209,102,.66)}
+.impact-linked{color:#d5e4ff; background:rgba(79,140,255,.24); border-color:rgba(79,140,255,.6)}
+.impact-none{color:var(--muted); background:rgba(255,255,255,.03)}
+.impact-row td{box-shadow:inset 0 0 0 9999px rgba(79,140,255,.06)}
+.nonimpact-row td{opacity:.9}
 .moveUp{color:var(--good); font-weight:800}
 .moveDown{color:var(--bad); font-weight:800}
 .hint{padding:0 14px 14px; font-size:12px}
@@ -196,7 +203,8 @@ select{max-width:220px}
   .news, .tableWrap, .toolbar, .portfolioTop, .hint, .kv{padding-left:12px; padding-right:12px}
   #marketTable th:nth-child(2), #marketTable td:nth-child(2),
   #marketTable th:nth-child(3), #marketTable td:nth-child(3),
-  #marketTable th:nth-child(7), #marketTable td:nth-child(7){display:none}
+  #marketTable th:nth-child(4), #marketTable td:nth-child(4),
+  #marketTable th:nth-child(8), #marketTable td:nth-child(8){display:none}
   .actions{justify-content:flex-end}
 }
 
