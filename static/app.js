@@ -200,7 +200,7 @@ async function doTrade(ticker, side){
     showToast(data.error || "Trade failed");
     return;
   }
-  showToast(`${side} ${ticker} × ${q} @ ${fmtPrice(data.fill_price)} (fee ${fmtMoney(data.fee)})`);
+  showToast(`${side} ${ticker} × ${q} @ ${data.fill_price} (spread ${data.spread_pct}%, slip ${data.slip_pct}%)`);
 }
 
 function renderHoldings(holdings, prices){
@@ -640,10 +640,8 @@ async function adminReset(){
 }
 
 window.addEventListener("DOMContentLoaded", async ()=>{
-  await bootstrap();
-
   ensureChartModal();
-
+  await bootstrap();
   if($("readMoreBtn")){
     $("readMoreBtn").addEventListener("click", openNewsModal);
   }
