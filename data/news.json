@@ -1,3673 +1,452 @@
 [
   {
-    "id": "N0001",
-    "headline": "FreshCart announces leadership change",
-    "summary": "The board announced a change in senior leadership as the company enters its next phase of strategy execution.",
-    "body": "The board announced a change in senior leadership as the company enters its next phase of strategy execution. Peers may also be monitored for similar signals.",
+    "id": "N001",
+    "headline": "Government Announces Digital Skills Push for Schools and Colleges",
+    "summary": "A new education and digital infrastructure program is expected to increase demand for software services and cloud tools over the coming quarters.",
+    "body": "Officials announced a nationwide digital skills and classroom technology initiative, including funding for software platforms, cloud subscriptions, and institutional devices. Market participants expect this to support demand for technology vendors and related service providers.",
     "bullets": [
-      "Transition plan shared",
-      "Continuity assessed",
-      "Short-term uncertainty possible"
+      "Program includes technology spending support",
+      "Institutions expected to accelerate software adoption",
+      "Investors expect demand uplift for tech vendors"
     ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": [
-      "FRE"
-    ]
-  },
-  {
-    "id": "N0002",
-    "headline": "Service disruption reported at ApexCapital",
-    "summary": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause.",
-    "body": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "SLA credits may be discussed",
-      "Customer confidence in focus",
-      "Recovery timeline unclear"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Banking"
-    ],
-    "tickers": [
-      "APE"
-    ]
-  },
-  {
-    "id": "N0003",
-    "headline": "VertexSystems wins a major multi-year contract",
-    "summary": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters.",
-    "body": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "Backlog visibility improves",
-      "Hiring and capex may increase",
-      "Competitors may respond"
-    ],
-    "direction": "DOWN",
+    "direction": "UP",
     "intensity": "LOW",
-    "sectors": [
-      "Tech"
-    ],
-    "tickers": [
-      "VER"
-    ]
+    "sectors": ["Tech"],
+    "tickers": []
   },
   {
-    "id": "N0004",
-    "headline": "LandmarkHomes posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Peers may also be monitored for similar signals.",
+    "id": "N002",
+    "headline": "Fuel Prices Edge Higher After Supply Disruption in Regional Hub",
+    "summary": "Short-term supply disruptions are pushing fuel prices up, creating near-term pressure on operational costs for transport and telecom infrastructure users.",
+    "body": "A temporary supply disruption at a regional fuel distribution hub has led to a rise in fuel prices. While energy producers may benefit from higher selling prices, sectors with fuel-intensive logistics and infrastructure operations may face margin pressure if the situation persists.",
     "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
-    ],
-    "direction": "DOWN",
-    "intensity": "HIGH",
-    "sectors": [
-      "RealEstate"
-    ],
-    "tickers": [
-      "LAN"
-    ]
-  },
-  {
-    "id": "N0005",
-    "headline": "LogiPeak announces leadership change",
-    "summary": "The board announced a change in senior leadership as the company enters its next phase of strategy execution.",
-    "body": "The board announced a change in senior leadership as the company enters its next phase of strategy execution. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "Transition plan shared",
-      "Continuity assessed",
-      "Short-term uncertainty possible"
+      "Short-term fuel price increase reported",
+      "Energy producers may see better realizations",
+      "Operational cost pressure for fuel-sensitive sectors"
     ],
     "direction": "UP",
     "intensity": "MEDIUM",
-    "sectors": [
-      "Industrials"
-    ],
-    "tickers": [
-      "LOG"
-    ]
+    "sectors": ["Energy"],
+    "tickers": []
   },
   {
-    "id": "N0006",
-    "headline": "RoboLink posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Market participants will look for additional details and timelines in follow-up statements.",
+    "id": "N003",
+    "headline": "Consumer Spending Survey Shows Strong Festival-Season Demand",
+    "summary": "A new retail survey indicates stronger-than-expected spending in discretionary and essentials categories heading into the festival period.",
+    "body": "Retail footfall and online order trends improved in the latest consumer spending survey, with households spending more on packaged goods, household items, and discretionary purchases. Analysts say stronger demand could support revenue visibility for consumer-focused businesses.",
     "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
+      "Retail and online demand trends improved",
+      "Festival season spending outlook strengthened",
+      "Consumer sector sentiment turns positive"
     ],
     "direction": "UP",
     "intensity": "LOW",
-    "sectors": [
-      "Tech"
-    ],
-    "tickers": [
-      "ROB"
-    ]
+    "sectors": ["Consumer"],
+    "tickers": []
   },
   {
-    "id": "N0007",
-    "headline": "MetroNet posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Peers may also be monitored for similar signals.",
+    "id": "N004",
+    "headline": "Telecom Regulator Signals Review of Promotional Pricing Practices",
+    "summary": "A regulatory review of aggressive pricing campaigns could affect subscriber growth strategy and near-term competition intensity.",
+    "body": "The telecom regulator said it will review promotional pricing and bundled plans across major service categories. Investors are assessing whether the move may slow customer acquisition tactics or improve pricing discipline across the industry.",
     "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
+      "Regulator reviewing promotional plan practices",
+      "Possible shift in pricing competition dynamics",
+      "Telecom sentiment mixed amid policy uncertainty"
     ],
     "direction": "DOWN",
     "intensity": "LOW",
-    "sectors": [
-      "Telecom"
-    ],
-    "tickers": [
-      "MEB"
-    ]
+    "sectors": ["Telecom"],
+    "tickers": []
   },
   {
-    "id": "N0008",
-    "headline": "Service disruption reported at PrimePlots",
-    "summary": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause.",
-    "body": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause. Traders will watch whether the update changes near-term expectations or long-term positioning.",
+    "id": "N005",
+    "headline": "Hospital Network Expansion Plans Accelerate in Tier-2 Cities",
+    "summary": "Healthcare providers and related service operators could benefit from faster expansion and capacity additions in growing cities.",
+    "body": "Multiple healthcare operators announced accelerated capacity planning for mid-sized cities, citing improved demand and financing availability. The expansion pipeline may support healthcare service growth and related diagnostics ecosystems.",
     "bullets": [
-      "SLA credits may be discussed",
-      "Customer confidence in focus",
-      "Recovery timeline unclear"
+      "Expansion activity increasing in regional markets",
+      "Capacity additions expected over next few quarters",
+      "Healthcare growth visibility improves"
     ],
     "direction": "UP",
     "intensity": "MEDIUM",
-    "sectors": [
-      "RealEstate"
-    ],
-    "tickers": [
-      "PRB"
-    ]
+    "sectors": ["Healthcare"],
+    "tickers": []
   },
   {
-    "id": "N0009",
-    "headline": "NexaSoft posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Traders will watch whether the update changes near-term expectations or long-term positioning.",
+    "id": "N006",
+    "headline": "Construction Raw Material Costs Rise, Developers Watch Margins",
+    "summary": "Higher input costs may pressure real estate project economics if developers are unable to pass through the increases quickly.",
+    "body": "Prices of key construction inputs rose this month, prompting real estate developers and contractors to review project budgets. Market participants are monitoring whether price increases can be passed on to customers without slowing sales momentum.",
     "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
+      "Input cost inflation impacts project budgets",
+      "Margin pressure risk for developers",
+      "Real estate pricing response under watch"
     ],
     "direction": "DOWN",
     "intensity": "MEDIUM",
-    "sectors": [
-      "Tech"
-    ],
-    "tickers": [
-      "NEX"
-    ]
+    "sectors": ["RealEstate"],
+    "tickers": []
   },
   {
-    "id": "N0010",
-    "headline": "SkyTel posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Market participants will look for additional details and timelines in follow-up statements.",
+    "id": "N007",
+    "headline": "Industrial Orders Improve as Manufacturing Capacity Utilization Rises",
+    "summary": "Improving utilization and fresh order wins are supporting optimism in industrial and manufacturing-linked businesses.",
+    "body": "Industry reports show better capacity utilization and new purchase orders in selected manufacturing categories. Analysts say improved order flow may support earnings momentum for industrial operators and supply-chain-linked firms.",
     "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Telecom"
-    ],
-    "tickers": [
-      "SKY"
-    ]
-  },
-  {
-    "id": "N0011",
-    "headline": "Regulator opens review into HomeHaven's recent activity",
-    "summary": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing.",
-    "body": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Compliance costs may rise",
-      "Management response expected",
-      "Volatility likely around updates"
+      "Factory utilization trends improved",
+      "Fresh order pipeline strengthens",
+      "Industrials outlook turns constructive"
     ],
     "direction": "UP",
     "intensity": "LOW",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": [
-      "HOM"
-    ]
+    "sectors": ["Industrials"],
+    "tickers": []
   },
   {
-    "id": "N0012",
-    "headline": "HealthAxis posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Market participants will look for additional details and timelines in follow-up statements.",
+    "id": "N008",
+    "headline": "Banking System Deposit Growth Slows in Latest Monthly Snapshot",
+    "summary": "Softer deposit growth may affect funding mix and loan growth expectations in the near term.",
+    "body": "The latest monthly banking snapshot showed slower deposit growth compared with recent trends. Investors are evaluating the impact on funding costs, loan expansion pace, and margins across lenders.",
     "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
+      "Deposit growth moderated month-on-month",
+      "Funding cost outlook in focus",
+      "Banking sentiment softens"
     ],
     "direction": "DOWN",
     "intensity": "LOW",
-    "sectors": [
-      "Healthcare"
-    ],
-    "tickers": [
-      "HEA"
-    ]
+    "sectors": ["Banking"],
+    "tickers": []
   },
   {
-    "id": "N0013",
-    "headline": "VistaResidency posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Market participants will look for additional details and timelines in follow-up statements.",
+    "id": "N009",
+    "headline": "Cloud Adoption Contracts Pick Up Across Mid-Sized Enterprises",
+    "summary": "Enterprise digitization demand is accelerating, with stronger cloud and software contract signings reported this quarter.",
+    "body": "Channel checks and industry commentary point to stronger cloud migration and software adoption among mid-sized enterprises. Technology service providers may benefit from higher deal conversion and longer contract durations.",
     "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "RealEstate"
-    ],
-    "tickers": [
-      "VIS"
-    ]
-  },
-  {
-    "id": "N0014",
-    "headline": "UrbanMart wins a major multi-year contract",
-    "summary": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters.",
-    "body": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "Backlog visibility improves",
-      "Hiring and capex may increase",
-      "Competitors may respond"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": [
-      "URB"
-    ]
-  },
-  {
-    "id": "N0015",
-    "headline": "Service disruption reported at OrbitCom",
-    "summary": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause.",
-    "body": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "SLA credits may be discussed",
-      "Customer confidence in focus",
-      "Recovery timeline unclear"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Telecom"
-    ],
-    "tickers": [
-      "ORB"
-    ]
-  },
-  {
-    "id": "N0016",
-    "headline": "MediPulse posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Healthcare"
-    ],
-    "tickers": [
-      "MED"
-    ]
-  },
-  {
-    "id": "N0017",
-    "headline": "Service disruption reported at UnionFinance",
-    "summary": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause.",
-    "body": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "SLA credits may be discussed",
-      "Customer confidence in focus",
-      "Recovery timeline unclear"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Banking"
-    ],
-    "tickers": [
-      "UNI"
-    ]
-  },
-  {
-    "id": "N0018",
-    "headline": "LandmarkHomes wins a major multi-year contract",
-    "summary": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters.",
-    "body": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Backlog visibility improves",
-      "Hiring and capex may increase",
-      "Competitors may respond"
+      "Cloud migration demand improves",
+      "Contract conversion rate reportedly stronger",
+      "Tech sector demand outlook improves"
     ],
     "direction": "UP",
     "intensity": "MEDIUM",
-    "sectors": [
-      "RealEstate"
-    ],
-    "tickers": [
-      "LAN"
-    ]
+    "sectors": ["Tech"],
+    "tickers": []
   },
   {
-    "id": "N0019",
-    "headline": "FreshCart announces leadership change",
-    "summary": "The board announced a change in senior leadership as the company enters its next phase of strategy execution.",
-    "body": "The board announced a change in senior leadership as the company enters its next phase of strategy execution. Market participants will look for additional details and timelines in follow-up statements.",
+    "id": "N010",
+    "headline": "Unexpected Outage Disrupts Telecom Network Services in Multiple Cities",
+    "summary": "A major service disruption raises concerns about near-term customer experience, churn risk, and remediation costs.",
+    "body": "A network outage impacted service availability across several cities during peak usage hours. Operators are working on restoration and compensation plans, while investors assess potential reputational and operational impacts.",
     "bullets": [
-      "Transition plan shared",
-      "Continuity assessed",
-      "Short-term uncertainty possible"
-    ],
-    "direction": "UP",
-    "intensity": "HIGH",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": [
-      "FRE"
-    ]
-  },
-  {
-    "id": "N0020",
-    "headline": "BioVantage wins a major multi-year contract",
-    "summary": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters.",
-    "body": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Backlog visibility improves",
-      "Hiring and capex may increase",
-      "Competitors may respond"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Healthcare"
-    ],
-    "tickers": [
-      "BIO"
-    ]
-  },
-  {
-    "id": "N0021",
-    "headline": "Regulator opens review into NexaSoft's recent activity",
-    "summary": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing.",
-    "body": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Compliance costs may rise",
-      "Management response expected",
-      "Volatility likely around updates"
+      "Multi-city service outage reported",
+      "Possible customer service and compensation impact",
+      "Telecom stocks face near-term pressure"
     ],
     "direction": "DOWN",
     "intensity": "HIGH",
-    "sectors": [
-      "Tech"
-    ],
-    "tickers": [
-      "NEX"
-    ]
+    "sectors": ["Telecom"],
+    "tickers": []
   },
   {
-    "id": "N0022",
-    "headline": "Service disruption reported at SilverTrust",
-    "summary": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause.",
-    "body": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause. Peers may also be monitored for similar signals.",
+    "id": "N011",
+    "headline": "Retail Credit Demand Improves as Consumer Financing Approvals Rise",
+    "summary": "Higher credit approvals may support banking loan growth and consumer spending momentum.",
+    "body": "Banks and financing channels reported improved approval rates in retail lending categories, including consumer durables and personal credit. The trend may support loan growth while also helping consumer demand in the short term.",
     "bullets": [
-      "SLA credits may be discussed",
-      "Customer confidence in focus",
-      "Recovery timeline unclear"
-    ],
-    "direction": "DOWN",
-    "intensity": "HIGH",
-    "sectors": [
-      "Banking"
-    ],
-    "tickers": [
-      "SIL"
-    ]
-  },
-  {
-    "id": "N0023",
-    "headline": "PulseMobile announces leadership change",
-    "summary": "The board announced a change in senior leadership as the company enters its next phase of strategy execution.",
-    "body": "The board announced a change in senior leadership as the company enters its next phase of strategy execution. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Transition plan shared",
-      "Continuity assessed",
-      "Short-term uncertainty possible"
+      "Retail credit approval trends improve",
+      "Loan growth sentiment supports banking outlook",
+      "Consumer spending may get a boost"
     ],
     "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Telecom"
-    ],
-    "tickers": [
-      "PUL"
-    ]
+    "intensity": "MEDIUM",
+    "sectors": ["Banking", "Consumer"],
+    "tickers": []
   },
   {
-    "id": "N0024",
-    "headline": "SilverTrust wins a major multi-year contract",
-    "summary": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters.",
-    "body": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters. Peers may also be monitored for similar signals.",
+    "id": "N012",
+    "headline": "Drug Pricing Review Creates Uncertainty for Select Healthcare Segments",
+    "summary": "A policy review on pricing and reimbursement may pressure margins in parts of the healthcare value chain.",
+    "body": "Authorities announced a review of pricing frameworks covering selected healthcare products and services. Market participants are cautious as the review may affect profitability assumptions until clearer guidance is issued.",
     "bullets": [
-      "Backlog visibility improves",
-      "Hiring and capex may increase",
-      "Competitors may respond"
+      "Pricing policy review announced",
+      "Margin uncertainty increases in affected segments",
+      "Healthcare sector turns cautious"
     ],
     "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Banking"
-    ],
-    "tickers": [
-      "SIL"
-    ]
+    "intensity": "MEDIUM",
+    "sectors": ["Healthcare"],
+    "tickers": []
   },
   {
-    "id": "N0025",
-    "headline": "Regulator opens review into MediPulse's recent activity",
-    "summary": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing.",
-    "body": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing. Market participants will look for additional details and timelines in follow-up statements.",
+    "id": "N013",
+    "headline": "Large Infrastructure Tender Pipeline Opens for Industrial Contractors",
+    "summary": "A new wave of infrastructure tenders could improve revenue visibility for industrial and project-execution companies.",
+    "body": "Government and public agencies released a large pipeline of infrastructure tenders spanning logistics, utilities, and public works. Industrial contractors and equipment suppliers may benefit from stronger order books if execution timelines remain stable.",
     "bullets": [
-      "Compliance costs may rise",
-      "Management response expected",
-      "Volatility likely around updates"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Healthcare"
-    ],
-    "tickers": [
-      "MED"
-    ]
-  },
-  {
-    "id": "N0026",
-    "headline": "SilverTrust announces leadership change",
-    "summary": "The board announced a change in senior leadership as the company enters its next phase of strategy execution.",
-    "body": "The board announced a change in senior leadership as the company enters its next phase of strategy execution. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "Transition plan shared",
-      "Continuity assessed",
-      "Short-term uncertainty possible"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Banking"
-    ],
-    "tickers": [
-      "SIL"
-    ]
-  },
-  {
-    "id": "N0027",
-    "headline": "LifeSpring Labs announces leadership change",
-    "summary": "The board announced a change in senior leadership as the company enters its next phase of strategy execution.",
-    "body": "The board announced a change in senior leadership as the company enters its next phase of strategy execution. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "Transition plan shared",
-      "Continuity assessed",
-      "Short-term uncertainty possible"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Healthcare"
-    ],
-    "tickers": [
-      "LIF"
-    ]
-  },
-  {
-    "id": "N0028",
-    "headline": "UrbanMart announces leadership change",
-    "summary": "The board announced a change in senior leadership as the company enters its next phase of strategy execution.",
-    "body": "The board announced a change in senior leadership as the company enters its next phase of strategy execution. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Transition plan shared",
-      "Continuity assessed",
-      "Short-term uncertainty possible"
+      "Tender pipeline size exceeds expectations",
+      "Potential order book growth for industrial firms",
+      "Execution capacity becomes key differentiator"
     ],
     "direction": "UP",
     "intensity": "HIGH",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": [
-      "URB"
-    ]
+    "sectors": ["Industrials"],
+    "tickers": []
   },
   {
-    "id": "N0029",
-    "headline": "Service disruption reported at OrbitCom",
-    "summary": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause.",
-    "body": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause. Peers may also be monitored for similar signals.",
+    "id": "N014",
+    "headline": "Mortgage Rate Expectations Rise, Property Demand Sentiment Softens",
+    "summary": "Higher borrowing cost expectations may slow buyer decisions and impact real estate sales momentum.",
+    "body": "Market expectations for higher financing costs led to a softer near-term outlook for mortgage demand. Developers and property-linked businesses may see slower booking momentum if affordability concerns increase.",
     "bullets": [
-      "SLA credits may be discussed",
-      "Customer confidence in focus",
-      "Recovery timeline unclear"
-    ],
-    "direction": "DOWN",
-    "intensity": "HIGH",
-    "sectors": [
-      "Telecom"
-    ],
-    "tickers": [
-      "ORB"
-    ]
-  },
-  {
-    "id": "N0030",
-    "headline": "Service disruption reported at GreenGrid",
-    "summary": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause.",
-    "body": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "SLA credits may be discussed",
-      "Customer confidence in focus",
-      "Recovery timeline unclear"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Energy"
-    ],
-    "tickers": [
-      "GRE"
-    ]
-  },
-  {
-    "id": "N0031",
-    "headline": "ApexCapital wins a major multi-year contract",
-    "summary": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters.",
-    "body": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "Backlog visibility improves",
-      "Hiring and capex may increase",
-      "Competitors may respond"
+      "Financing cost expectations move higher",
+      "Buyer sentiment becomes more selective",
+      "Real estate demand outlook weakens near term"
     ],
     "direction": "DOWN",
     "intensity": "MEDIUM",
-    "sectors": [
-      "Banking"
-    ],
-    "tickers": [
-      "APE"
-    ]
+    "sectors": ["RealEstate", "Banking"],
+    "tickers": []
   },
   {
-    "id": "N0032",
-    "headline": "QuantumByte posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Traders will watch whether the update changes near-term expectations or long-term positioning.",
+    "id": "N015",
+    "headline": "Oil and Gas Production Update Beats Market Expectations",
+    "summary": "Higher-than-expected production volumes improve revenue outlook for energy operators and suppliers.",
+    "body": "A production update from major upstream operations came in above market estimates, supported by stronger output and better field uptime. Energy sector sentiment improved as traders priced in better near-term realizations and operational momentum.",
     "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Tech"
-    ],
-    "tickers": [
-      "QUA"
-    ]
-  },
-  {
-    "id": "N0033",
-    "headline": "GreenGrid wins a major multi-year contract",
-    "summary": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters.",
-    "body": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "Backlog visibility improves",
-      "Hiring and capex may increase",
-      "Competitors may respond"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Energy"
-    ],
-    "tickers": [
-      "GRE"
-    ]
-  },
-  {
-    "id": "N0034",
-    "headline": "Regulator opens review into SnackWave's recent activity",
-    "summary": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing.",
-    "body": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Compliance costs may rise",
-      "Management response expected",
-      "Volatility likely around updates"
+      "Production volumes exceeded estimates",
+      "Operational uptime improved",
+      "Energy sentiment strengthens"
     ],
     "direction": "UP",
     "intensity": "HIGH",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": [
-      "SNA"
-    ]
+    "sectors": ["Energy"],
+    "tickers": []
   },
   {
-    "id": "N0035",
-    "headline": "Service disruption reported at UnionFinance",
-    "summary": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause.",
-    "body": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause. Peers may also be monitored for similar signals.",
+    "id": "N016",
+    "headline": "Cybersecurity Incident Reported at Enterprise Software Vendor Group",
+    "summary": "Security concerns may delay client spending decisions and increase compliance costs across parts of the tech ecosystem.",
+    "body": "Reports of a cybersecurity incident affecting enterprise software operations triggered concern about service continuity and remediation spending. Clients are expected to review vendor controls, which may delay buying decisions temporarily.",
     "bullets": [
-      "SLA credits may be discussed",
-      "Customer confidence in focus",
-      "Recovery timeline unclear"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Banking"
-    ],
-    "tickers": [
-      "UNI"
-    ]
-  },
-  {
-    "id": "N0036",
-    "headline": "SignalOne posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Telecom"
-    ],
-    "tickers": [
-      "SIG"
-    ]
-  },
-  {
-    "id": "N0037",
-    "headline": "LogiPeak posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Industrials"
-    ],
-    "tickers": [
-      "LOG"
-    ]
-  },
-  {
-    "id": "N0038",
-    "headline": "GreenGrid posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Energy"
-    ],
-    "tickers": [
-      "GRE"
-    ]
-  },
-  {
-    "id": "N0039",
-    "headline": "StyleNest announces leadership change",
-    "summary": "The board announced a change in senior leadership as the company enters its next phase of strategy execution.",
-    "body": "The board announced a change in senior leadership as the company enters its next phase of strategy execution. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Transition plan shared",
-      "Continuity assessed",
-      "Short-term uncertainty possible"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": [
-      "STY"
-    ]
-  },
-  {
-    "id": "N0040",
-    "headline": "Regulator opens review into FreshCart's recent activity",
-    "summary": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing.",
-    "body": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Compliance costs may rise",
-      "Management response expected",
-      "Volatility likely around updates"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": [
-      "FRE"
-    ]
-  },
-  {
-    "id": "N0041",
-    "headline": "Regulator opens review into UrbanMart's recent activity",
-    "summary": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing.",
-    "body": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Compliance costs may rise",
-      "Management response expected",
-      "Volatility likely around updates"
+      "Security incident raises operational concerns",
+      "Potential delays in enterprise software decisions",
+      "Technology sector sentiment weakens"
     ],
     "direction": "DOWN",
     "intensity": "HIGH",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": [
-      "URB"
-    ]
+    "sectors": ["Tech"],
+    "tickers": []
   },
   {
-    "id": "N0042",
-    "headline": "MetroNet posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Traders will watch whether the update changes near-term expectations or long-term positioning.",
+    "id": "N017",
+    "headline": "Consumer Staples Demand Remains Stable Despite Inflation Concerns",
+    "summary": "Stable demand patterns in essentials are improving confidence in revenue resilience for consumer companies.",
+    "body": "Sales checks indicate that essential goods demand remains steady even as households monitor budgets closely. Investors see this as supportive for revenue stability and margin planning in consumer-facing businesses.",
     "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Telecom"
-    ],
-    "tickers": [
-      "MEB"
-    ]
-  },
-  {
-    "id": "N0043",
-    "headline": "Service disruption reported at CoreRefine",
-    "summary": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause.",
-    "body": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "SLA credits may be discussed",
-      "Customer confidence in focus",
-      "Recovery timeline unclear"
+      "Essential goods demand remains resilient",
+      "Revenue visibility improves for consumer firms",
+      "Sector sentiment turns mildly positive"
     ],
     "direction": "UP",
     "intensity": "LOW",
-    "sectors": [
-      "Energy"
-    ],
-    "tickers": [
-      "COR"
-    ]
+    "sectors": ["Consumer"],
+    "tickers": []
   },
   {
-    "id": "N0044",
-    "headline": "LifeSpring Labs posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Traders will watch whether the update changes near-term expectations or long-term positioning.",
+    "id": "N018",
+    "headline": "Data Center Expansion Plans Lift Demand Expectations for Power and Telecom Links",
+    "summary": "Large data center projects may support technology infrastructure, telecom connectivity, and power demand in connected regions.",
+    "body": "New data center expansion plans were announced, increasing expectations for connectivity upgrades, cloud demand, and power infrastructure usage. Multiple sectors linked to digital infrastructure may benefit from the development pipeline.",
     "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
+      "Data center buildout pipeline expands",
+      "Telecom connectivity demand expected to rise",
+      "Tech infrastructure sentiment improves"
     ],
     "direction": "UP",
     "intensity": "MEDIUM",
-    "sectors": [
-      "Healthcare"
-    ],
-    "tickers": [
-      "LIF"
-    ]
+    "sectors": ["Tech", "Telecom", "Energy"],
+    "tickers": []
   },
   {
-    "id": "N0045",
-    "headline": "NovaCare posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Traders will watch whether the update changes near-term expectations or long-term positioning.",
+    "id": "N019",
+    "headline": "Hospital Staffing Shortages Create Near-Term Capacity Constraints",
+    "summary": "Operational constraints from staffing gaps may affect service throughput and profitability in parts of healthcare.",
+    "body": "Healthcare operators reported staffing shortages in certain specialties, leading to scheduling delays and temporary capacity constraints. Investors are monitoring whether the issue is short-lived or likely to affect service volumes for longer.",
     "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
+      "Staffing pressure affects service capacity",
+      "Potential impact on throughput and margins",
+      "Healthcare shares face near-term caution"
     ],
     "direction": "DOWN",
-    "intensity": "HIGH",
-    "sectors": [
-      "Healthcare"
-    ],
-    "tickers": [
-      "NOV"
-    ]
-  },
-  {
-    "id": "N0046",
-    "headline": "UrbanRise posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "RealEstate"
-    ],
-    "tickers": [
-      "URC"
-    ]
-  },
-  {
-    "id": "N0047",
-    "headline": "IronWorks wins a major multi-year contract",
-    "summary": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters.",
-    "body": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "Backlog visibility improves",
-      "Hiring and capex may increase",
-      "Competitors may respond"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Industrials"
-    ],
-    "tickers": [
-      "IRO"
-    ]
-  },
-  {
-    "id": "N0048",
-    "headline": "RoboLink posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Tech"
-    ],
-    "tickers": [
-      "ROB"
-    ]
-  },
-  {
-    "id": "N0049",
-    "headline": "Regulator opens review into BioVantage's recent activity",
-    "summary": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing.",
-    "body": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "Compliance costs may rise",
-      "Management response expected",
-      "Volatility likely around updates"
-    ],
-    "direction": "DOWN",
-    "intensity": "HIGH",
-    "sectors": [
-      "Healthcare"
-    ],
-    "tickers": [
-      "BIO"
-    ]
-  },
-  {
-    "id": "N0050",
-    "headline": "WaveConnect wins a major multi-year contract",
-    "summary": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters.",
-    "body": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "Backlog visibility improves",
-      "Hiring and capex may increase",
-      "Competitors may respond"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Telecom"
-    ],
-    "tickers": [
-      "WAV"
-    ]
-  },
-  {
-    "id": "N0051",
-    "headline": "ByteHarbor announces leadership change",
-    "summary": "The board announced a change in senior leadership as the company enters its next phase of strategy execution.",
-    "body": "The board announced a change in senior leadership as the company enters its next phase of strategy execution. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Transition plan shared",
-      "Continuity assessed",
-      "Short-term uncertainty possible"
-    ],
-    "direction": "UP",
     "intensity": "LOW",
-    "sectors": [
-      "Tech"
-    ],
-    "tickers": [
-      "BYT"
-    ]
+    "sectors": ["Healthcare"],
+    "tickers": []
   },
   {
-    "id": "N0052",
-    "headline": "UrbanMart posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Market participants will look for additional details and timelines in follow-up statements.",
+    "id": "N020",
+    "headline": "Smartphone Upgrade Cycle Improves, Telecom Data Usage Forecasts Raised",
+    "summary": "A stronger device replacement cycle may support telecom data consumption and tech device-linked demand.",
+    "body": "Market trackers reported early signs of a healthier smartphone upgrade cycle, which could increase data consumption and service usage while supporting related technology supply chains. Traders expect positive read-through for both telecom and tech-related names.",
     "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
+      "Device replacement activity improves",
+      "Telecom usage forecasts revised higher",
+      "Positive read-through for tech and telecom"
+    ],
+    "direction": "UP",
+    "intensity": "MEDIUM",
+    "sectors": ["Tech", "Telecom"],
+    "tickers": []
+  },
+  {
+    "id": "N021",
+    "headline": "Logistics Delays Disrupt Delivery Schedules for Consumer and Industrial Goods",
+    "summary": "Transport bottlenecks are delaying shipments, raising working capital and execution concerns for affected sectors.",
+    "body": "A combination of port congestion and inland transport delays has disrupted shipment timelines for consumer goods and industrial materials. Companies may face delivery delays, temporary inventory imbalances, and cost increases until flows normalize.",
+    "bullets": [
+      "Shipment timelines extended due to bottlenecks",
+      "Inventory and cost management concerns rise",
+      "Consumer and industrial sectors pressured"
+    ],
+    "direction": "DOWN",
+    "intensity": "MEDIUM",
+    "sectors": ["Consumer", "Industrials"],
+    "tickers": []
+  },
+  {
+    "id": "N022",
+    "headline": "Loan Quality Trends Improve Across Retail and SME Segments",
+    "summary": "Better repayment behavior and lower stress indicators are improving sentiment for lenders.",
+    "body": "Recent banking channel updates indicate improving repayment behavior across retail and small-business loan portfolios. Lower stress indicators may support margin stability and reduce provisioning concerns, improving sentiment toward lenders.",
+    "bullets": [
+      "Repayment trends improving in key loan segments",
+      "Provisioning concerns ease",
+      "Banking sector outlook strengthens"
     ],
     "direction": "UP",
     "intensity": "HIGH",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": [
-      "URB"
-    ]
+    "sectors": ["Banking"],
+    "tickers": []
   },
   {
-    "id": "N0053",
-    "headline": "SnackWave announces leadership change",
-    "summary": "The board announced a change in senior leadership as the company enters its next phase of strategy execution.",
-    "body": "The board announced a change in senior leadership as the company enters its next phase of strategy execution. Market participants will look for additional details and timelines in follow-up statements.",
+    "id": "N023",
+    "headline": "Energy Demand Outlook Cut After Weak Industrial Consumption Data",
+    "summary": "Lower-than-expected consumption data may pressure energy demand expectations and near-term pricing sentiment.",
+    "body": "Industrial consumption data came in weaker than expected, leading analysts to trim near-term energy demand forecasts. The downgrade may affect pricing sentiment and revenue expectations for energy producers.",
     "bullets": [
-      "Transition plan shared",
-      "Continuity assessed",
-      "Short-term uncertainty possible"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": [
-      "SNA"
-    ]
-  },
-  {
-    "id": "N0054",
-    "headline": "Regulator opens review into LifeSpring Labs's recent activity",
-    "summary": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing.",
-    "body": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Compliance costs may rise",
-      "Management response expected",
-      "Volatility likely around updates"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Healthcare"
-    ],
-    "tickers": [
-      "LIF"
-    ]
-  },
-  {
-    "id": "N0055",
-    "headline": "Service disruption reported at StyleNest",
-    "summary": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause.",
-    "body": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "SLA credits may be discussed",
-      "Customer confidence in focus",
-      "Recovery timeline unclear"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": [
-      "STY"
-    ]
-  },
-  {
-    "id": "N0056",
-    "headline": "Service disruption reported at SnackWave",
-    "summary": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause.",
-    "body": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "SLA credits may be discussed",
-      "Customer confidence in focus",
-      "Recovery timeline unclear"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": [
-      "SNA"
-    ]
-  },
-  {
-    "id": "N0057",
-    "headline": "ApexCapital wins a major multi-year contract",
-    "summary": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters.",
-    "body": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "Backlog visibility improves",
-      "Hiring and capex may increase",
-      "Competitors may respond"
-    ],
-    "direction": "UP",
-    "intensity": "HIGH",
-    "sectors": [
-      "Banking"
-    ],
-    "tickers": [
-      "APE"
-    ]
-  },
-  {
-    "id": "N0058",
-    "headline": "VoltOil announces leadership change",
-    "summary": "The board announced a change in senior leadership as the company enters its next phase of strategy execution.",
-    "body": "The board announced a change in senior leadership as the company enters its next phase of strategy execution. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Transition plan shared",
-      "Continuity assessed",
-      "Short-term uncertainty possible"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Energy"
-    ],
-    "tickers": [
-      "VOL"
-    ]
-  },
-  {
-    "id": "N0059",
-    "headline": "Regulator opens review into SnackWave's recent activity",
-    "summary": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing.",
-    "body": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "Compliance costs may rise",
-      "Management response expected",
-      "Volatility likely around updates"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": [
-      "SNA"
-    ]
-  },
-  {
-    "id": "N0060",
-    "headline": "Service disruption reported at MetroSpaces",
-    "summary": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause.",
-    "body": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "SLA credits may be discussed",
-      "Customer confidence in focus",
-      "Recovery timeline unclear"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "RealEstate"
-    ],
-    "tickers": [
-      "MEC"
-    ]
-  },
-  {
-    "id": "N0061",
-    "headline": "SilverTrust wins a major multi-year contract",
-    "summary": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters.",
-    "body": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "Backlog visibility improves",
-      "Hiring and capex may increase",
-      "Competitors may respond"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Banking"
-    ],
-    "tickers": [
-      "SIL"
-    ]
-  },
-  {
-    "id": "N0062",
-    "headline": "Regulator opens review into BuildForge's recent activity",
-    "summary": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing.",
-    "body": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Compliance costs may rise",
-      "Management response expected",
-      "Volatility likely around updates"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Industrials"
-    ],
-    "tickers": [
-      "BUI"
-    ]
-  },
-  {
-    "id": "N0063",
-    "headline": "HydroCore announces leadership change",
-    "summary": "The board announced a change in senior leadership as the company enters its next phase of strategy execution.",
-    "body": "The board announced a change in senior leadership as the company enters its next phase of strategy execution. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "Transition plan shared",
-      "Continuity assessed",
-      "Short-term uncertainty possible"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Energy"
-    ],
-    "tickers": [
-      "HYD"
-    ]
-  },
-  {
-    "id": "N0064",
-    "headline": "Regulator opens review into FiberLink's recent activity",
-    "summary": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing.",
-    "body": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "Compliance costs may rise",
-      "Management response expected",
-      "Volatility likely around updates"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Telecom"
-    ],
-    "tickers": [
-      "FIB"
-    ]
-  },
-  {
-    "id": "N0065",
-    "headline": "Service disruption reported at CloudNova",
-    "summary": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause.",
-    "body": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "SLA credits may be discussed",
-      "Customer confidence in focus",
-      "Recovery timeline unclear"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Tech"
-    ],
-    "tickers": [
-      "CLO"
-    ]
-  },
-  {
-    "id": "N0066",
-    "headline": "Regulator opens review into Brickstone's recent activity",
-    "summary": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing.",
-    "body": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Compliance costs may rise",
-      "Management response expected",
-      "Volatility likely around updates"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "RealEstate"
-    ],
-    "tickers": [
-      "BRI"
-    ]
-  },
-  {
-    "id": "N0067",
-    "headline": "OrbitCom posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Telecom"
-    ],
-    "tickers": [
-      "ORB"
-    ]
-  },
-  {
-    "id": "N0068",
-    "headline": "Regulator opens review into PulseMobile's recent activity",
-    "summary": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing.",
-    "body": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Compliance costs may rise",
-      "Management response expected",
-      "Volatility likely around updates"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Telecom"
-    ],
-    "tickers": [
-      "PUL"
-    ]
-  },
-  {
-    "id": "N0069",
-    "headline": "MetroSpaces wins a major multi-year contract",
-    "summary": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters.",
-    "body": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Backlog visibility improves",
-      "Hiring and capex may increase",
-      "Competitors may respond"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "RealEstate"
-    ],
-    "tickers": [
-      "MEC"
-    ]
-  },
-  {
-    "id": "N0070",
-    "headline": "Portline wins a major multi-year contract",
-    "summary": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters.",
-    "body": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "Backlog visibility improves",
-      "Hiring and capex may increase",
-      "Competitors may respond"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Industrials"
-    ],
-    "tickers": [
-      "POR"
-    ]
-  },
-  {
-    "id": "N0071",
-    "headline": "Regulator opens review into Brickstone's recent activity",
-    "summary": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing.",
-    "body": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "Compliance costs may rise",
-      "Management response expected",
-      "Volatility likely around updates"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "RealEstate"
-    ],
-    "tickers": [
-      "BRI"
-    ]
-  },
-  {
-    "id": "N0072",
-    "headline": "VoltOil posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
+      "Industrial demand data weaker than expected",
+      "Energy demand forecasts revised lower",
+      "Energy sector sentiment softens"
     ],
     "direction": "DOWN",
     "intensity": "HIGH",
-    "sectors": [
-      "Energy"
-    ],
-    "tickers": [
-      "VOL"
-    ]
+    "sectors": ["Energy", "Industrials"],
+    "tickers": []
   },
   {
-    "id": "N0073",
-    "headline": "Service disruption reported at CureBridge",
-    "summary": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause.",
-    "body": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause. Peers may also be monitored for similar signals.",
+    "id": "N024",
+    "headline": "Commercial Property Leasing Improves in Major Business Districts",
+    "summary": "Stronger office and mixed-use leasing activity may improve cash flow visibility for real estate operators.",
+    "body": "New leasing data from major business districts showed stronger occupancy trends and renewed commercial leasing interest. Real estate operators and financing-linked businesses may benefit if the momentum continues.",
     "bullets": [
-      "SLA credits may be discussed",
-      "Customer confidence in focus",
-      "Recovery timeline unclear"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Healthcare"
-    ],
-    "tickers": [
-      "CUR"
-    ]
-  },
-  {
-    "id": "N0074",
-    "headline": "NexaSoft wins a major multi-year contract",
-    "summary": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters.",
-    "body": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "Backlog visibility improves",
-      "Hiring and capex may increase",
-      "Competitors may respond"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Tech"
-    ],
-    "tickers": [
-      "NEX"
-    ]
-  },
-  {
-    "id": "N0075",
-    "headline": "SilverTrust posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
+      "Commercial leasing activity improves",
+      "Occupancy trends strengthen in key districts",
+      "Positive read-through for real estate and lenders"
     ],
     "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Banking"
-    ],
-    "tickers": [
-      "SIL"
-    ]
-  },
-  {
-    "id": "N0076",
-    "headline": "Regulator opens review into ByteHarbor's recent activity",
-    "summary": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing.",
-    "body": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "Compliance costs may rise",
-      "Management response expected",
-      "Volatility likely around updates"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Tech"
-    ],
-    "tickers": [
-      "BYT"
-    ]
-  },
-  {
-    "id": "N0077",
-    "headline": "VistaResidency posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
-    ],
-    "direction": "DOWN",
     "intensity": "MEDIUM",
-    "sectors": [
-      "RealEstate"
-    ],
-    "tickers": [
-      "VIS"
-    ]
+    "sectors": ["RealEstate", "Banking"],
+    "tickers": []
   },
   {
-    "id": "N0078",
-    "headline": "Regulator opens review into FreshCart's recent activity",
-    "summary": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing.",
-    "body": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing. Traders will watch whether the update changes near-term expectations or long-term positioning.",
+    "id": "N025",
+    "headline": "Major Consumer Recall Raises Cost and Reputation Concerns",
+    "summary": "A broad product recall announcement may increase costs and temporarily weaken consumer confidence in the category.",
+    "body": "A large recall announcement in a high-volume consumer category has raised concerns about replacement costs, distribution disruption, and brand trust. Investors expect near-term pressure until quality checks and supply recovery are completed.",
     "bullets": [
-      "Compliance costs may rise",
-      "Management response expected",
-      "Volatility likely around updates"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": [
-      "FRE"
-    ]
-  },
-  {
-    "id": "N0079",
-    "headline": "Service disruption reported at CloudNova",
-    "summary": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause.",
-    "body": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "SLA credits may be discussed",
-      "Customer confidence in focus",
-      "Recovery timeline unclear"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Tech"
-    ],
-    "tickers": [
-      "CLO"
-    ]
-  },
-  {
-    "id": "N0080",
-    "headline": "PayNexa announces leadership change",
-    "summary": "The board announced a change in senior leadership as the company enters its next phase of strategy execution.",
-    "body": "The board announced a change in senior leadership as the company enters its next phase of strategy execution. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Transition plan shared",
-      "Continuity assessed",
-      "Short-term uncertainty possible"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Banking"
-    ],
-    "tickers": [
-      "PAY"
-    ]
-  },
-  {
-    "id": "N0081",
-    "headline": "Service disruption reported at UrbanMart",
-    "summary": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause.",
-    "body": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "SLA credits may be discussed",
-      "Customer confidence in focus",
-      "Recovery timeline unclear"
+      "Product recall announced in key category",
+      "Cost and brand trust concerns rise",
+      "Consumer sector faces sharp near-term pressure"
     ],
     "direction": "DOWN",
     "intensity": "HIGH",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": [
-      "URB"
-    ]
+    "sectors": ["Consumer"],
+    "tickers": []
   },
   {
-    "id": "N0082",
-    "headline": "WaveConnect posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Peers may also be monitored for similar signals.",
+    "id": "N026",
+    "headline": "AI Infrastructure Spending Plans Surprise on the Upside",
+    "summary": "Large budget commitments for digital infrastructure and compute demand may boost technology and telecom-linked ecosystems.",
+    "body": "Industry announcements and procurement commentary indicate stronger-than-expected spending plans for AI infrastructure, compute capacity, and network upgrades. This may support growth expectations across technology services, telecom infrastructure, and supporting industrial vendors.",
     "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Telecom"
-    ],
-    "tickers": [
-      "WAV"
-    ]
-  },
-  {
-    "id": "N0083",
-    "headline": "SunPeakEnergy announces leadership change",
-    "summary": "The board announced a change in senior leadership as the company enters its next phase of strategy execution.",
-    "body": "The board announced a change in senior leadership as the company enters its next phase of strategy execution. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "Transition plan shared",
-      "Continuity assessed",
-      "Short-term uncertainty possible"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Energy"
-    ],
-    "tickers": [
-      "SUN"
-    ]
-  },
-  {
-    "id": "N0084",
-    "headline": "Regulator opens review into TerraFuel's recent activity",
-    "summary": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing.",
-    "body": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "Compliance costs may rise",
-      "Management response expected",
-      "Volatility likely around updates"
-    ],
-    "direction": "DOWN",
-    "intensity": "HIGH",
-    "sectors": [
-      "Energy"
-    ],
-    "tickers": [
-      "TER"
-    ]
-  },
-  {
-    "id": "N0085",
-    "headline": "Regulator opens review into SilverTrust's recent activity",
-    "summary": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing.",
-    "body": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "Compliance costs may rise",
-      "Management response expected",
-      "Volatility likely around updates"
+      "AI infrastructure budgets revised higher",
+      "Network and compute demand expected to expand",
+      "Tech and related sectors gain momentum"
     ],
     "direction": "UP",
     "intensity": "HIGH",
-    "sectors": [
-      "Banking"
-    ],
-    "tickers": [
-      "SIL"
-    ]
+    "sectors": ["Tech", "Telecom", "Industrials"],
+    "tickers": []
   },
   {
-    "id": "N0086",
-    "headline": "HydroCore announces leadership change",
-    "summary": "The board announced a change in senior leadership as the company enters its next phase of strategy execution.",
-    "body": "The board announced a change in senior leadership as the company enters its next phase of strategy execution. Peers may also be monitored for similar signals.",
+    "id": "N027",
+    "headline": "New Compliance Requirements Increase Reporting Costs for Banks and Telecom Firms",
+    "summary": "Additional reporting and audit requirements may raise costs and slow project execution in affected sectors.",
+    "body": "Regulators introduced enhanced compliance and reporting requirements that may increase short-term operational costs for financial and telecom institutions. While the changes aim to improve standards, investors are pricing in near-term cost pressure.",
     "bullets": [
-      "Transition plan shared",
-      "Continuity assessed",
-      "Short-term uncertainty possible"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Energy"
-    ],
-    "tickers": [
-      "HYD"
-    ]
-  },
-  {
-    "id": "N0087",
-    "headline": "PrimeBank announces leadership change",
-    "summary": "The board announced a change in senior leadership as the company enters its next phase of strategy execution.",
-    "body": "The board announced a change in senior leadership as the company enters its next phase of strategy execution. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Transition plan shared",
-      "Continuity assessed",
-      "Short-term uncertainty possible"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Banking"
-    ],
-    "tickers": [
-      "PRI"
-    ]
-  },
-  {
-    "id": "N0088",
-    "headline": "QuickBites posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
+      "Compliance requirements tightened",
+      "Operational and reporting costs likely to rise",
+      "Banking and telecom names may see near-term pressure"
     ],
     "direction": "DOWN",
     "intensity": "MEDIUM",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": [
-      "QUI"
-    ]
+    "sectors": ["Banking", "Telecom"],
+    "tickers": []
   },
   {
-    "id": "N0089",
-    "headline": "PrimeBank wins a major multi-year contract",
-    "summary": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters.",
-    "body": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters. Market participants will look for additional details and timelines in follow-up statements.",
+    "id": "N028",
+    "headline": "Healthcare Insurance Coverage Expansion Improves Treatment Access Outlook",
+    "summary": "Expanded insurance coverage could increase patient volumes and service utilization across healthcare providers.",
+    "body": "Policy updates around healthcare coverage expansion are expected to improve access and affordability for selected treatments and services. Market participants believe this may support higher patient volumes and broader healthcare demand over time.",
     "bullets": [
-      "Backlog visibility improves",
-      "Hiring and capex may increase",
-      "Competitors may respond"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Banking"
-    ],
-    "tickers": [
-      "PRI"
-    ]
-  },
-  {
-    "id": "N0090",
-    "headline": "QuickBites wins a major multi-year contract",
-    "summary": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters.",
-    "body": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "Backlog visibility improves",
-      "Hiring and capex may increase",
-      "Competitors may respond"
-    ],
-    "direction": "DOWN",
-    "intensity": "HIGH",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": [
-      "QUI"
-    ]
-  },
-  {
-    "id": "N0091",
-    "headline": "Service disruption reported at HydroCore",
-    "summary": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause.",
-    "body": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "SLA credits may be discussed",
-      "Customer confidence in focus",
-      "Recovery timeline unclear"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Energy"
-    ],
-    "tickers": [
-      "HYD"
-    ]
-  },
-  {
-    "id": "N0092",
-    "headline": "ClinixOne wins a major multi-year contract",
-    "summary": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters.",
-    "body": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "Backlog visibility improves",
-      "Hiring and capex may increase",
-      "Competitors may respond"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Healthcare"
-    ],
-    "tickers": [
-      "CLI"
-    ]
-  },
-  {
-    "id": "N0093",
-    "headline": "SignalOne posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Telecom"
-    ],
-    "tickers": [
-      "SIG"
-    ]
-  },
-  {
-    "id": "N0094",
-    "headline": "Service disruption reported at SynapseAI",
-    "summary": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause.",
-    "body": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "SLA credits may be discussed",
-      "Customer confidence in focus",
-      "Recovery timeline unclear"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Tech"
-    ],
-    "tickers": [
-      "SYN"
-    ]
-  },
-  {
-    "id": "N0095",
-    "headline": "Regulator opens review into SunPeakEnergy's recent activity",
-    "summary": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing.",
-    "body": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "Compliance costs may rise",
-      "Management response expected",
-      "Volatility likely around updates"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Energy"
-    ],
-    "tickers": [
-      "SUN"
-    ]
-  },
-  {
-    "id": "N0096",
-    "headline": "VertexSystems wins a major multi-year contract",
-    "summary": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters.",
-    "body": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "Backlog visibility improves",
-      "Hiring and capex may increase",
-      "Competitors may respond"
+      "Coverage expansion may increase access",
+      "Patient volume outlook improves",
+      "Healthcare sector sentiment strengthens"
     ],
     "direction": "UP",
     "intensity": "HIGH",
-    "sectors": [
-      "Tech"
-    ],
-    "tickers": [
-      "VER"
-    ]
-  },
-  {
-    "id": "N0097",
-    "headline": "Service disruption reported at TerraFuel",
-    "summary": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause.",
-    "body": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "SLA credits may be discussed",
-      "Customer confidence in focus",
-      "Recovery timeline unclear"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Energy"
-    ],
-    "tickers": [
-      "TER"
-    ]
-  },
-  {
-    "id": "N0098",
-    "headline": "BioVantage announces leadership change",
-    "summary": "The board announced a change in senior leadership as the company enters its next phase of strategy execution.",
-    "body": "The board announced a change in senior leadership as the company enters its next phase of strategy execution. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "Transition plan shared",
-      "Continuity assessed",
-      "Short-term uncertainty possible"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Healthcare"
-    ],
-    "tickers": [
-      "BIO"
-    ]
-  },
-  {
-    "id": "N0099",
-    "headline": "Service disruption reported at QuickBites",
-    "summary": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause.",
-    "body": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "SLA credits may be discussed",
-      "Customer confidence in focus",
-      "Recovery timeline unclear"
-    ],
-    "direction": "UP",
-    "intensity": "HIGH",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": [
-      "QUI"
-    ]
-  },
-  {
-    "id": "N0100",
-    "headline": "Service disruption reported at WaveConnect",
-    "summary": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause.",
-    "body": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "SLA credits may be discussed",
-      "Customer confidence in focus",
-      "Recovery timeline unclear"
-    ],
-    "direction": "UP",
-    "intensity": "HIGH",
-    "sectors": [
-      "Telecom"
-    ],
-    "tickers": [
-      "WAV"
-    ]
-  },
-  {
-    "id": "N0101",
-    "headline": "Regulator opens review into LandmarkHomes's recent activity",
-    "summary": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing.",
-    "body": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "Compliance costs may rise",
-      "Management response expected",
-      "Volatility likely around updates"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "RealEstate"
-    ],
-    "tickers": [
-      "LAN"
-    ]
-  },
-  {
-    "id": "N0102",
-    "headline": "Service disruption reported at ApexCapital",
-    "summary": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause.",
-    "body": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "SLA credits may be discussed",
-      "Customer confidence in focus",
-      "Recovery timeline unclear"
-    ],
-    "direction": "UP",
-    "intensity": "HIGH",
-    "sectors": [
-      "Banking"
-    ],
-    "tickers": [
-      "APE"
-    ]
-  },
-  {
-    "id": "N0103",
-    "headline": "Service disruption reported at GreenGrid",
-    "summary": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause.",
-    "body": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "SLA credits may be discussed",
-      "Customer confidence in focus",
-      "Recovery timeline unclear"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Energy"
-    ],
-    "tickers": [
-      "GRE"
-    ]
-  },
-  {
-    "id": "N0104",
-    "headline": "ClinixOne wins a major multi-year contract",
-    "summary": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters.",
-    "body": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "Backlog visibility improves",
-      "Hiring and capex may increase",
-      "Competitors may respond"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Healthcare"
-    ],
-    "tickers": [
-      "CLI"
-    ]
-  },
-  {
-    "id": "N0105",
-    "headline": "BuildForge posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Industrials"
-    ],
-    "tickers": [
-      "BUI"
-    ]
-  },
-  {
-    "id": "N0106",
-    "headline": "Regulator opens review into NovaCare's recent activity",
-    "summary": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing.",
-    "body": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "Compliance costs may rise",
-      "Management response expected",
-      "Volatility likely around updates"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Healthcare"
-    ],
-    "tickers": [
-      "NOV"
-    ]
-  },
-  {
-    "id": "N0107",
-    "headline": "Regulator opens review into Portline's recent activity",
-    "summary": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing.",
-    "body": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "Compliance costs may rise",
-      "Management response expected",
-      "Volatility likely around updates"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Industrials"
-    ],
-    "tickers": [
-      "POR"
-    ]
-  },
-  {
-    "id": "N0108",
-    "headline": "VertexSystems posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Tech"
-    ],
-    "tickers": [
-      "VER"
-    ]
-  },
-  {
-    "id": "N0109",
-    "headline": "HomeHaven announces leadership change",
-    "summary": "The board announced a change in senior leadership as the company enters its next phase of strategy execution.",
-    "body": "The board announced a change in senior leadership as the company enters its next phase of strategy execution. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Transition plan shared",
-      "Continuity assessed",
-      "Short-term uncertainty possible"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": [
-      "HOM"
-    ]
-  },
-  {
-    "id": "N0110",
-    "headline": "Service disruption reported at PrimeBank",
-    "summary": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause.",
-    "body": "Users reported intermittent access issues across key services. The company says teams are working to restore stability and investigate the root cause. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "SLA credits may be discussed",
-      "Customer confidence in focus",
-      "Recovery timeline unclear"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Banking"
-    ],
-    "tickers": [
-      "PRI"
-    ]
-  },
-  {
-    "id": "N0111",
-    "headline": "BuildForge posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Industrials"
-    ],
-    "tickers": [
-      "BUI"
-    ]
-  },
-  {
-    "id": "N0112",
-    "headline": "DailyGoods posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": [
-      "DAI"
-    ]
-  },
-  {
-    "id": "N0113",
-    "headline": "ClinixOne announces leadership change",
-    "summary": "The board announced a change in senior leadership as the company enters its next phase of strategy execution.",
-    "body": "The board announced a change in senior leadership as the company enters its next phase of strategy execution. Peers may also be monitored for similar signals.",
-    "bullets": [
-      "Transition plan shared",
-      "Continuity assessed",
-      "Short-term uncertainty possible"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Healthcare"
-    ],
-    "tickers": [
-      "CLI"
-    ]
-  },
-  {
-    "id": "N0114",
-    "headline": "LifeSpring Labs posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Healthcare"
-    ],
-    "tickers": [
-      "LIF"
-    ]
-  },
-  {
-    "id": "N0115",
-    "headline": "BioVantage wins a major multi-year contract",
-    "summary": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters.",
-    "body": "The deal is expected to expand the firm\u2019s order pipeline and improve capacity utilization over the next few quarters. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "Backlog visibility improves",
-      "Hiring and capex may increase",
-      "Competitors may respond"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Healthcare"
-    ],
-    "tickers": [
-      "BIO"
-    ]
-  },
-  {
-    "id": "N0116",
-    "headline": "ApexCapital announces leadership change",
-    "summary": "The board announced a change in senior leadership as the company enters its next phase of strategy execution.",
-    "body": "The board announced a change in senior leadership as the company enters its next phase of strategy execution. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Transition plan shared",
-      "Continuity assessed",
-      "Short-term uncertainty possible"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Banking"
-    ],
-    "tickers": [
-      "APE"
-    ]
-  },
-  {
-    "id": "N0117",
-    "headline": "CoreRefine posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Energy"
-    ],
-    "tickers": [
-      "COR"
-    ]
-  },
-  {
-    "id": "N0118",
-    "headline": "HomeHaven announces leadership change",
-    "summary": "The board announced a change in senior leadership as the company enters its next phase of strategy execution.",
-    "body": "The board announced a change in senior leadership as the company enters its next phase of strategy execution. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "Transition plan shared",
-      "Continuity assessed",
-      "Short-term uncertainty possible"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": [
-      "HOM"
-    ]
-  },
-  {
-    "id": "N0119",
-    "headline": "HydroCore posts stronger-than-expected quarterly results",
-    "summary": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control.",
-    "body": "Revenue and margins came in above analyst expectations, with management highlighting improved demand and cost control. Traders will watch whether the update changes near-term expectations or long-term positioning.",
-    "bullets": [
-      "Guidance update expected soon",
-      "Analysts revise forecasts",
-      "Follow-through demand watched"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Energy"
-    ],
-    "tickers": [
-      "HYD"
-    ]
-  },
-  {
-    "id": "N0120",
-    "headline": "Regulator opens review into UnionFinance's recent activity",
-    "summary": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing.",
-    "body": "A regulator said it is reviewing certain practices after complaints from consumers and industry participants. The company has not confirmed any wrongdoing. Market participants will look for additional details and timelines in follow-up statements.",
-    "bullets": [
-      "Compliance costs may rise",
-      "Management response expected",
-      "Volatility likely around updates"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Banking"
-    ],
-    "tickers": [
-      "UNI"
-    ]
-  },
-  {
-    "id": "N0121",
-    "headline": "Demand outlook shifts for Industrials companies",
-    "summary": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly.",
-    "body": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly. Investors are comparing which firms are better positioned to absorb near-term pressure.",
-    "bullets": [
-      "Inventory strategy may change",
-      "Pricing power could shift",
-      "Investors reassess growth"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Industrials"
-    ],
+    "sectors": ["Healthcare"],
     "tickers": []
   },
   {
-    "id": "N0122",
-    "headline": "Supply chain disruption impacts Consumer",
-    "summary": "A logistics disruption is affecting deliveries. Firms are working through alternate suppliers and routes.",
-    "body": "A logistics disruption is affecting deliveries. Firms are working through alternate suppliers and routes. Investors are comparing which firms are better positioned to absorb near-term pressure.",
+    "id": "N029",
+    "headline": "Broad Risk-Off Sentiment Hits Growth Sectors After Global Market Shock",
+    "summary": "A sudden global risk-off move is triggering selling pressure in growth-oriented sectors while defensive positioning increases.",
+    "body": "Global markets turned sharply risk-averse after an unexpected macro shock, leading to broad de-risking across growth-heavy sectors. Investors are rotating toward defensive positioning while reducing exposure to more volatile segments.",
     "bullets": [
-      "Delays may affect revenue timing",
-      "Costs may rise temporarily",
-      "Normalization expected but uncertain"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0123",
-    "headline": "Demand outlook shifts for Tech companies",
-    "summary": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly.",
-    "body": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly. The situation may evolve as more information becomes available.",
-    "bullets": [
-      "Inventory strategy may change",
-      "Pricing power could shift",
-      "Investors reassess growth"
+      "Global risk sentiment turns negative",
+      "Growth-oriented sectors face broad selling pressure",
+      "Defensive rotation dominates market positioning"
     ],
     "direction": "DOWN",
     "intensity": "HIGH",
-    "sectors": [
-      "Tech"
-    ],
+    "sectors": ["Tech", "RealEstate", "Consumer", "Industrials"],
     "tickers": []
   },
   {
-    "id": "N0124",
-    "headline": "Input costs move sharply, pressuring Consumer",
-    "summary": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition.",
-    "body": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition. The situation may evolve as more information becomes available.",
+    "id": "N030",
+    "headline": "Central Infrastructure and Development Package Lifts Multi-Sector Growth Outlook",
+    "summary": "A large policy package focused on infrastructure, digital systems, and urban development is improving sentiment across multiple sectors.",
+    "body": "Authorities announced a broad development package spanning infrastructure upgrades, digital capacity, healthcare investment support, and urban planning. Market participants expect positive spillover effects across industrials, tech, banking, and property-linked businesses.",
     "bullets": [
-      "Margin sensitivity differs by firm",
-      "Contracts may lag cost changes",
-      "Guidance updates likely"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0125",
-    "headline": "Policy update changes rules for the Energy sector",
-    "summary": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector.",
-    "body": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector. Investors are comparing which firms are better positioned to absorb near-term pressure.",
-    "bullets": [
-      "Implementation timeline pending",
-      "Sector-wide repricing risk",
-      "Firms with strong compliance may benefit"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Energy"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0126",
-    "headline": "Policy update changes rules for the Healthcare sector",
-    "summary": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector.",
-    "body": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector. Companies may provide more color in upcoming updates and earnings calls.",
-    "bullets": [
-      "Implementation timeline pending",
-      "Sector-wide repricing risk",
-      "Firms with strong compliance may benefit"
-    ],
-    "direction": "DOWN",
-    "intensity": "HIGH",
-    "sectors": [
-      "Healthcare"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0127",
-    "headline": "Policy update changes rules for the Banking sector",
-    "summary": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector.",
-    "body": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector. Investors are comparing which firms are better positioned to absorb near-term pressure.",
-    "bullets": [
-      "Implementation timeline pending",
-      "Sector-wide repricing risk",
-      "Firms with strong compliance may benefit"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Banking"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0128",
-    "headline": "Demand outlook shifts for Tech companies",
-    "summary": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly.",
-    "body": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly. Investors are comparing which firms are better positioned to absorb near-term pressure.",
-    "bullets": [
-      "Inventory strategy may change",
-      "Pricing power could shift",
-      "Investors reassess growth"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Tech"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0129",
-    "headline": "Input costs move sharply, pressuring Consumer",
-    "summary": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition.",
-    "body": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition. The situation may evolve as more information becomes available.",
-    "bullets": [
-      "Margin sensitivity differs by firm",
-      "Contracts may lag cost changes",
-      "Guidance updates likely"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0130",
-    "headline": "Policy update changes rules for the Industrials sector",
-    "summary": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector.",
-    "body": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector. Companies may provide more color in upcoming updates and earnings calls.",
-    "bullets": [
-      "Implementation timeline pending",
-      "Sector-wide repricing risk",
-      "Firms with strong compliance may benefit"
-    ],
-    "direction": "DOWN",
-    "intensity": "HIGH",
-    "sectors": [
-      "Industrials"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0131",
-    "headline": "Supply chain disruption impacts Tech",
-    "summary": "A logistics disruption is affecting deliveries. Firms are working through alternate suppliers and routes.",
-    "body": "A logistics disruption is affecting deliveries. Firms are working through alternate suppliers and routes. Companies may provide more color in upcoming updates and earnings calls.",
-    "bullets": [
-      "Delays may affect revenue timing",
-      "Costs may rise temporarily",
-      "Normalization expected but uncertain"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Tech"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0132",
-    "headline": "Policy update changes rules for the RealEstate sector",
-    "summary": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector.",
-    "body": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector. Investors are comparing which firms are better positioned to absorb near-term pressure.",
-    "bullets": [
-      "Implementation timeline pending",
-      "Sector-wide repricing risk",
-      "Firms with strong compliance may benefit"
-    ],
-    "direction": "DOWN",
-    "intensity": "HIGH",
-    "sectors": [
-      "RealEstate"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0133",
-    "headline": "Supply chain disruption impacts Consumer",
-    "summary": "A logistics disruption is affecting deliveries. Firms are working through alternate suppliers and routes.",
-    "body": "A logistics disruption is affecting deliveries. Firms are working through alternate suppliers and routes. Investors are comparing which firms are better positioned to absorb near-term pressure.",
-    "bullets": [
-      "Delays may affect revenue timing",
-      "Costs may rise temporarily",
-      "Normalization expected but uncertain"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0134",
-    "headline": "Input costs move sharply, pressuring RealEstate",
-    "summary": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition.",
-    "body": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition. The situation may evolve as more information becomes available.",
-    "bullets": [
-      "Margin sensitivity differs by firm",
-      "Contracts may lag cost changes",
-      "Guidance updates likely"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "RealEstate"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0135",
-    "headline": "Policy update changes rules for the Consumer sector",
-    "summary": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector.",
-    "body": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector. The situation may evolve as more information becomes available.",
-    "bullets": [
-      "Implementation timeline pending",
-      "Sector-wide repricing risk",
-      "Firms with strong compliance may benefit"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0136",
-    "headline": "Demand outlook shifts for Tech companies",
-    "summary": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly.",
-    "body": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly. Investors are comparing which firms are better positioned to absorb near-term pressure.",
-    "bullets": [
-      "Inventory strategy may change",
-      "Pricing power could shift",
-      "Investors reassess growth"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Tech"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0137",
-    "headline": "Input costs move sharply, pressuring Tech",
-    "summary": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition.",
-    "body": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition. The situation may evolve as more information becomes available.",
-    "bullets": [
-      "Margin sensitivity differs by firm",
-      "Contracts may lag cost changes",
-      "Guidance updates likely"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Tech"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0138",
-    "headline": "Policy update changes rules for the Telecom sector",
-    "summary": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector.",
-    "body": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector. Investors are comparing which firms are better positioned to absorb near-term pressure.",
-    "bullets": [
-      "Implementation timeline pending",
-      "Sector-wide repricing risk",
-      "Firms with strong compliance may benefit"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Telecom"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0139",
-    "headline": "Demand outlook shifts for Consumer companies",
-    "summary": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly.",
-    "body": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly. The situation may evolve as more information becomes available.",
-    "bullets": [
-      "Inventory strategy may change",
-      "Pricing power could shift",
-      "Investors reassess growth"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0140",
-    "headline": "Demand outlook shifts for RealEstate companies",
-    "summary": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly.",
-    "body": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly. Companies may provide more color in upcoming updates and earnings calls.",
-    "bullets": [
-      "Inventory strategy may change",
-      "Pricing power could shift",
-      "Investors reassess growth"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "RealEstate"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0141",
-    "headline": "Supply chain disruption impacts Tech",
-    "summary": "A logistics disruption is affecting deliveries. Firms are working through alternate suppliers and routes.",
-    "body": "A logistics disruption is affecting deliveries. Firms are working through alternate suppliers and routes. Companies may provide more color in upcoming updates and earnings calls.",
-    "bullets": [
-      "Delays may affect revenue timing",
-      "Costs may rise temporarily",
-      "Normalization expected but uncertain"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Tech"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0142",
-    "headline": "Demand outlook shifts for Telecom companies",
-    "summary": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly.",
-    "body": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly. Companies may provide more color in upcoming updates and earnings calls.",
-    "bullets": [
-      "Inventory strategy may change",
-      "Pricing power could shift",
-      "Investors reassess growth"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Telecom"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0143",
-    "headline": "Supply chain disruption impacts Industrials",
-    "summary": "A logistics disruption is affecting deliveries. Firms are working through alternate suppliers and routes.",
-    "body": "A logistics disruption is affecting deliveries. Firms are working through alternate suppliers and routes. The situation may evolve as more information becomes available.",
-    "bullets": [
-      "Delays may affect revenue timing",
-      "Costs may rise temporarily",
-      "Normalization expected but uncertain"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Industrials"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0144",
-    "headline": "Input costs move sharply, pressuring Industrials",
-    "summary": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition.",
-    "body": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition. The situation may evolve as more information becomes available.",
-    "bullets": [
-      "Margin sensitivity differs by firm",
-      "Contracts may lag cost changes",
-      "Guidance updates likely"
+      "Large multi-sector development package announced",
+      "Growth outlook improves across infrastructure-linked sectors",
+      "Broad market sentiment strengthens into final round"
     ],
     "direction": "UP",
     "intensity": "HIGH",
-    "sectors": [
-      "Industrials"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0145",
-    "headline": "Demand outlook shifts for Energy companies",
-    "summary": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly.",
-    "body": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly. Investors are comparing which firms are better positioned to absorb near-term pressure.",
-    "bullets": [
-      "Inventory strategy may change",
-      "Pricing power could shift",
-      "Investors reassess growth"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Energy"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0146",
-    "headline": "Input costs move sharply, pressuring Telecom",
-    "summary": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition.",
-    "body": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition. The situation may evolve as more information becomes available.",
-    "bullets": [
-      "Margin sensitivity differs by firm",
-      "Contracts may lag cost changes",
-      "Guidance updates likely"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Telecom"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0147",
-    "headline": "Input costs move sharply, pressuring Healthcare",
-    "summary": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition.",
-    "body": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition. Companies may provide more color in upcoming updates and earnings calls.",
-    "bullets": [
-      "Margin sensitivity differs by firm",
-      "Contracts may lag cost changes",
-      "Guidance updates likely"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Healthcare"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0148",
-    "headline": "Policy update changes rules for the Healthcare sector",
-    "summary": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector.",
-    "body": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector. Investors are comparing which firms are better positioned to absorb near-term pressure.",
-    "bullets": [
-      "Implementation timeline pending",
-      "Sector-wide repricing risk",
-      "Firms with strong compliance may benefit"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Healthcare"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0149",
-    "headline": "Policy update changes rules for the Industrials sector",
-    "summary": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector.",
-    "body": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector. The situation may evolve as more information becomes available.",
-    "bullets": [
-      "Implementation timeline pending",
-      "Sector-wide repricing risk",
-      "Firms with strong compliance may benefit"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Industrials"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0150",
-    "headline": "Policy update changes rules for the Consumer sector",
-    "summary": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector.",
-    "body": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector. Companies may provide more color in upcoming updates and earnings calls.",
-    "bullets": [
-      "Implementation timeline pending",
-      "Sector-wide repricing risk",
-      "Firms with strong compliance may benefit"
-    ],
-    "direction": "UP",
-    "intensity": "HIGH",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0151",
-    "headline": "Input costs move sharply, pressuring Healthcare",
-    "summary": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition.",
-    "body": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition. Companies may provide more color in upcoming updates and earnings calls.",
-    "bullets": [
-      "Margin sensitivity differs by firm",
-      "Contracts may lag cost changes",
-      "Guidance updates likely"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Healthcare"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0152",
-    "headline": "Input costs move sharply, pressuring Telecom",
-    "summary": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition.",
-    "body": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition. Companies may provide more color in upcoming updates and earnings calls.",
-    "bullets": [
-      "Margin sensitivity differs by firm",
-      "Contracts may lag cost changes",
-      "Guidance updates likely"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Telecom"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0153",
-    "headline": "Supply chain disruption impacts Banking",
-    "summary": "A logistics disruption is affecting deliveries. Firms are working through alternate suppliers and routes.",
-    "body": "A logistics disruption is affecting deliveries. Firms are working through alternate suppliers and routes. The situation may evolve as more information becomes available.",
-    "bullets": [
-      "Delays may affect revenue timing",
-      "Costs may rise temporarily",
-      "Normalization expected but uncertain"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Banking"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0154",
-    "headline": "Supply chain disruption impacts Consumer",
-    "summary": "A logistics disruption is affecting deliveries. Firms are working through alternate suppliers and routes.",
-    "body": "A logistics disruption is affecting deliveries. Firms are working through alternate suppliers and routes. The situation may evolve as more information becomes available.",
-    "bullets": [
-      "Delays may affect revenue timing",
-      "Costs may rise temporarily",
-      "Normalization expected but uncertain"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0155",
-    "headline": "Input costs move sharply, pressuring Telecom",
-    "summary": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition.",
-    "body": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition. Investors are comparing which firms are better positioned to absorb near-term pressure.",
-    "bullets": [
-      "Margin sensitivity differs by firm",
-      "Contracts may lag cost changes",
-      "Guidance updates likely"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Telecom"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0156",
-    "headline": "Supply chain disruption impacts Banking",
-    "summary": "A logistics disruption is affecting deliveries. Firms are working through alternate suppliers and routes.",
-    "body": "A logistics disruption is affecting deliveries. Firms are working through alternate suppliers and routes. Companies may provide more color in upcoming updates and earnings calls.",
-    "bullets": [
-      "Delays may affect revenue timing",
-      "Costs may rise temporarily",
-      "Normalization expected but uncertain"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Banking"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0157",
-    "headline": "Supply chain disruption impacts Industrials",
-    "summary": "A logistics disruption is affecting deliveries. Firms are working through alternate suppliers and routes.",
-    "body": "A logistics disruption is affecting deliveries. Firms are working through alternate suppliers and routes. Companies may provide more color in upcoming updates and earnings calls.",
-    "bullets": [
-      "Delays may affect revenue timing",
-      "Costs may rise temporarily",
-      "Normalization expected but uncertain"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Industrials"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0158",
-    "headline": "Input costs move sharply, pressuring Banking",
-    "summary": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition.",
-    "body": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition. The situation may evolve as more information becomes available.",
-    "bullets": [
-      "Margin sensitivity differs by firm",
-      "Contracts may lag cost changes",
-      "Guidance updates likely"
-    ],
-    "direction": "UP",
-    "intensity": "HIGH",
-    "sectors": [
-      "Banking"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0159",
-    "headline": "Input costs move sharply, pressuring Banking",
-    "summary": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition.",
-    "body": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition. The situation may evolve as more information becomes available.",
-    "bullets": [
-      "Margin sensitivity differs by firm",
-      "Contracts may lag cost changes",
-      "Guidance updates likely"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Banking"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0160",
-    "headline": "Input costs move sharply, pressuring Telecom",
-    "summary": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition.",
-    "body": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition. The situation may evolve as more information becomes available.",
-    "bullets": [
-      "Margin sensitivity differs by firm",
-      "Contracts may lag cost changes",
-      "Guidance updates likely"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Telecom"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0161",
-    "headline": "Input costs move sharply, pressuring Telecom",
-    "summary": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition.",
-    "body": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition. Investors are comparing which firms are better positioned to absorb near-term pressure.",
-    "bullets": [
-      "Margin sensitivity differs by firm",
-      "Contracts may lag cost changes",
-      "Guidance updates likely"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Telecom"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0162",
-    "headline": "Supply chain disruption impacts Consumer",
-    "summary": "A logistics disruption is affecting deliveries. Firms are working through alternate suppliers and routes.",
-    "body": "A logistics disruption is affecting deliveries. Firms are working through alternate suppliers and routes. Companies may provide more color in upcoming updates and earnings calls.",
-    "bullets": [
-      "Delays may affect revenue timing",
-      "Costs may rise temporarily",
-      "Normalization expected but uncertain"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0163",
-    "headline": "Demand outlook shifts for Industrials companies",
-    "summary": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly.",
-    "body": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly. Investors are comparing which firms are better positioned to absorb near-term pressure.",
-    "bullets": [
-      "Inventory strategy may change",
-      "Pricing power could shift",
-      "Investors reassess growth"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Industrials"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0164",
-    "headline": "Input costs move sharply, pressuring Tech",
-    "summary": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition.",
-    "body": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition. Companies may provide more color in upcoming updates and earnings calls.",
-    "bullets": [
-      "Margin sensitivity differs by firm",
-      "Contracts may lag cost changes",
-      "Guidance updates likely"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Tech"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0165",
-    "headline": "Supply chain disruption impacts Telecom",
-    "summary": "A logistics disruption is affecting deliveries. Firms are working through alternate suppliers and routes.",
-    "body": "A logistics disruption is affecting deliveries. Firms are working through alternate suppliers and routes. The situation may evolve as more information becomes available.",
-    "bullets": [
-      "Delays may affect revenue timing",
-      "Costs may rise temporarily",
-      "Normalization expected but uncertain"
-    ],
-    "direction": "UP",
-    "intensity": "HIGH",
-    "sectors": [
-      "Telecom"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0166",
-    "headline": "Demand outlook shifts for Energy companies",
-    "summary": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly.",
-    "body": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly. Investors are comparing which firms are better positioned to absorb near-term pressure.",
-    "bullets": [
-      "Inventory strategy may change",
-      "Pricing power could shift",
-      "Investors reassess growth"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Energy"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0167",
-    "headline": "Demand outlook shifts for Tech companies",
-    "summary": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly.",
-    "body": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly. The situation may evolve as more information becomes available.",
-    "bullets": [
-      "Inventory strategy may change",
-      "Pricing power could shift",
-      "Investors reassess growth"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Tech"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0168",
-    "headline": "Policy update changes rules for the Consumer sector",
-    "summary": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector.",
-    "body": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector. The situation may evolve as more information becomes available.",
-    "bullets": [
-      "Implementation timeline pending",
-      "Sector-wide repricing risk",
-      "Firms with strong compliance may benefit"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0169",
-    "headline": "Policy update changes rules for the Consumer sector",
-    "summary": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector.",
-    "body": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector. The situation may evolve as more information becomes available.",
-    "bullets": [
-      "Implementation timeline pending",
-      "Sector-wide repricing risk",
-      "Firms with strong compliance may benefit"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0170",
-    "headline": "Input costs move sharply, pressuring Banking",
-    "summary": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition.",
-    "body": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition. The situation may evolve as more information becomes available.",
-    "bullets": [
-      "Margin sensitivity differs by firm",
-      "Contracts may lag cost changes",
-      "Guidance updates likely"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Banking"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0171",
-    "headline": "Policy update changes rules for the Energy sector",
-    "summary": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector.",
-    "body": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector. Companies may provide more color in upcoming updates and earnings calls.",
-    "bullets": [
-      "Implementation timeline pending",
-      "Sector-wide repricing risk",
-      "Firms with strong compliance may benefit"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Energy"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0172",
-    "headline": "Input costs move sharply, pressuring RealEstate",
-    "summary": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition.",
-    "body": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition. Investors are comparing which firms are better positioned to absorb near-term pressure.",
-    "bullets": [
-      "Margin sensitivity differs by firm",
-      "Contracts may lag cost changes",
-      "Guidance updates likely"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "RealEstate"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0173",
-    "headline": "Demand outlook shifts for Telecom companies",
-    "summary": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly.",
-    "body": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly. The situation may evolve as more information becomes available.",
-    "bullets": [
-      "Inventory strategy may change",
-      "Pricing power could shift",
-      "Investors reassess growth"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Telecom"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0174",
-    "headline": "Policy update changes rules for the Banking sector",
-    "summary": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector.",
-    "body": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector. The situation may evolve as more information becomes available.",
-    "bullets": [
-      "Implementation timeline pending",
-      "Sector-wide repricing risk",
-      "Firms with strong compliance may benefit"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Banking"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0175",
-    "headline": "Policy update changes rules for the Telecom sector",
-    "summary": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector.",
-    "body": "Authorities announced a policy update that could alter compliance requirements and operating costs across the sector. Investors are comparing which firms are better positioned to absorb near-term pressure.",
-    "bullets": [
-      "Implementation timeline pending",
-      "Sector-wide repricing risk",
-      "Firms with strong compliance may benefit"
-    ],
-    "direction": "DOWN",
-    "intensity": "HIGH",
-    "sectors": [
-      "Telecom"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0176",
-    "headline": "Input costs move sharply, pressuring Tech",
-    "summary": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition.",
-    "body": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition. Investors are comparing which firms are better positioned to absorb near-term pressure.",
-    "bullets": [
-      "Margin sensitivity differs by firm",
-      "Contracts may lag cost changes",
-      "Guidance updates likely"
-    ],
-    "direction": "UP",
-    "intensity": "HIGH",
-    "sectors": [
-      "Tech"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0177",
-    "headline": "Demand outlook shifts for Industrials companies",
-    "summary": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly.",
-    "body": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly. The situation may evolve as more information becomes available.",
-    "bullets": [
-      "Inventory strategy may change",
-      "Pricing power could shift",
-      "Investors reassess growth"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Industrials"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0178",
-    "headline": "Demand outlook shifts for Industrials companies",
-    "summary": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly.",
-    "body": "New data suggests demand conditions are changing. Companies may adjust production, hiring, and spending plans accordingly. Investors are comparing which firms are better positioned to absorb near-term pressure.",
-    "bullets": [
-      "Inventory strategy may change",
-      "Pricing power could shift",
-      "Investors reassess growth"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Industrials"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0179",
-    "headline": "Input costs move sharply, pressuring Consumer",
-    "summary": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition.",
-    "body": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition. The situation may evolve as more information becomes available.",
-    "bullets": [
-      "Margin sensitivity differs by firm",
-      "Contracts may lag cost changes",
-      "Guidance updates likely"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Consumer"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0180",
-    "headline": "Input costs move sharply, pressuring Banking",
-    "summary": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition.",
-    "body": "Key input costs moved unexpectedly. Firms may pass through prices or absorb margin pressure depending on competition. Companies may provide more color in upcoming updates and earnings calls.",
-    "bullets": [
-      "Margin sensitivity differs by firm",
-      "Contracts may lag cost changes",
-      "Guidance updates likely"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Banking"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0181",
-    "headline": "Central bank signals potential change in interest-rate path",
-    "summary": "Officials indicated incoming data will guide future decisions. Markets are repricing expectations across rate-sensitive areas.",
-    "body": "Officials indicated incoming data will guide future decisions. Markets are repricing expectations across rate-sensitive areas. Some sectors may benefit while others face higher costs, depending on exposure and pricing power.",
-    "bullets": [
-      "Borrowing costs may shift",
-      "Currency volatility possible",
-      "Sectors may rotate"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Tech",
-      "Consumer",
-      "Healthcare"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0182",
-    "headline": "Oil and fuel prices move after global supply update",
-    "summary": "A supply update triggered sharp moves in energy pricing, affecting transport costs and inflation expectations.",
-    "body": "A supply update triggered sharp moves in energy pricing, affecting transport costs and inflation expectations. Some sectors may benefit while others face higher costs, depending on exposure and pricing power.",
-    "bullets": [
-      "Energy reacts first",
-      "Industrials and consumer costs may follow",
-      "Inflation narrative shifts"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Healthcare",
-      "Consumer",
-      "Banking"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0183",
-    "headline": "Weather-related disruption affects operations in multiple regions",
-    "summary": "Operational disruptions were reported across several regions, with transport and services impacted.",
-    "body": "Operational disruptions were reported across several regions, with transport and services impacted. Participants will watch secondary effects as companies adjust budgets and guidance.",
-    "bullets": [
-      "Short-term delays possible",
-      "Repair costs watched",
-      "Recovery pace uncertain"
-    ],
-    "direction": "UP",
-    "intensity": "HIGH",
-    "sectors": [
-      "Consumer",
-      "Healthcare"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0184",
-    "headline": "Weather-related disruption affects operations in multiple regions",
-    "summary": "Operational disruptions were reported across several regions, with transport and services impacted.",
-    "body": "Operational disruptions were reported across several regions, with transport and services impacted. Some sectors may benefit while others face higher costs, depending on exposure and pricing power.",
-    "bullets": [
-      "Short-term delays possible",
-      "Repair costs watched",
-      "Recovery pace uncertain"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "RealEstate",
-      "Healthcare",
-      "Energy"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0185",
-    "headline": "Weather-related disruption affects operations in multiple regions",
-    "summary": "Operational disruptions were reported across several regions, with transport and services impacted.",
-    "body": "Operational disruptions were reported across several regions, with transport and services impacted. The reaction may be uneven across industries.",
-    "bullets": [
-      "Short-term delays possible",
-      "Repair costs watched",
-      "Recovery pace uncertain"
-    ],
-    "direction": "DOWN",
-    "intensity": "HIGH",
-    "sectors": [
-      "Healthcare",
-      "Banking"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0186",
-    "headline": "Major cybersecurity alert prompts widespread upgrades",
-    "summary": "A new cybersecurity alert has led many organizations to accelerate patching and upgrade cycles to reduce risk exposure.",
-    "body": "A new cybersecurity alert has led many organizations to accelerate patching and upgrade cycles to reduce risk exposure. Participants will watch secondary effects as companies adjust budgets and guidance.",
-    "bullets": [
-      "Security budgets may rise",
-      "Upgrade timelines pulled forward",
-      "Vendor demand may shift"
-    ],
-    "direction": "DOWN",
-    "intensity": "HIGH",
-    "sectors": [
-      "Healthcare",
-      "Tech"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0187",
-    "headline": "Oil and fuel prices move after global supply update",
-    "summary": "A supply update triggered sharp moves in energy pricing, affecting transport costs and inflation expectations.",
-    "body": "A supply update triggered sharp moves in energy pricing, affecting transport costs and inflation expectations. The reaction may be uneven across industries.",
-    "bullets": [
-      "Energy reacts first",
-      "Industrials and consumer costs may follow",
-      "Inflation narrative shifts"
-    ],
-    "direction": "DOWN",
-    "intensity": "LOW",
-    "sectors": [
-      "Energy",
-      "Healthcare",
-      "Banking"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0188",
-    "headline": "Oil and fuel prices move after global supply update",
-    "summary": "A supply update triggered sharp moves in energy pricing, affecting transport costs and inflation expectations.",
-    "body": "A supply update triggered sharp moves in energy pricing, affecting transport costs and inflation expectations. Some sectors may benefit while others face higher costs, depending on exposure and pricing power.",
-    "bullets": [
-      "Energy reacts first",
-      "Industrials and consumer costs may follow",
-      "Inflation narrative shifts"
-    ],
-    "direction": "UP",
-    "intensity": "LOW",
-    "sectors": [
-      "Tech",
-      "Banking",
-      "Consumer"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0189",
-    "headline": "Oil and fuel prices move after global supply update",
-    "summary": "A supply update triggered sharp moves in energy pricing, affecting transport costs and inflation expectations.",
-    "body": "A supply update triggered sharp moves in energy pricing, affecting transport costs and inflation expectations. The reaction may be uneven across industries.",
-    "bullets": [
-      "Energy reacts first",
-      "Industrials and consumer costs may follow",
-      "Inflation narrative shifts"
-    ],
-    "direction": "UP",
-    "intensity": "HIGH",
-    "sectors": [
-      "Telecom",
-      "Energy"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0190",
-    "headline": "Weather-related disruption affects operations in multiple regions",
-    "summary": "Operational disruptions were reported across several regions, with transport and services impacted.",
-    "body": "Operational disruptions were reported across several regions, with transport and services impacted. The reaction may be uneven across industries.",
-    "bullets": [
-      "Short-term delays possible",
-      "Repair costs watched",
-      "Recovery pace uncertain"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Consumer",
-      "Tech"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0191",
-    "headline": "Central bank signals potential change in interest-rate path",
-    "summary": "Officials indicated incoming data will guide future decisions. Markets are repricing expectations across rate-sensitive areas.",
-    "body": "Officials indicated incoming data will guide future decisions. Markets are repricing expectations across rate-sensitive areas. Some sectors may benefit while others face higher costs, depending on exposure and pricing power.",
-    "bullets": [
-      "Borrowing costs may shift",
-      "Currency volatility possible",
-      "Sectors may rotate"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Healthcare",
-      "Tech",
-      "Consumer"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0192",
-    "headline": "Major cybersecurity alert prompts widespread upgrades",
-    "summary": "A new cybersecurity alert has led many organizations to accelerate patching and upgrade cycles to reduce risk exposure.",
-    "body": "A new cybersecurity alert has led many organizations to accelerate patching and upgrade cycles to reduce risk exposure. The reaction may be uneven across industries.",
-    "bullets": [
-      "Security budgets may rise",
-      "Upgrade timelines pulled forward",
-      "Vendor demand may shift"
-    ],
-    "direction": "DOWN",
-    "intensity": "HIGH",
-    "sectors": [
-      "Consumer",
-      "Healthcare",
-      "Tech"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0193",
-    "headline": "Central bank signals potential change in interest-rate path",
-    "summary": "Officials indicated incoming data will guide future decisions. Markets are repricing expectations across rate-sensitive areas.",
-    "body": "Officials indicated incoming data will guide future decisions. Markets are repricing expectations across rate-sensitive areas. The reaction may be uneven across industries.",
-    "bullets": [
-      "Borrowing costs may shift",
-      "Currency volatility possible",
-      "Sectors may rotate"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Banking",
-      "Telecom",
-      "RealEstate"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0194",
-    "headline": "Weather-related disruption affects operations in multiple regions",
-    "summary": "Operational disruptions were reported across several regions, with transport and services impacted.",
-    "body": "Operational disruptions were reported across several regions, with transport and services impacted. Participants will watch secondary effects as companies adjust budgets and guidance.",
-    "bullets": [
-      "Short-term delays possible",
-      "Repair costs watched",
-      "Recovery pace uncertain"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "RealEstate",
-      "Tech"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0195",
-    "headline": "Oil and fuel prices move after global supply update",
-    "summary": "A supply update triggered sharp moves in energy pricing, affecting transport costs and inflation expectations.",
-    "body": "A supply update triggered sharp moves in energy pricing, affecting transport costs and inflation expectations. Some sectors may benefit while others face higher costs, depending on exposure and pricing power.",
-    "bullets": [
-      "Energy reacts first",
-      "Industrials and consumer costs may follow",
-      "Inflation narrative shifts"
-    ],
-    "direction": "UP",
-    "intensity": "HIGH",
-    "sectors": [
-      "Banking",
-      "Healthcare",
-      "Tech"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0196",
-    "headline": "Major cybersecurity alert prompts widespread upgrades",
-    "summary": "A new cybersecurity alert has led many organizations to accelerate patching and upgrade cycles to reduce risk exposure.",
-    "body": "A new cybersecurity alert has led many organizations to accelerate patching and upgrade cycles to reduce risk exposure. Some sectors may benefit while others face higher costs, depending on exposure and pricing power.",
-    "bullets": [
-      "Security budgets may rise",
-      "Upgrade timelines pulled forward",
-      "Vendor demand may shift"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Consumer",
-      "Energy",
-      "Healthcare"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0197",
-    "headline": "Weather-related disruption affects operations in multiple regions",
-    "summary": "Operational disruptions were reported across several regions, with transport and services impacted.",
-    "body": "Operational disruptions were reported across several regions, with transport and services impacted. The reaction may be uneven across industries.",
-    "bullets": [
-      "Short-term delays possible",
-      "Repair costs watched",
-      "Recovery pace uncertain"
-    ],
-    "direction": "DOWN",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Telecom",
-      "Energy"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0198",
-    "headline": "Major cybersecurity alert prompts widespread upgrades",
-    "summary": "A new cybersecurity alert has led many organizations to accelerate patching and upgrade cycles to reduce risk exposure.",
-    "body": "A new cybersecurity alert has led many organizations to accelerate patching and upgrade cycles to reduce risk exposure. Some sectors may benefit while others face higher costs, depending on exposure and pricing power.",
-    "bullets": [
-      "Security budgets may rise",
-      "Upgrade timelines pulled forward",
-      "Vendor demand may shift"
-    ],
-    "direction": "UP",
-    "intensity": "MEDIUM",
-    "sectors": [
-      "Industrials",
-      "Tech",
-      "RealEstate"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0199",
-    "headline": "Oil and fuel prices move after global supply update",
-    "summary": "A supply update triggered sharp moves in energy pricing, affecting transport costs and inflation expectations.",
-    "body": "A supply update triggered sharp moves in energy pricing, affecting transport costs and inflation expectations. The reaction may be uneven across industries.",
-    "bullets": [
-      "Energy reacts first",
-      "Industrials and consumer costs may follow",
-      "Inflation narrative shifts"
-    ],
-    "direction": "UP",
-    "intensity": "HIGH",
-    "sectors": [
-      "Healthcare",
-      "RealEstate"
-    ],
-    "tickers": []
-  },
-  {
-    "id": "N0200",
-    "headline": "Central bank signals potential change in interest-rate path",
-    "summary": "Officials indicated incoming data will guide future decisions. Markets are repricing expectations across rate-sensitive areas.",
-    "body": "Officials indicated incoming data will guide future decisions. Markets are repricing expectations across rate-sensitive areas. Participants will watch secondary effects as companies adjust budgets and guidance.",
-    "bullets": [
-      "Borrowing costs may shift",
-      "Currency volatility possible",
-      "Sectors may rotate"
-    ],
-    "direction": "UP",
-    "intensity": "HIGH",
-    "sectors": [
-      "Healthcare",
-      "Tech"
-    ],
+    "sectors": ["Industrials", "Tech", "Banking", "RealEstate", "Healthcare"],
     "tickers": []
   }
 ]

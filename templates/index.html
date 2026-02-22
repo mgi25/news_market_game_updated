@@ -3,11 +3,65 @@
 <div class="center">
   <div class="card login">
     <h1>Enter the trading floor</h1>
-    <p class="muted">Join the live market simulation, react to breaking headlines, and manage risk like a real trader.</p>
-    <form method="GET" action="/game" class="row">
-      <input name="player" placeholder="Trader name" maxlength="24" required />
-      <button class="btn">Launch Terminal</button>
+    <p class="muted">
+      Join the live market simulation, react to breaking headlines, and manage risk like a real trader.
+    </p>
+
+    <form id="joinForm" method="GET" action="/game" class="row" autocomplete="off">
+      <input
+        id="playerInput"
+        name="player"
+        placeholder="Trader name"
+        maxlength="24"
+        required
+      />
+      <button id="joinBtn" type="submit" class="btn">Launch Terminal</button>
     </form>
+
+    <!-- Optional fallback button (if your styled UI uses custom buttons) -->
+    <div style="margin-top:10px;">
+      <button id="joinBtnFallback" type="button" class="btn ghost">Enter Game (fallback)</button>
+    </div>
   </div>
 </div>
+
+<script>
+(function () {
+  const form = document.getElementById("joinForm");
+  const input = document.getElementById("playerInput");
+  const fallback = document.getElementById("joinBtnFallback");
+
+  function goToGame() {
+    const name = (input.value || "").trim();
+    if (!name) {
+      input.focus();
+      return;
+    }
+    // force navigation even if any JS interferes with form submit
+    window.location.href = "/game?player=" + encodeURIComponent(name);
+  }
+
+  // clean value before submit
+  form.addEventListener("submit", function (e) {
+    const name = (input.value || "").trim();
+    if (!name) {
+      e.preventDefault();
+      input.focus();
+      return;
+    }
+    input.value = name;
+    // let normal form submit happen
+  });
+
+  fallback.addEventListener("click", goToGame);
+
+  // Enter key support
+  input.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      goToGame();
+    }
+  });
+})();
+</script>
 {% endblock %}

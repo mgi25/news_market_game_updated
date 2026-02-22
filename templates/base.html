@@ -1,34 +1,42 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ title or "News Market Game" }}</title>
-  <link rel="stylesheet" href="/static/app.css">
-  <script defer src="/static/app.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+  <meta name="theme-color" content="#0b1020">
 </head>
 <body>
-  <div class="topbar">
-    <div class="brandWrap">
+  <div class="bg-noise"></div>
+
+  <header class="topbar">
+    <div class="wrap topbarInner">
       <div class="brand">
-        <span class="dot"></span>
-        <span>News Market Game</span>
+        <div class="brandIcon">♠</div>
+        <div class="brandText">
+          <div class="brandTitle">News Market Game</div>
+          <div class="brandSub">Cards × News × Trading</div>
+        </div>
       </div>
-      <div class="brandSub">Real-time simulated trading arena</div>
-    </div>
-    <div class="top-actions">
-      {% if player_name %}
-        <span class="pill">Player: <b>{{ player_name }}</b></span>
-      {% endif %}
-      <a class="pill link" href="/presenter" target="_blank">Presenter</a>
-      <a class="pill link" href="/admin" target="_blank">Admin</a>
-    </div>
-  </div>
 
-  <div class="wrap">
+      <nav class="nav">
+        <a class="navBtn" href="{{ url_for('index') }}">Join</a>
+        <a class="navBtn" href="{{ url_for('presenter') }}">Presenter</a>
+        <a class="navBtn" href="{{ url_for('admin') }}">Admin</a>
+        {% if player_name %}
+          <span class="navChip">Player: <b>{{ player_name }}</b></span>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap pageWrap">
     {% block content %}{% endblock %}
-  </div>
+  </main>
 
-  <div class="toast" id="toast" style="display:none"></div>
+  <div id="toast" class="toast" style="display:none;"></div>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>

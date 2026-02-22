@@ -1,184 +1,482 @@
 {% extends "base.html" %}
+
 {% block content %}
-<div class="grid">
-  <div class="col">
+<div class="grid game-grid">
+  <!-- LEFT -->
+  <section class="stack">
     <div class="card">
-      <div class="card-head">
+      <div class="card-head stats3">
         <div>
-          <div class="label">CURRENT ROUND</div>
-          <div class="big" id="roundNo">0</div>
+          <div class="label">Round</div>
+          <div class="big mono" id="roundNo">0</div>
         </div>
         <div>
-          <div class="label">STATUS</div>
+          <div class="label">Status</div>
           <div class="big" id="statusText">IDLE</div>
         </div>
         <div>
-          <div class="label">TIMER</div>
-          <div class="big mono" id="timerText">—</div>
+          <div class="label">Timer</div>
+          <div class="big mono" id="timerText">--</div>
         </div>
       </div>
 
-      <div class="news">
-        <div class="label">NEWS</div>
-        <div class="news-headline" id="newsHeadline">Waiting for the next headline…</div>
-        <div class="news-summary" id="newsSummary"></div>
-        <div class="news-actions">
-          <button class="btn ghost small" id="readMoreBtn" style="display:none">Read more</button>
+      <div class="news-panel">
+        <div class="news-top">
+          <div>
+            <div class="label">Live News</div>
+            <div class="news-headline" id="newsHeadline">Waiting for next news...</div>
+          </div>
+          <button id="readMoreBtn" class="btn ghost small" disabled>Read more</button>
         </div>
 
-        <div class="reactionPanel" id="reactionPanel">
-          <div class="reactionTop">
-            <span class="label">MARKET PULSE</span>
-            <span class="pulse calm" id="pulseText">CALM</span>
-          </div>
-          <div class="reactionMeta muted">Affected stocks: <b id="affectedText">0</b></div>
-          <div class="progressTrack"><div class="progressFill" id="reactionProgress"></div></div>
+        <div id="newsSummary" class="news-summary">
+          When the host triggers news, details will appear here. Trade during the reaction window.
         </div>
+
+        <ul id="newsBullets" class="news-bullets"></ul>
       </div>
     </div>
 
     <div class="card">
-      <div class="card-title">Market Terminal</div>
+      <div class="row-between card-title-row">
+        <div class="card-title">Market</div>
+        <div class="market-legend">
+          <span class="legend-chip"><span class="dot good"></span> Gainers</span>
+          <span class="legend-chip"><span class="dot bad"></span> Losers</span>
+        </div>
+      </div>
+
       <div class="toolbar">
-        <input id="search" placeholder="Search ticker or company..." />
+        <input id="searchInput" type="text" placeholder="Search ticker / company / sector">
         <select id="sectorFilter">
           <option value="">All sectors</option>
         </select>
       </div>
+
       <div class="tableWrap">
-        <table class="table" id="marketTable">
+        <table class="table table-market" id="marketTable">
           <thead>
             <tr>
               <th>Ticker</th>
               <th>Company</th>
               <th>Sector</th>
-              <th>News impact</th>
               <th class="right">Price</th>
-              <th class="right">Move</th>
-              <th class="right">Spread</th>
-              <th>Trend</th>
+              <th class="right">Δ</th>
               <th class="right">Qty</th>
-              <th class="right">Actions</th>
+              <th class="right">Trade</th>
             </tr>
           </thead>
           <tbody id="marketBody"></tbody>
         </table>
       </div>
-      <div class="hint muted">Trades include realistic bid/ask spread, slippage, and fees based on order size.</div>
-    </div>
 
-    <div class="card" id="inlineChartCard">
-      <div class="card-title" id="inlineChartTitle">Chart Window</div>
-      <div class="chartWindowBody">
-        <canvas id="inlineChartCanvas" width="820" height="320" aria-label="Inline stock chart canvas"></canvas>
+      <div class="hint muted">
+        Price shown is market price. Final trade fill may differ slightly (spread/slippage) to feel realistic.
       </div>
     </div>
-  </div>
+  </section>
 
-  <div class="col">
+  <!-- RIGHT -->
+  <aside class="stack">
     <div class="card">
-      <div class="card-title">Portfolio Overview</div>
+      <div class="card-title">Portfolio</div>
+
       <div class="portfolioTop">
-        <div>
+        <div class="metric">
           <div class="label">Cash</div>
-          <div class="big mono" id="cashText">0</div>
+          <div class="metric-val mono" id="cashVal">0</div>
         </div>
-        <div>
-          <div class="label">Holdings value</div>
-          <div class="big mono" id="holdingsText">0</div>
+        <div class="metric">
+          <div class="label">Holdings</div>
+          <div class="metric-val mono" id="holdingsVal">0</div>
         </div>
-        <div>
-          <div class="label">Total value</div>
-          <div class="big mono" id="totalText">0</div>
+        <div class="metric">
+          <div class="label">Total</div>
+          <div class="metric-val mono accent" id="totalVal">0</div>
         </div>
       </div>
+
       <div class="tableWrap">
         <table class="table">
           <thead>
             <tr>
               <th>Ticker</th>
-              <th>Company</th>
               <th class="right">Qty</th>
               <th class="right">Avg</th>
-              <th class="right">Now</th>
-              <th class="right">P/L</th>
-              <th class="right">Value</th>
+              <th class="right">Mkt</th>
+              <th class="right">PnL</th>
             </tr>
           </thead>
-          <tbody id="holdingsBody">
-            <tr><td colspan="7" class="muted">No holdings yet.</td></tr>
+          <tbody id="portfolioBody">
+            <tr><td colspan="5" class="muted">No holdings yet.</td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
     <div class="card">
-      <div class="card-title">Execution Blotter</div>
-      <div class="tableWrap">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Time</th>
-              <th>Ticker</th>
-              <th>Side</th>
-              <th class="right">Qty</th>
-              <th class="right">Fill</th>
-              <th class="right">Fee</th>
-            </tr>
-          </thead>
-          <tbody id="tradesBody">
-            <tr><td colspan="6" class="muted">No trades yet.</td></tr>
-          </tbody>
-        </table>
-      </div>
+      <div class="card-title">Top Movers</div>
+      <div id="moversList" class="list"></div>
     </div>
 
     <div class="card">
-      <div class="card-title">Performance Leaderboard</div>
-      <div class="tableWrap">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Player</th>
-              <th class="right">Total value</th>
-            </tr>
-          </thead>
-          <tbody id="leaderBody"></tbody>
-        </table>
-      </div>
+      <div class="card-title">Leaderboard</div>
+      <div id="leaderboardList" class="list"></div>
     </div>
-  </div>
+  </aside>
 </div>
 
-<!-- News modal -->
-<div class="modal" id="newsModal" style="display:none" aria-hidden="true">
-  <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+<!-- Modal -->
+<div id="newsModal" class="modal hidden">
+  <div class="modalCard">
     <div class="modalTop">
-      <div class="modalTitle" id="modalTitle"></div>
-      <button class="btn ghost small" id="closeModalBtn">Close</button>
+      <div class="modalTitle" id="modalTitle">News</div>
+      <button id="closeModalBtn" class="btn ghost small">Close</button>
     </div>
     <div class="modalBody" id="modalBody"></div>
     <ul class="modalBullets" id="modalBullets"></ul>
   </div>
 </div>
+{% endblock %}
 
-<!-- Chart modal -->
-<div class="modal" id="chartModal" style="display:none" aria-hidden="true">
-  <div class="modalCard chartCard" role="dialog" aria-modal="true" aria-labelledby="chartTitle">
-    <div class="modalTop">
-      <div class="modalTitle" id="chartTitle">Stock chart</div>
-      <div class="row">
-        <button class="btn ghost small" id="lineChartBtn">Line</button>
-        <button class="btn ghost small" id="candleChartBtn">Candlestick</button>
-        <button class="btn ghost small" id="closeChartBtn">Close</button>
-      </div>
-    </div>
-    <canvas id="chartCanvas" width="820" height="360" aria-label="Stock chart canvas"></canvas>
-  </div>
-</div>
-
+{% block scripts %}
 <script>
-  window.NMG_PLAYER = {{ player_name|tojson }};
+(() => {
+  const PLAYER = {{ player_name|tojson }};
+  let COMPANIES = [];
+  let COMP_MAP = {};
+  let SECTORS = [];
+  let latestState = null;
+  let latestNews = null;
+
+  const qtyState = {}; // keep values stable across rerenders
+
+  const el = {
+    roundNo: document.getElementById('roundNo'),
+    statusText: document.getElementById('statusText'),
+    timerText: document.getElementById('timerText'),
+    newsHeadline: document.getElementById('newsHeadline'),
+    newsSummary: document.getElementById('newsSummary'),
+    newsBullets: document.getElementById('newsBullets'),
+    readMoreBtn: document.getElementById('readMoreBtn'),
+
+    searchInput: document.getElementById('searchInput'),
+    sectorFilter: document.getElementById('sectorFilter'),
+    marketBody: document.getElementById('marketBody'),
+
+    cashVal: document.getElementById('cashVal'),
+    holdingsVal: document.getElementById('holdingsVal'),
+    totalVal: document.getElementById('totalVal'),
+    portfolioBody: document.getElementById('portfolioBody'),
+
+    moversList: document.getElementById('moversList'),
+    leaderboardList: document.getElementById('leaderboardList'),
+
+    newsModal: document.getElementById('newsModal'),
+    modalTitle: document.getElementById('modalTitle'),
+    modalBody: document.getElementById('modalBody'),
+    modalBullets: document.getElementById('modalBullets'),
+    closeModalBtn: document.getElementById('closeModalBtn'),
+  };
+
+  const fmtMoney = (v) => (Number(v) || 0).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+  const fmtPrice = (v) => (Number(v) || 0).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+  const fmtPct = (v) => ((Number(v)||0) * 100).toFixed(2) + "%";
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  function pctClass(v){
+    if (v > 0) return 'good-text';
+    if (v < 0) return 'bad-text';
+    return 'muted';
+  }
+
+  async function api(url, opts){
+    const r = await fetch(url, opts);
+    const data = await r.json().catch(()=>({}));
+    if (!r.ok) throw new Error(data.error || ("HTTP " + r.status));
+    return data;
+  }
+
+  async function bootstrap(){
+    const data = await api('/api/bootstrap');
+    COMPANIES = data.companies || [];
+    SECTORS = data.sectors || [];
+    COMP_MAP = Object.fromEntries(COMPANIES.map(c => [c.ticker, c]));
+
+    for (const s of SECTORS){
+      const op = document.createElement('option');
+      op.value = s;
+      op.textContent = s;
+      el.sectorFilter.appendChild(op);
+    }
+    renderMarketRows(); // initial shell
+  }
+
+  function renderNews(news){
+    latestNews = news || null;
+    if (!news){
+      el.newsHeadline.textContent = "Waiting for next news...";
+      el.newsSummary.textContent = "When the host triggers news, details will appear here. Trade during the reaction window.";
+      el.newsBullets.innerHTML = "";
+      el.readMoreBtn.disabled = true;
+      return;
+    }
+
+    el.newsHeadline.textContent = news.headline || "News Update";
+    el.newsSummary.textContent = news.summary || "";
+    const bullets = Array.isArray(news.bullets) ? news.bullets : [];
+    el.newsBullets.innerHTML = bullets.slice(0,3).map(b => `<li>${esc(b)}</li>`).join("");
+    el.readMoreBtn.disabled = false;
+  }
+
+  function openNewsModal(){
+    if (!latestNews) return;
+    el.modalTitle.textContent = latestNews.headline || "News";
+    el.modalBody.textContent = latestNews.body || latestNews.summary || "";
+    const bullets = Array.isArray(latestNews.bullets) ? latestNews.bullets : [];
+    el.modalBullets.innerHTML = bullets.map(b => `<li>${esc(b)}</li>`).join("");
+    el.newsModal.classList.remove('hidden');
+  }
+  function closeNewsModal(){ el.newsModal.classList.add('hidden'); }
+
+  function visibleCompanies(){
+    const q = (el.searchInput.value || "").trim().toLowerCase();
+    const sec = el.sectorFilter.value || "";
+    return COMPANIES.filter(c => {
+      if (sec && c.sector !== sec) return false;
+      if (!q) return true;
+      return c.ticker.toLowerCase().includes(q)
+          || c.name.toLowerCase().includes(q)
+          || c.sector.toLowerCase().includes(q);
+    });
+  }
+
+  function renderMarketRows(){
+    const list = visibleCompanies();
+    const prices = (latestState && latestState.prices) || {};
+
+    el.marketBody.innerHTML = list.map(c => {
+      const price = prices[c.ticker] ?? c.start_price;
+      const qty = qtyState[c.ticker] ?? 1;
+      return `
+        <tr data-ticker="${c.ticker}">
+          <td><span class="ticker-pill">${esc(c.ticker)}</span></td>
+          <td>${esc(c.name)}</td>
+          <td><span class="sector-pill">${esc(c.sector)}</span></td>
+          <td class="right mono price-cell">${fmtPrice(price)}</td>
+          <td class="right mono delta-cell muted">--</td>
+          <td class="right">
+            <input class="qtyInput" type="number" min="1" step="1" value="${qty}" />
+          </td>
+          <td class="right">
+            <div class="actionBtns">
+              <button class="btn small buy-btn">Buy</button>
+              <button class="btn small danger sell-btn">Sell</button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join("");
+
+    // attach listeners
+    el.marketBody.querySelectorAll("tr").forEach(tr => {
+      const ticker = tr.dataset.ticker;
+      const qtyInput = tr.querySelector(".qtyInput");
+      const buyBtn = tr.querySelector(".buy-btn");
+      const sellBtn = tr.querySelector(".sell-btn");
+
+      qtyInput.addEventListener("input", () => {
+        let v = parseInt(qtyInput.value || "1", 10);
+        if (!Number.isFinite(v) || v < 1) v = 1;
+        qtyState[ticker] = v;
+      });
+
+      buyBtn.addEventListener("click", () => placeTrade(ticker, "BUY"));
+      sellBtn.addEventListener("click", () => placeTrade(ticker, "SELL"));
+    });
+
+    updateMarketCells();
+  }
+
+  function updateMarketCells(){
+    if (!latestState) return;
+    const prices = latestState.prices || {};
+    const movers = latestState.movers || [];
+    const moverMap = Object.fromEntries(movers.map(m => [m.ticker, m.pct]));
+
+    el.marketBody.querySelectorAll("tr").forEach(tr => {
+      const ticker = tr.dataset.ticker;
+      const priceCell = tr.querySelector(".price-cell");
+      const deltaCell = tr.querySelector(".delta-cell");
+      const qtyInput = tr.querySelector(".qtyInput");
+
+      if (qtyInput && document.activeElement !== qtyInput) {
+        const currentVal = qtyState[ticker] ?? parseInt(qtyInput.value || "1", 10) || 1;
+        qtyInput.value = currentVal; // keeps quantity from resetting
+      }
+
+      if (ticker in prices) priceCell.textContent = fmtPrice(prices[ticker]);
+
+      const p = Number(moverMap[ticker] || 0);
+      deltaCell.textContent = fmtPct(p);
+      deltaCell.className = "right mono delta-cell " + pctClass(p);
+
+      tr.classList.remove("row-up", "row-down");
+      if (p > 0) tr.classList.add("row-up");
+      else if (p < 0) tr.classList.add("row-down");
+    });
+  }
+
+  async function placeTrade(ticker, side){
+    try{
+      const qty = Math.max(1, parseInt(qtyState[ticker] || 1, 10));
+      qtyState[ticker] = qty;
+
+      const res = await api('/api/trade', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ player: PLAYER, ticker, side, qty })
+      });
+
+      const msgParts = [];
+      msgParts.push(`${side} ${qty} ${ticker}`);
+      if (res.fill_price != null) msgParts.push(`Fill: ${res.fill_price}`);
+      if (res.spread_pct != null) msgParts.push(`Spread: ${res.spread_pct}%`);
+      if (res.slip_pct != null) msgParts.push(`Slippage: ${res.slip_pct}%`);
+      toast(msgParts.join(" | "), "success");
+
+      await refreshState();
+    }catch(err){
+      toast(err.message || "Trade failed", "error");
+    }
+  }
+
+  function renderPortfolio(port){
+    if (!port){
+      el.cashVal.textContent = "0.00";
+      el.holdingsVal.textContent = "0.00";
+      el.totalVal.textContent = "0.00";
+      el.portfolioBody.innerHTML = `<tr><td colspan="5" class="muted">No holdings yet.</td></tr>`;
+      return;
+    }
+
+    el.cashVal.textContent = fmtMoney(port.cash);
+    el.holdingsVal.textContent = fmtMoney(port.holdings_value);
+    el.totalVal.textContent = fmtMoney(port.total_value);
+
+    const holdings = port.holdings || {};
+    const rows = Object.entries(holdings);
+    if (!rows.length){
+      el.portfolioBody.innerHTML = `<tr><td colspan="5" class="muted">No holdings yet.</td></tr>`;
+      return;
+    }
+
+    const prices = (latestState && latestState.prices) || {};
+    el.portfolioBody.innerHTML = rows.map(([ticker, h]) => {
+      const mkt = Number(prices[ticker] || 0);
+      const qty = Number(h.qty || 0);
+      const avg = Number(h.avg || 0);
+      const pnl = (mkt - avg) * qty;
+      return `
+        <tr>
+          <td><span class="ticker-pill">${esc(ticker)}</span></td>
+          <td class="right mono">${qty}</td>
+          <td class="right mono">${fmtPrice(avg)}</td>
+          <td class="right mono">${fmtPrice(mkt)}</td>
+          <td class="right mono ${pctClass(pnl)}">${fmtMoney(pnl)}</td>
+        </tr>
+      `;
+    }).join("");
+  }
+
+  function renderMovers(items){
+    if (!items?.length){
+      el.moversList.innerHTML = `<div class="list-empty muted">No movers yet.</div>`;
+      return;
+    }
+    el.moversList.innerHTML = items.map((m,i) => `
+      <div class="list-row">
+        <div class="list-left">
+          <span class="rank-badge">${i+1}</span>
+          <div>
+            <div class="list-title">${esc(m.ticker)} <span class="muted">· ${esc(m.name)}</span></div>
+            <div class="list-sub">${esc(m.sector)}</div>
+          </div>
+        </div>
+        <div class="list-right">
+          <div class="mono">${fmtPrice(m.price)}</div>
+          <div class="mono ${pctClass(m.pct)}">${fmtPct(m.pct)}</div>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  function renderLeaderboard(items){
+    if (!items?.length){
+      el.leaderboardList.innerHTML = `<div class="list-empty muted">No players yet.</div>`;
+      return;
+    }
+    el.leaderboardList.innerHTML = items.slice(0,20).map((r,i) => `
+      <div class="list-row">
+        <div class="list-left">
+          <span class="rank-badge ${i===0?'gold':''}">${i+1}</span>
+          <div class="list-title">${esc(r.player)}</div>
+        </div>
+        <div class="list-right mono accent">${fmtMoney(r.total)}</div>
+      </div>
+    `).join("");
+  }
+
+  async function refreshState(){
+    const st = await api('/api/state?player=' + encodeURIComponent(PLAYER));
+    latestState = st;
+
+    el.roundNo.textContent = st.round ?? 0;
+    el.statusText.textContent = st.status || "IDLE";
+    el.statusText.className = "big " + ((st.status === "REACTION") ? "accent pulse" : "");
+    el.timerText.textContent = st.timer_s == null ? "--" : String(st.timer_s).padStart(2, '0') + "s";
+
+    renderNews(st.news);
+    updateMarketCells();
+    renderPortfolio(st.portfolio);
+    renderMovers(st.movers || []);
+    renderLeaderboard(st.leaderboard || []);
+  }
+
+  let toastTimer = null;
+  function toast(msg, type='info'){
+    let box = document.getElementById('toastBox');
+    if (!box){
+      box = document.createElement('div');
+      box.id = 'toastBox';
+      box.className = 'toast';
+      document.body.appendChild(box);
+    }
+    box.textContent = msg;
+    box.className = 'toast show ' + (type === 'error' ? 'err' : 'ok');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => box.classList.remove('show'), 2400);
+  }
+
+  // events
+  el.searchInput.addEventListener('input', renderMarketRows);
+  el.sectorFilter.addEventListener('change', renderMarketRows);
+  el.readMoreBtn.addEventListener('click', openNewsModal);
+  el.closeModalBtn.addEventListener('click', closeNewsModal);
+  el.newsModal.addEventListener('click', (e) => { if (e.target === el.newsModal) closeNewsModal(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeNewsModal(); });
+
+  // start
+  (async () => {
+    try{
+      await bootstrap();
+      await refreshState();
+      setInterval(() => { refreshState().catch(()=>{}); }, 1000);
+    }catch(err){
+      console.error(err);
+      alert("Failed to load game UI. Check server console/API.");
+    }
+  })();
+})();
 </script>
 {% endblock %}
