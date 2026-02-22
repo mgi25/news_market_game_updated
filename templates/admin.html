@@ -1,7 +1,9 @@
+{% set page_id='admin' %}
 {% extends 'base.html' %}
 {% block content %}
 <section class="card panel">
   <h2>Admin Console</h2>
+  <p class="muted">Default local password is <code>admin123</code> unless changed in <code>config.py</code>.</p>
   <div class="admin-grid">
     <div>
       <label>Password</label>
@@ -28,5 +30,4 @@
 {% endblock %}
 {% block scripts %}
 <script src="{{ url_for('static', filename='app.js') }}"></script>
-<script>window.PAGE='admin';</script>
 {% endblock %}

@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   {% block extra_head %}{% endblock %}
 </head>
-<body>
+<body data-page="{{ page_id|default('') }}">
   <nav class="top-nav">
     <div class="brand">📰 News Trading Game</div>
     <div class="nav-links">

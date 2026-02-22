@@ -2,10 +2,18 @@ const toast = document.getElementById('toast');
 const fmt = (n)=> Number(n||0).toLocaleString(undefined,{maximumFractionDigits:2});
 function showToast(msg){ if(!toast) return; toast.textContent=msg; toast.style.display='block'; setTimeout(()=>toast.style.display='none',2200); }
 
+function detectPage(){
+  return document.body?.dataset?.page || window.PAGE || (location.pathname === '/game' ? 'game' : location.pathname === '/admin' ? 'admin' : location.pathname === '/presenter' ? 'presenter' : '');
+}
+
 async function api(url, options={}){
   const res = await fetch(url,{headers:{'Content-Type':'application/json'},...options});
   const data = await res.json().catch(()=>({ok:false,error:'Invalid server response'}));
-  if(!res.ok || !data.ok) throw new Error(data.error || 'Request failed');
+  if(!res.ok || !data.ok) {
+    const e = new Error(data.error || 'Request failed');
+    e.status = res.status;
+    throw e;
+  }
   return data;
 }
 
@@ -32,6 +40,7 @@ async function gamePage(){
   document.getElementById('buyBtn')?.addEventListener('click',()=>trade('BUY'));
   document.getElementById('sellBtn')?.addEventListener('click',()=>trade('SELL'));
 
+  let intervalId;
   async function refresh(){
     try{
       const data = await api('/api/state');
@@ -65,19 +74,35 @@ async function gamePage(){
       qs.lb.innerHTML = s.leaderboard.map((x,i)=>`${i+1}. ${x.name} — $${fmt(x.total)}`).join('<br>');
 
       if(s.game_over) showToast('Game ended. Final leaderboard locked.');
-    }catch(e){ showToast(e.message); }
+    }catch(e){
+      if(e.status===401){
+        clearInterval(intervalId);
+        showToast('Session expired. Redirecting to home...');
+        setTimeout(()=>window.location.href='/', 900);
+        return;
+      }
+      showToast(e.message);
+    }
   }
   await refresh();
-  setInterval(refresh, 1000);
+  intervalId = setInterval(refresh, 1000);
 }
 
 async function adminPage(){
+  const adminStateEl = document.getElementById('adminState');
+  let isAuthed = false;
+
   document.getElementById('adminLogin')?.addEventListener('click', async ()=>{
-    try{ await api('/api/admin/login',{method:'POST',body:JSON.stringify({password:document.getElementById('adminPassword').value})}); showToast('Admin logged in'); refresh(); }
+    try{
+      await api('/api/admin/login',{method:'POST',body:JSON.stringify({password:document.getElementById('adminPassword').value})});
+      isAuthed = true;
+      showToast('Admin logged in');
+      refresh();
+    }
     catch(e){ showToast(e.message); }
   });
   document.getElementById('saveWindow')?.addEventListener('click', async ()=>{
-    try{ await api('/api/admin/reaction_window',{method:'POST',body:JSON.stringify({seconds:Number(document.getElementById('reactionWindow').value)})}); showToast('Window saved'); }
+    try{ await api('/api/admin/reaction_window',{method:'POST',body:JSON.stringify({seconds:Number(document.getElementById('reactionWindow').value)})}); showToast('Window saved'); refresh(); }
     catch(e){ showToast(e.message); }
   });
   document.getElementById('startGame')?.addEventListener('click', async ()=>{ try{ await api('/api/admin/start',{method:'POST'}); showToast('Game started'); refresh(); }catch(e){showToast(e.message);} });
@@ -87,12 +112,19 @@ async function adminPage(){
   async function refresh(){
     try{
       const data=await api('/api/admin/state');
+      isAuthed = true;
       const s=data.state;
-      document.getElementById('adminState').innerHTML=`Round ${s.round}/${s.max_rounds} · ${s.market_open?'OPEN':'CLOSED'} · ${s.timer}s`;
+      adminStateEl.innerHTML=`Round ${s.round}/${s.max_rounds} · ${s.market_open?'OPEN':'CLOSED'} · ${s.timer}s`;
       document.getElementById('adminPlayers').innerHTML=data.players.map(p=>`${p.name} ($${fmt(p.cash)})`).join('<br>') || 'No players';
       document.getElementById('adminPrices').innerHTML=s.prices.map(p=>`${p.ticker}: $${fmt(p.price)} (${p.change_pct}%)`).join('<br>');
       document.getElementById('reactionWindow').value=data.reaction_window;
-    }catch(e){/* not logged in yet */}
+    }catch(e){
+      if(e.status===401){
+        if(!isAuthed) adminStateEl.textContent='Not logged in. Use admin password to enable controls.';
+        return;
+      }
+      showToast(e.message);
+    }
   }
   setInterval(refresh,1000); refresh();
 }
@@ -113,6 +145,7 @@ async function presenterPage(){
   refresh(); setInterval(refresh,1000);
 }
 
-if(window.PAGE==='game') gamePage();
-if(window.PAGE==='admin') adminPage();
-if(window.PAGE==='presenter') presenterPage();
+const page = detectPage();
+if(page==='game') gamePage();
+if(page==='admin') adminPage();
+if(page==='presenter') presenterPage();
