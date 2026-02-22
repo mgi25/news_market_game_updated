@@ -1,288 +1,32 @@
-{% extends "base.html" %}
-
+{% extends 'base.html' %}
 {% block content %}
-<div class="grid admin-grid">
-  <section class="stack">
-    <div class="card">
-      <div class="card-title">Admin Control</div>
-
-      <div class="toolbar">
-        <input id="adminPassword" type="password" placeholder="Admin password">
-        <button id="loginBtn" class="btn">Login</button>
-        <button id="savePwdBtn" class="btn ghost">Save</button>
-      </div>
-
-      <div class="admin-status-row">
-        <div class="metric compact">
-          <div class="label">Round</div>
-          <div class="metric-val mono" id="aRound">0</div>
-        </div>
-        <div class="metric compact">
-          <div class="label">Status</div>
-          <div class="metric-val" id="aStatus">IDLE</div>
-        </div>
-        <div class="metric compact">
-          <div class="label">Timer</div>
-          <div class="metric-val mono" id="aTimer">--</div>
-        </div>
-      </div>
-
-      <div class="hint" id="aHeadlineWrap">
-        <span class="muted">Current headline: </span>
-        <span id="aHeadline">None</span>
-      </div>
-
-      <div class="toolbar">
-        <button id="randomBtn" class="btn">Trigger Random News</button>
-        <button id="resetBtn" class="btn danger">Reset Game</button>
-      </div>
+<section class="card panel">
+  <h2>Admin Console</h2>
+  <div class="admin-grid">
+    <div>
+      <label>Password</label>
+      <input id="adminPassword" type="password" placeholder="Admin password">
+      <button id="adminLogin">Login</button>
     </div>
-
-    <div class="card">
-      <div class="row-between card-title-row">
-        <div class="card-title">News Library</div>
-        <div class="toolbar-inline">
-          <input id="newsSearch" type="text" placeholder="Search headline / sector / id">
-          <select id="newsIntensityFilter">
-            <option value="">All intensity</option>
-            <option value="LOW">LOW</option>
-            <option value="MEDIUM">MEDIUM</option>
-            <option value="HIGH">HIGH</option>
-          </select>
-          <select id="newsDirectionFilter">
-            <option value="">All direction</option>
-            <option value="UP">UP</option>
-            <option value="DOWN">DOWN</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="news-admin-list" id="newsAdminList"></div>
+    <div>
+      <label>Reaction window (seconds)</label>
+      <input id="reactionWindow" type="number" min="10" max="60" value="25">
+      <button id="saveWindow">Save Window</button>
     </div>
-  </section>
-
-  <aside class="stack">
-    <div class="card">
-      <div class="card-title">Quick Notes (Host)</div>
-      <ul class="news-bullets">
-        <li>Use LOW news in the early rounds to teach players how sectors react.</li>
-        <li>Use MEDIUM/HIGH news later to create bigger visible market moves.</li>
-        <li>Do not explain direction—let players infer it from the news.</li>
-        <li>Keep pace: trigger a new round once most players have acted.</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Tips for Better Gameplay</div>
-      <div class="muted" style="line-height:1.5">
-        You can mix company-specific and sector-wide headlines. Sector news usually creates more engagement because multiple tickers move at once.
-      </div>
-    </div>
-  </aside>
-</div>
+  </div>
+  <div class="trade-actions">
+    <button id="startGame">Start/Restart</button>
+    <button id="advanceRound">Advance Round</button>
+    <button id="resetGame" class="secondary">Reset</button>
+  </div>
+  <div id="adminState"></div>
+  <h3>Connected Players</h3>
+  <div id="adminPlayers"></div>
+  <h3>Current Prices</h3>
+  <div id="adminPrices"></div>
+</section>
 {% endblock %}
-
 {% block scripts %}
-<script>
-(() => {
-  let ADMIN_OK = false;
-  let NEWS = [];
-
-  const el = {
-    adminPassword: document.getElementById("adminPassword"),
-    loginBtn: document.getElementById("loginBtn"),
-    savePwdBtn: document.getElementById("savePwdBtn"),
-    aRound: document.getElementById("aRound"),
-    aStatus: document.getElementById("aStatus"),
-    aTimer: document.getElementById("aTimer"),
-    aHeadline: document.getElementById("aHeadline"),
-    randomBtn: document.getElementById("randomBtn"),
-    resetBtn: document.getElementById("resetBtn"),
-
-    newsSearch: document.getElementById("newsSearch"),
-    newsIntensityFilter: document.getElementById("newsIntensityFilter"),
-    newsDirectionFilter: document.getElementById("newsDirectionFilter"),
-    newsAdminList: document.getElementById("newsAdminList"),
-  };
-
-  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-
-  async function api(url, opts){
-    const r = await fetch(url, opts);
-    const d = await r.json().catch(()=>({}));
-    if (!r.ok) throw new Error(d.error || ("HTTP " + r.status));
-    return d;
-  }
-
-  function pwd(){
-    return (el.adminPassword.value || "").trim();
-  }
-
-  async function login(){
-    try{
-      await api('/api/admin/login', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({ password: pwd() })
-      });
-      ADMIN_OK = true;
-      toast("Admin login successful", "success");
-      await loadNews();
-      await refreshAdminState();
-    }catch(err){
-      ADMIN_OK = false;
-      toast(err.message || "Login failed", "error");
-    }
-  }
-
-  async function loadNews(){
-    if (!ADMIN_OK) return;
-    const d = await api('/api/admin/news');
-    NEWS = d.news || [];
-    renderNewsList();
-  }
-
-  function filteredNews(){
-    const q = (el.newsSearch.value || "").trim().toLowerCase();
-    const intensity = el.newsIntensityFilter.value || "";
-    const direction = el.newsDirectionFilter.value || "";
-
-    return NEWS.filter(n => {
-      if (intensity && n.intensity !== intensity) return false;
-      if (direction && n.direction !== direction) return false;
-
-      if (!q) return true;
-      const hay = [
-        n.id, n.headline, n.summary, n.body, n.direction, n.intensity,
-        ...(n.sectors || []), ...(n.tickers || [])
-      ].join(" ").toLowerCase();
-      return hay.includes(q);
-    });
-  }
-
-  function renderNewsList(){
-    const list = filteredNews();
-    if (!list.length){
-      el.newsAdminList.innerHTML = `<div class="list-empty muted">No news items match your filters.</div>`;
-      return;
-    }
-
-    el.newsAdminList.innerHTML = list.map(n => `
-      <div class="admin-news-card">
-        <div class="admin-news-top">
-          <div class="admin-news-meta">
-            <span class="ticker-pill">${esc(n.id)}</span>
-            <span class="badge ${n.direction === 'UP' ? 'up' : 'down'}">${esc(n.direction)}</span>
-            <span class="badge intensity">${esc(n.intensity)}</span>
-          </div>
-          <button class="btn small trigger-btn" data-id="${esc(n.id)}">Trigger</button>
-        </div>
-
-        <div class="admin-news-title">${esc(n.headline)}</div>
-        <div class="admin-news-summary">${esc(n.summary || "")}</div>
-
-        <div class="admin-news-tags">
-          ${(n.sectors || []).map(s => `<span class="sector-pill">${esc(s)}</span>`).join("")}
-          ${(n.tickers || []).map(t => `<span class="ticker-pill">${esc(t)}</span>`).join("")}
-        </div>
-      </div>
-    `).join("");
-
-    el.newsAdminList.querySelectorAll(".trigger-btn").forEach(btn => {
-      btn.addEventListener("click", () => triggerNews(btn.dataset.id));
-    });
-  }
-
-  async function triggerNews(newsId){
-    if (!ADMIN_OK) return toast("Login first", "error");
-    try{
-      await api('/api/admin/trigger', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({ password: pwd(), news_id: newsId })
-      });
-      toast("News triggered: " + newsId, "success");
-      await refreshAdminState();
-    }catch(err){
-      toast(err.message || "Trigger failed", "error");
-    }
-  }
-
-  async function randomNews(){
-    if (!ADMIN_OK) return toast("Login first", "error");
-    try{
-      const res = await api('/api/admin/random', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({ password: pwd() })
-      });
-      toast("Random news triggered: " + (res.news_id || ""), "success");
-      await refreshAdminState();
-    }catch(err){
-      toast(err.message || "Random trigger failed", "error");
-    }
-  }
-
-  async function resetGame(){
-    if (!ADMIN_OK) return toast("Login first", "error");
-    if (!confirm("Reset the game? This clears players, prices, and round progress.")) return;
-    try{
-      await api('/api/admin/reset', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({ password: pwd() })
-      });
-      toast("Game reset complete", "success");
-      await refreshAdminState();
-    }catch(err){
-      toast(err.message || "Reset failed", "error");
-    }
-  }
-
-  async function refreshAdminState(){
-    try{
-      const d = await api('/api/admin/state');
-      el.aRound.textContent = d.round ?? 0;
-      el.aStatus.textContent = d.status || "IDLE";
-      el.aTimer.textContent = d.timer_s == null ? "--" : String(d.timer_s).padStart(2,'0') + "s";
-      el.aHeadline.textContent = d.headline || "None";
-      el.aStatus.className = "metric-val " + ((d.status === "REACTION") ? "accent pulse" : "");
-    }catch(_){}
-  }
-
-  let toastTimer = null;
-  function toast(msg, type='info'){
-    let box = document.getElementById('toastBox');
-    if (!box){
-      box = document.createElement('div');
-      box.id = 'toastBox';
-      box.className = 'toast';
-      document.body.appendChild(box);
-    }
-    box.textContent = msg;
-    box.className = 'toast show ' + (type === 'error' ? 'err' : 'ok');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => box.classList.remove('show'), 2400);
-  }
-
-  // restore pwd (optional)
-  const saved = localStorage.getItem("nmg_admin_pwd");
-  if (saved) el.adminPassword.value = saved;
-
-  el.loginBtn.addEventListener("click", login);
-  el.savePwdBtn.addEventListener("click", () => {
-    localStorage.setItem("nmg_admin_pwd", pwd());
-    toast("Password saved in this browser", "success");
-  });
-  el.randomBtn.addEventListener("click", randomNews);
-  el.resetBtn.addEventListener("click", resetGame);
-
-  el.newsSearch.addEventListener("input", renderNewsList);
-  el.newsIntensityFilter.addEventListener("change", renderNewsList);
-  el.newsDirectionFilter.addEventListener("change", renderNewsList);
-
-  // auto-refresh state
-  setInterval(() => refreshAdminState(), 1000);
-})();
-</script>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+<script>window.PAGE='admin';</script>
 {% endblock %}

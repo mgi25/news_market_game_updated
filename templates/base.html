@@ -3,40 +3,37 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ title or "News Market Game" }}</title>
+  <title>{{ title or 'News Market Game' }}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
-  <meta name="theme-color" content="#0b1020">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  {% block extra_head %}{% endblock %}
 </head>
 <body>
-  <div class="bg-noise"></div>
-
-  <header class="topbar">
-    <div class="wrap topbarInner">
-      <div class="brand">
-        <div class="brandIcon">♠</div>
-        <div class="brandText">
-          <div class="brandTitle">News Market Game</div>
-          <div class="brandSub">Cards × News × Trading</div>
-        </div>
-      </div>
-
-      <nav class="nav">
-        <a class="navBtn" href="{{ url_for('index') }}">Join</a>
-        <a class="navBtn" href="{{ url_for('presenter') }}">Presenter</a>
-        <a class="navBtn" href="{{ url_for('admin') }}">Admin</a>
-        {% if player_name %}
-          <span class="navChip">Player: <b>{{ player_name }}</b></span>
-        {% endif %}
-      </nav>
+  <nav class="top-nav">
+    <div class="brand">📰 News Trading Game</div>
+    <div class="nav-links">
+      <a href="{{ url_for('index') }}">Home</a>
+      <a href="{{ url_for('game') }}">Game</a>
+      <a href="{{ url_for('presenter') }}">Presenter</a>
+      <a href="{{ url_for('admin') }}">Admin</a>
+      {% if player_name %}<span class="pill">{{ player_name }}</span>{% endif %}
     </div>
-  </header>
+  </nav>
 
-  <main class="wrap pageWrap">
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-wrap">
+          {% for category, msg in messages %}
+            <div class="flash {{ category }}">{{ msg }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
     {% block content %}{% endblock %}
   </main>
 
-  <div id="toast" class="toast" style="display:none;"></div>
-
-  <script src="{{ url_for('static', filename='app.js') }}"></script>
+  <div id="toast" class="toast"></div>
+  {% block scripts %}{% endblock %}
 </body>
 </html>
