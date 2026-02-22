@@ -1,826 +1,482 @@
-# app.py — News Market Game (realistic-enough market + fun 2-hour pacing)
 import json
-import math
 import random
 import threading
 import time
-from collections import deque
-from typing import Dict, Optional, List, Tuple
+import uuid
+from pathlib import Path
+from typing import Dict, List
 
-from flask import Flask, render_template, request, jsonify, redirect
+from flask import (
+    Flask,
+    flash,
+    jsonify,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+)
+
 import config
 
 app = Flask(__name__)
+app.secret_key = getattr(config, "SECRET_KEY", "news-market-game-secret")
 
-# -------------------- Safe config helpers --------------------
-def CFG(name: str, default):
-    return getattr(config, name, default)
+DATA_DIR = Path("data")
+MAX_ROUNDS = 30
+START_CASH = float(getattr(config, "START_CASH", 100000))
+HOST = getattr(config, "HOST", "0.0.0.0")
+PORT = int(getattr(config, "PORT", 5000))
+DEFAULT_REACTION_WINDOW = int(getattr(config, "REACTION_SECONDS", 25))
+ADMIN_PASSWORD = getattr(config, "ADMIN_PASSWORD", "admin123")
 
-HOST = CFG("HOST", "0.0.0.0")
-PORT = int(CFG("PORT", 8000))
-
-START_CASH = float(CFG("START_CASH", 100000))
-TICK_SECONDS = float(CFG("TICK_SECONDS", 1.0))
-REACTION_SECONDS = int(CFG("REACTION_SECONDS", 45))
-CANDLE_SECONDS = int(CFG("CANDLE_SECONDS", 12))  # for OHLC candles used by the UI chart
-
-# Spillover structure
-SECTOR_LINKS = CFG("SECTOR_LINKS", {})
-SECTOR_INVERSE = CFG("SECTOR_INVERSE", {})  # optional: {"Energy": ["Industrials", ...]} etc.
-DIRECT_WEIGHT = float(CFG("DIRECT_WEIGHT", 1.0))
-SECTOR_WEIGHT = float(CFG("SECTOR_WEIGHT", 0.35))
-LINKED_WEIGHT = float(CFG("LINKED_WEIGHT", 0.18))
-
-# Microstructure (realistic-feel execution)
-BASE_SPREAD_PCT = float(CFG("BASE_SPREAD_PCT", 0.0012))  # 0.12%
-SPREAD_VOL_K = float(CFG("SPREAD_VOL_K", 6.0))
-BASE_SLIP_PCT = float(CFG("BASE_SLIP_PCT", 0.00025))
-SLIP_QTY_K = float(CFG("SLIP_QTY_K", 0.015))
-SLIP_VOL_K = float(CFG("SLIP_VOL_K", 0.85))
-TRADE_FEE_PCT = float(CFG("TRADE_FEE_PCT", 0.0006))  # 0.06% per trade
-MIN_FEE = float(CFG("MIN_FEE", 1.0))
-
-# Market dynamics (simple but “market-like”)
-BASE_VOL_BY_SECTOR = CFG("BASE_VOL_BY_SECTOR", {})  # optional dict
-LIQUIDITY_BY_SECTOR = CFG("LIQUIDITY_BY_SECTOR", {})  # optional dict
-
-MIN_VOL = float(CFG("MIN_VOL", 0.0006))
-VOL_SMOOTH = float(CFG("VOL_SMOOTH", 0.92))
-SHOCK_DECAY = float(CFG("SHOCK_DECAY", 0.90))
-TREND_DECAY = float(CFG("TREND_DECAY", 0.93))
-MEAN_REVERT_K = float(CFG("MEAN_REVERT_K", 0.06))
-FAIR_SMOOTH = float(CFG("FAIR_SMOOTH", 0.995))
-
-# If config doesn't provide NEWS_PROFILE, we derive a reasonable one from INTENSITY_RANGES
-DEFAULT_INTENSITY_RANGES = CFG(
-    "INTENSITY_RANGES",
-    {"LOW": (0.01, 0.02), "MEDIUM": (0.03, 0.05), "HIGH": (0.06, 0.09)},
-)
-
-# -------------------- Data loading --------------------
-with open("data/companies.json", "r", encoding="utf-8") as f:
-    COMPANIES = json.load(f)
-
-with open("data/news.json", "r", encoding="utf-8") as f:
-    NEWS = json.load(f)
-
-TICKER_TO_COMPANY = {c["ticker"]: c for c in COMPANIES}
-SECTORS = sorted({c["sector"] for c in COMPANIES})
-
-# -------------------- Shared state --------------------
 state_lock = threading.Lock()
-rng = random.Random(42)
+rng = random.Random()
 
-# Market state per ticker
-prices: Dict[str, float] = {c["ticker"]: float(c["start_price"]) for c in COMPANIES}
-prev_prices: Dict[str, float] = dict(prices)
 
-# For UI sparklines + chart
-price_history: Dict[str, deque] = {
-    c["ticker"]: deque([float(c["start_price"])] * 30, maxlen=30) for c in COMPANIES
-}
-ohlc_history: Dict[str, deque] = {
-    c["ticker"]: deque(
-        [
+def _load_companies() -> List[Dict]:
+    with open(DATA_DIR / "companies.json", "r", encoding="utf-8") as fh:
+        companies = json.load(fh)
+    valid = []
+    for raw in companies:
+        if "ticker" not in raw or "name" not in raw:
+            continue
+        valid.append(
             {
-                "ts": int(time.time()),
-                "o": float(c["start_price"]),
-                "h": float(c["start_price"]),
-                "l": float(c["start_price"]),
-                "c": float(c["start_price"]),
+                "ticker": str(raw["ticker"]).upper(),
+                "name": raw.get("name", raw["ticker"]),
+                "sector": raw.get("sector", "General"),
+                "start_price": float(raw.get("start_price", 100.0)),
             }
-        ],
-        maxlen=80,
-    )
-    for c in COMPANIES
+        )
+    return valid
+
+
+def _normalize_impact(item: Dict) -> Dict:
+    impact = item.get("impact") or {}
+    if not impact:
+        impact = {
+            "type": "sector" if item.get("sectors") else "company" if item.get("tickers") else "market",
+            "target": (item.get("tickers") or [None])[0]
+            or (item.get("sectors") or [None])[0],
+            "direction": item.get("direction", "up"),
+            "magnitude": {"LOW": 1, "MEDIUM": 2, "HIGH": 3}.get(str(item.get("intensity", "LOW")).upper(), 1),
+        }
+    return {
+        "type": impact.get("type", "market"),
+        "target": impact.get("target"),
+        "direction": str(impact.get("direction", "up")).lower(),
+        "magnitude": float(impact.get("magnitude", 1)),
+    }
+
+
+def _load_news() -> List[Dict]:
+    with open(DATA_DIR / "news.json", "r", encoding="utf-8") as fh:
+        news = json.load(fh)
+    normalized = []
+    for idx, item in enumerate(news, start=1):
+        normalized.append(
+            {
+                "id": item.get("id", f"N{idx:03d}"),
+                "headline": item.get("headline") or item.get("title") or f"News {idx}",
+                "description": item.get("description") or item.get("summary") or "",
+                "body": item.get("body") or item.get("description") or item.get("summary") or "",
+                "impact": _normalize_impact(item),
+            }
+        )
+    return normalized
+
+
+COMPANIES = _load_companies()
+NEWS = _load_news()
+TICKER_MAP = {c["ticker"]: c for c in COMPANIES}
+SECTOR_GROUPS: Dict[str, List[str]] = {}
+for c in COMPANIES:
+    SECTOR_GROUPS.setdefault(c["sector"], []).append(c["ticker"])
+
+
+def _base_prices() -> Dict[str, float]:
+    return {c["ticker"]: c["start_price"] for c in COMPANIES}
+
+
+GAME = {
+    "round": 0,
+    "max_rounds": MAX_ROUNDS,
+    "market_open": False,
+    "round_end": None,
+    "reaction_window": DEFAULT_REACTION_WINDOW,
+    "next_news_idx": 0,
+    "current_news": None,
+    "game_over": False,
+    "prices": _base_prices(),
+    "prev_prices": _base_prices(),
+    "players": {},
 }
 
-# Market dynamics (vol clustering, trends, shocks, fair value)
-vol: Dict[str, float] = {}
-trend: Dict[str, float] = {}
-shock_vol: Dict[str, float] = {}
-fair_value: Dict[str, float] = {}
-liquidity: Dict[str, float] = {}
 
-# Player state
-players: Dict[str, Dict] = {}  # name -> {"cash": float, "holdings": {...}, "trades": [...]}
-
-# Round / news state
-round_no = 0
-status = "IDLE"  # IDLE or REACTION
-reaction_start_ts: Optional[float] = None
-reaction_end_ts: Optional[float] = None
-current_news_internal: Optional[Dict] = None
-
-impact_weights: Dict[str, float] = {}          # ticker -> weight (0..1)
-impact_levels: Dict[str, str] = {}             # ticker -> DIRECT/SECTOR/LINKED/NONE (for presenter only)
-reaction_start_price: Dict[str, float] = {}    # ticker -> price at reaction start
-
-# Card theme (for pacing + UI later)
-DECK_SUITS = ["♠", "♥", "♦", "♣"]
-DECK_RANKS = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
-deck: List[Tuple[str, str]] = []
-deck_i = 0
-round_card: Optional[Dict] = None
+def ok(**kwargs):
+    payload = {"ok": True}
+    payload.update(kwargs)
+    return jsonify(payload)
 
 
-def _reset_deck():
-    global deck, deck_i
-    deck = [(r, s) for s in DECK_SUITS for r in DECK_RANKS]
-    rng.shuffle(deck)
-    deck_i = 0
+def err(message: str, status: int = 400):
+    return jsonify({"ok": False, "error": message}), status
 
 
-def _draw_card() -> Dict:
-    global deck_i
-    if not deck:
-        _reset_deck()
-    if deck_i >= len(deck):
-        _reset_deck()
-    r, s = deck[deck_i]
-    deck_i += 1
-    # lightweight “meaning” (used for pacing only, not shown as hints)
-    face = r in ("J", "Q", "K")
-    ace = r == "A"
-    return {"rank": r, "suit": s, "is_face": face, "is_ace": ace}
+def get_player_by_session():
+    player_id = session.get("player_id")
+    if not player_id:
+        return None
+    return GAME["players"].get(player_id)
 
 
-_reset_deck()
+def compute_player_totals(player):
+    holdings_value = 0.0
+    unrealized = 0.0
+    for ticker, h in player["holdings"].items():
+        price = GAME["prices"].get(ticker, 0.0)
+        holdings_value += price * h["qty"]
+        unrealized += (price - h["avg_cost"]) * h["qty"]
+    total = player["cash"] + holdings_value
+    return holdings_value, unrealized, total
 
 
-def _init_market():
+def get_leaderboard():
+    board = []
+    for p in GAME["players"].values():
+        _, unrealized, total = compute_player_totals(p)
+        board.append(
+            {
+                "name": p["name"],
+                "total": round(total, 2),
+                "realized_pnl": round(p["realized_pnl"], 2),
+                "unrealized_pnl": round(unrealized, 2),
+            }
+        )
+    board.sort(key=lambda row: row["total"], reverse=True)
+    return board
+
+
+def _round_timer_left():
+    if not GAME["market_open"] or not GAME["round_end"]:
+        return 0
+    return max(0, int(GAME["round_end"] - time.time()))
+
+
+def _close_market_if_needed():
+    if GAME["market_open"] and GAME["round_end"] and time.time() >= GAME["round_end"]:
+        GAME["market_open"] = False
+
+
+def _impact_multiplier(ticker: str, impact: Dict):
+    m = max(0.2, min(3.0, float(impact.get("magnitude", 1))))
+    sign = 1 if impact.get("direction") == "up" else -1
+    impact_type = impact.get("type")
+    target = impact.get("target")
+
+    if impact_type == "market":
+        return sign * 0.008 * m
+    if impact_type == "company" and target and ticker == str(target).upper():
+        return sign * 0.03 * m
+    if impact_type == "sector":
+        if target and TICKER_MAP[ticker]["sector"].lower() == str(target).lower():
+            return sign * 0.02 * m
+    return 0.0
+
+
+def _apply_round_price_update(news_item: Dict):
+    GAME["prev_prices"] = dict(GAME["prices"])
+    impact = news_item["impact"]
+    for ticker, old in GAME["prices"].items():
+        drift = rng.uniform(-0.004, 0.004)
+        shock = _impact_multiplier(ticker, impact)
+
+        if impact.get("type") == "company" and impact.get("target") and ticker != str(impact.get("target")).upper():
+            if TICKER_MAP[ticker]["sector"] == TICKER_MAP.get(str(impact.get("target")).upper(), {}).get("sector"):
+                shock += shock * 0.45
+        elif impact.get("type") == "sector" and impact.get("target"):
+            if TICKER_MAP[ticker]["sector"].lower() == str(impact.get("target")).lower():
+                shock += shock * 0.15
+
+        move = max(-0.15, min(0.15, drift + shock + rng.uniform(-0.006, 0.006)))
+        GAME["prices"][ticker] = max(1.0, round(old * (1 + move), 2))
+
+
+def _snapshot(player=None):
+    _close_market_if_needed()
+    prices = []
     for c in COMPANIES:
-        t = c["ticker"]
-        sec = c["sector"]
-        base_v = float(BASE_VOL_BY_SECTOR.get(sec, 0.0012))
-        vol[t] = max(MIN_VOL, base_v * rng.uniform(0.85, 1.15))
-        trend[t] = 0.0
-        shock_vol[t] = 0.0
-        fair_value[t] = float(c["start_price"])
-        liquidity[t] = float(LIQUIDITY_BY_SECTOR.get(sec, 8000.0)) * rng.uniform(0.85, 1.15)
+        ticker = c["ticker"]
+        price = GAME["prices"][ticker]
+        prev = GAME["prev_prices"][ticker]
+        change_pct = ((price - prev) / prev * 100) if prev else 0
+        prices.append(
+            {
+                "ticker": ticker,
+                "name": c["name"],
+                "sector": c["sector"],
+                "price": price,
+                "change_pct": round(change_pct, 2),
+            }
+        )
 
-
-_init_market()
-
-# -------------------- Background thread (Gunicorn/Render safe) --------------------
-tick_thread_started = False
-tick_thread_lock = threading.Lock()
-
-
-def background_loop():
-    while True:
-        time.sleep(TICK_SECONDS)
-        market_tick()
-
-
-def ensure_tick_thread():
-    global tick_thread_started
-    if tick_thread_started:
-        return
-    with tick_thread_lock:
-        if tick_thread_started:
-            return
-        threading.Thread(target=background_loop, daemon=True).start()
-        tick_thread_started = True
-
-
-@app.before_request
-def _start_bg_once():
-    ensure_tick_thread()
-
-
-# -------------------- Helpers --------------------
-def ensure_player(name: str):
-    if name not in players:
-        players[name] = {"cash": float(START_CASH), "holdings": {}, "trades": []}
-
-
-def portfolio_value(name: str) -> Dict:
-    ensure_player(name)
-    p = players[name]
-    cash = p["cash"]
-    hv = 0.0
-    for t, h in p["holdings"].items():
-        hv += prices.get(t, 0.0) * h["qty"]
-    total = cash + hv
-    return {
-        "cash": cash,
-        "holdings_value": hv,
-        "total_value": total,
-        "holdings": p["holdings"],
-        "recent_trades": (p.get("trades") or [])[-8:],
+    payload = {
+        "round": GAME["round"],
+        "max_rounds": GAME["max_rounds"],
+        "market_open": GAME["market_open"],
+        "timer": _round_timer_left(),
+        "game_over": GAME["game_over"],
+        "news": GAME["current_news"],
+        "prices": prices,
+        "leaderboard": get_leaderboard(),
     }
-
-
-def compute_leaderboard() -> List[Dict]:
-    out = []
-    for name in list(players.keys()):
-        out.append({"player": name, "total": portfolio_value(name)["total_value"]})
-    out.sort(key=lambda x: x["total"], reverse=True)
-    return out
-
-
-def public_news(n: Optional[Dict]) -> Optional[Dict]:
-    if not n:
-        return None
-    # IMPORTANT: do NOT leak direction/intensity/sectors/tickers to players.
-    # We can safely include the round card later for UI theme.
-    return {
-        "id": n.get("id"),
-        "headline": n.get("headline"),
-        "summary": n.get("summary"),
-        "body": n.get("body"),
-        "bullets": n.get("bullets") or [],
-        "card": round_card,  # harmless theme
-    }
-
-
-def seconds_left() -> Optional[int]:
-    if status != "REACTION" or reaction_end_ts is None:
-        return None
-    return max(0, int(reaction_end_ts - time.time()))
-
-
-def movers_top(n=6) -> List[Dict]:
-    moves = []
-    for t, px in prices.items():
-        last = prev_prices.get(t, px)
-        pct = 0.0 if last == 0 else (px - last) / last
-        c = TICKER_TO_COMPANY[t]
-        moves.append({"ticker": t, "name": c["name"], "sector": c["sector"], "price": px, "pct": pct})
-    moves.sort(key=lambda x: abs(x["pct"]), reverse=True)
-    return moves[:n]
-
-
-def reaction_meta() -> Dict:
-    if status != "REACTION" or reaction_start_ts is None or reaction_end_ts is None:
-        return {"active": False, "pulse": "CALM", "affected": 0, "progress": 0}
-
-    affected = sum(1 for w in impact_weights.values() if w > 0)
-    # pulse based on average shock+trend magnitude on impacted tickers
-    mags = []
-    for t, w in impact_weights.items():
-        if w <= 0:
-            continue
-        mags.append(abs(trend.get(t, 0.0)) + shock_vol.get(t, 0.0))
-    mean_mag = (sum(mags) / max(1, len(mags))) if mags else 0.0
-
-    pulse = "CALM"
-    if mean_mag >= 0.0025:
-        pulse = "HIGH"
-    elif mean_mag >= 0.0012:
-        pulse = "MEDIUM"
-
-    elapsed = max(0.0, time.time() - reaction_start_ts)
-    progress = min(100, int((elapsed / max(REACTION_SECONDS, 1)) * 100))
-    return {"active": True, "pulse": pulse, "affected": affected, "progress": progress}
-
-
-# -------------------- Microstructure: bid/ask + slippage --------------------
-def quote_bid_ask(ticker: str) -> Tuple[float, float, float]:
-    """Returns (bid, ask, spread_pct). Spread widens with volatility."""
-    mid = float(prices[ticker])
-    s = BASE_SPREAD_PCT + (float(vol.get(ticker, 0.0012)) * SPREAD_VOL_K)
-    s = max(BASE_SPREAD_PCT, min(0.02, s))  # cap at 2%
-    bid = mid * (1.0 - s / 2.0)
-    ask = mid * (1.0 + s / 2.0)
-    return bid, ask, s
-
-
-def exec_price(ticker: str, side: str, qty: int) -> Tuple[float, float, float]:
-    """Returns (fill_price, spread_pct, slippage_pct)."""
-    bid, ask, spread = quote_bid_ask(ticker)
-    base_px = ask if side == "BUY" else bid
-
-    liq = max(500.0, float(liquidity.get(ticker, 8000.0)))
-    v = float(vol.get(ticker, 0.0012))
-
-    # slippage increases with size and volatility; kept simple
-    slip = BASE_SLIP_PCT + SLIP_QTY_K * (qty / liq) + SLIP_VOL_K * v
-    slip = min(0.05, max(BASE_SLIP_PCT, slip))  # cap at 5%
-
-    fill = base_px * (1.0 + slip) if side == "BUY" else base_px * (1.0 - slip)
-    return float(fill), float(spread), float(slip)
-
-
-def quotes_for_all() -> Dict[str, Dict]:
-    out = {}
-    for t in prices.keys():
-        bid, ask, sp = quote_bid_ask(t)
-        out[t] = {
-            "bid": bid,
-            "ask": ask,
-            "spread_pct": sp,
+    if player:
+        holdings_value, unrealized, total = compute_player_totals(player)
+        payload["portfolio"] = {
+            "cash": round(player["cash"], 2),
+            "holdings": player["holdings"],
+            "holdings_value": round(holdings_value, 2),
+            "realized_pnl": round(player["realized_pnl"], 2),
+            "unrealized_pnl": round(unrealized, 2),
+            "total": round(total, 2),
+            "transactions": player["transactions"][-10:],
         }
-    return out
+    return payload
 
 
-# -------------------- News impact model (jump + trend + vol shock) --------------------
-def _news_profile(intensity: str) -> Dict:
-    """
-    Returns dict with:
-      jump_pct: (lo, hi)
-      trend_per_tick: (lo, hi)
-      vol_boost: (lo, hi)
-    """
-    if hasattr(config, "NEWS_PROFILE"):
-        prof = getattr(config, "NEWS_PROFILE")
-        if intensity in prof:
-            return prof[intensity]
-
-    # derive from intensity ranges (total move) if NEWS_PROFILE not present
-    lo, hi = DEFAULT_INTENSITY_RANGES.get(intensity, (0.01, 0.02))
-    ticks = max(1, int(REACTION_SECONDS / max(TICK_SECONDS, 0.25)))
-
-    # immediate “gap” + sustained drift; tuned to look obvious vs normal noise
-    jump_pct = (lo * 0.25, hi * 0.45)
-    drift_total = (lo * 0.25, hi * 0.40)
-    trend_per_tick = (drift_total[0] / ticks, drift_total[1] / ticks)
-
-    # volatility shock controls “choppiness” during reaction
-    if intensity == "HIGH":
-        vol_boost = (0.0012, 0.0025)
-    elif intensity == "MEDIUM":
-        vol_boost = (0.0007, 0.0016)
-    else:
-        vol_boost = (0.00035, 0.0009)
-
-    return {"jump_pct": jump_pct, "trend_per_tick": trend_per_tick, "vol_boost": vol_boost}
-
-
-def _collect_impacted_tickers(news: Dict) -> Tuple[Dict[str, float], Dict[str, str]]:
-    """
-    Returns:
-      weights: ticker -> weight (0..1)
-      levels: ticker -> DIRECT/SECTOR/LINKED/NONE   (direction-free)
-    """
-    sectors = news.get("sectors", []) or []
-    tickers = news.get("tickers", []) or []
-
-    sector_set = set(sectors)
-    direct = set(tickers)
-
-    # If sector news has no direct tickers, affect all companies in that sector.
-    if not direct and sector_set:
-        for c in COMPANIES:
-            if c["sector"] in sector_set:
-                direct.add(c["ticker"])
-
-    linked_sectors = set()
-    for s in sector_set:
-        for ls in SECTOR_LINKS.get(s, []) or []:
-            linked_sectors.add(ls)
-
-    weights: Dict[str, float] = {}
-    levels: Dict[str, str] = {}
-
-    for t in prices.keys():
-        sec = TICKER_TO_COMPANY[t]["sector"]
-        if t in direct:
-            weights[t] = DIRECT_WEIGHT
-            levels[t] = "DIRECT"
-        elif sec in sector_set:
-            weights[t] = SECTOR_WEIGHT
-            levels[t] = "SECTOR"
-        elif sec in linked_sectors:
-            weights[t] = LINKED_WEIGHT
-            levels[t] = "LINKED"
-        else:
-            weights[t] = 0.0
-            levels[t] = "NONE"
-
-    # Optional inverse spillovers (cost shocks), direction handled later
-    if (news.get("direction") or "").upper() == "UP" and sector_set:
-        for src, inv_list in (SECTOR_INVERSE or {}).items():
-            if src in sector_set:
-                for t in prices.keys():
-                    if TICKER_TO_COMPANY[t]["sector"] in (inv_list or []):
-                        # direction-free weight marker; actual sign handled in apply_news_effect
-                        if levels[t] == "NONE":
-                            levels[t] = "LINKED"
-                        weights[t] = max(weights[t], 0.12)
-
-    return weights, levels
-
-
-def _card_multiplier(card: Optional[Dict]) -> Dict[str, float]:
-    """
-    Subtle pacing lever.
-    Does NOT reveal market direction; only changes how dramatic/choppy it feels.
-    """
-    if not card:
-        return {"jump": 1.0, "trend": 1.0, "vol": 1.0}
-    if card.get("is_ace"):
-        return {"jump": 1.25, "trend": 1.15, "vol": 1.35}  # “Ace = headline shock”
-    if card.get("is_face"):
-        return {"jump": 1.15, "trend": 1.10, "vol": 1.20}  # “Face = drama”
-    # numeric cards: calmer
-    return {"jump": 1.0, "trend": 1.0, "vol": 1.0}
-
-
-def apply_news_effect(news: Dict):
-    """
-    Applies a visible, meaningful reaction:
-      - immediate gap move on impacted tickers
-      - sustained drift during reaction window
-      - extra volatility (choppy moves)
-    """
-    global status, reaction_start_ts, reaction_end_ts, current_news_internal
-    global round_no, impact_weights, impact_levels, reaction_start_price, round_card
-
-    intensity = (news.get("intensity") or "LOW").upper()
-    direction = (news.get("direction") or "UP").upper()
-    sign = 1.0 if direction == "UP" else -1.0
-
-    # Theme/pacing
-    round_card = _draw_card()
-    cm = _card_multiplier(round_card)
-
-    profile = _news_profile(intensity)
-    jump_lo, jump_hi = profile["jump_pct"]
-    tr_lo, tr_hi = profile["trend_per_tick"]
-    vb_lo, vb_hi = profile["vol_boost"]
-
-    weights, levels = _collect_impacted_tickers(news)
-    impact_weights = dict(weights)
-    impact_levels = dict(levels)
-
-    reaction_start_ts = time.time()
-    reaction_end_ts = reaction_start_ts + REACTION_SECONDS
-    reaction_start_price = {t: float(prices[t]) for t in prices.keys()}
-
-    # Apply effect
-    for t, w in impact_weights.items():
-        if w <= 0.0:
-            continue
-
-        # big visible difference versus normal drift/noise
-        jump = rng.uniform(jump_lo, jump_hi) * w * sign * cm["jump"]
-        tr = rng.uniform(tr_lo, tr_hi) * w * sign * cm["trend"]
-        vb = rng.uniform(vb_lo, vb_hi) * w * cm["vol"]
-
-        prices[t] = max(1.0, float(prices[t]) * (1.0 + jump))
-        trend[t] += tr
-        shock_vol[t] += vb
-
-    round_no += 1
-    current_news_internal = news
-    status = "REACTION"
-
-
-def end_reaction_if_needed():
-    global status, reaction_start_ts, reaction_end_ts, current_news_internal
-    if status == "REACTION" and reaction_end_ts is not None and time.time() >= reaction_end_ts:
-        status = "IDLE"
-        reaction_start_ts = None
-        reaction_end_ts = None
-        current_news_internal = None
-        # accelerate decay a bit after the window ends
-        for t in prices.keys():
-            trend[t] *= 0.7
-            shock_vol[t] *= 0.7
-
-
-def enforce_min_news_move():
-    """
-    Guarantee: impacted tickers move *noticeably* during the reaction window.
-    This keeps the game feeling “news-driven” even with randomness.
-    Direction is NOT leaked: we follow the current trend sign.
-    """
-    if status != "REACTION" or reaction_start_ts is None or reaction_end_ts is None:
-        return
-
-    now = time.time()
-    total = max(1.0, float(REACTION_SECONDS))
-    elapsed = max(0.0, now - reaction_start_ts)
-    progress = min(1.0, elapsed / total)
-
-    intensity = ((current_news_internal or {}).get("intensity") or "LOW").upper()
-    min_map = {"LOW": 0.012, "MEDIUM": 0.028, "HIGH": 0.055}  # target total move (DIRECT)
-    target_total = float(min_map.get(intensity, 0.012))
-    target_so_far = target_total * progress
-
-    for t, w in impact_weights.items():
-        if w <= 0.0:
-            continue
-        start_px = reaction_start_price.get(t)
-        if not start_px:
-            continue
-
-        req = target_so_far * float(w)
-        cur = float(prices[t])
-        cur_move = abs((cur - start_px) / start_px)
-
-        if cur_move < req:
-            direction = 1.0 if float(trend.get(t, 0.0)) >= 0 else -1.0
-            gap = req - cur_move
-            prices[t] = max(1.0, cur * (1.0 + direction * min(0.0030, gap)))
-
-
-# -------------------- Market tick (main loop) --------------------
-def _update_histories(ticker: str, px: float):
-    # sparkline history
-    price_history[ticker].append(px)
-
-    # ohlc candle aggregation
-    now_ts = int(time.time())
-    candle = ohlc_history[ticker][-1]
-    if now_ts - int(candle["ts"]) >= CANDLE_SECONDS:
-        ohlc_history[ticker].append({"ts": now_ts, "o": px, "h": px, "l": px, "c": px})
-    else:
-        candle["h"] = max(float(candle["h"]), px)
-        candle["l"] = min(float(candle["l"]), px)
-        candle["c"] = px
-
-
-def market_tick():
-    global prev_prices
-    with state_lock:
-        end_reaction_if_needed()
-        prev_prices = dict(prices)
-
-        for t in list(prices.keys()):
-            px = float(prices[t])
-            sec = TICKER_TO_COMPANY[t]["sector"]
-
-            base_v = float(BASE_VOL_BY_SECTOR.get(sec, 0.0012))
-
-            # volatility clustering + shock decay
-            shock_vol[t] *= SHOCK_DECAY
-            vol[t] = max(
-                MIN_VOL,
-                (VOL_SMOOTH * float(vol[t]))
-                + ((1.0 - VOL_SMOOTH) * base_v)
-                + float(shock_vol[t]),
-            )
-
-            # trend decay
-            trend[t] *= TREND_DECAY
-
-            # mean reversion (weaker during high shock)
-            fv = float(fair_value[t])
-            if fv > 0:
-                mispricing = (px - fv) / fv
-                calm_factor = max(0.0, 1.0 - min(1.0, float(shock_vol[t]) * 420.0))
-                trend[t] -= MEAN_REVERT_K * mispricing * calm_factor
-
-            # random log-return
-            eps = rng.gauss(0.0, 1.0)
-            r = float(trend[t]) + float(vol[t]) * eps
-
-            px2 = max(1.0, px * math.exp(r))
-            prices[t] = px2
-
-            # fair value follows slowly
-            fair_value[t] = (FAIR_SMOOTH * fv) + ((1.0 - FAIR_SMOOTH) * px2)
-
-            _update_histories(t, px2)
-
-        # ensure visible reaction movement after applying base tick
-        enforce_min_news_move()
-
-
-# -------------------- Routes --------------------
 @app.get("/")
 def index():
-    return render_template("index.html", title="Join | News Market Game")
+    return render_template("index.html", title="News Trading Game")
+
+
+@app.post("/join")
+def join():
+    name = (request.form.get("name") or "").strip()
+    if not name:
+        flash("Please enter a player name.", "error")
+        return redirect(url_for("index"))
+
+    with state_lock:
+        player_id = str(uuid.uuid4())
+        GAME["players"][player_id] = {
+            "id": player_id,
+            "name": name[:24],
+            "cash": START_CASH,
+            "holdings": {},
+            "realized_pnl": 0.0,
+            "transactions": [],
+        }
+        session["player_id"] = player_id
+    flash(f"Welcome, {name}!", "success")
+    return redirect(url_for("game"))
 
 
 @app.get("/game")
 def game():
-    player = (request.args.get("player") or "").strip()
-    if not player:
-        return redirect("/")
     with state_lock:
-        ensure_player(player)
-    return render_template("game.html", title="Game | News Market Game", player_name=player)
-
-
-@app.get("/presenter")
-def presenter():
-    return render_template("presenter.html", title="Presenter | News Market Game", player_name=None)
+        player = get_player_by_session()
+        if not player:
+            flash("Player session missing. Please join the game first.", "error")
+            return redirect(url_for("index"))
+        return render_template("game.html", title="Trading Floor", player_name=player["name"])
 
 
 @app.get("/admin")
 def admin():
-    return render_template("admin.html", title="Admin | News Market Game", player_name=None)
+    return render_template("admin.html", title="Admin Console")
 
 
-# -------------------- APIs --------------------
+@app.get("/presenter")
+def presenter():
+    return render_template("presenter.html", title="Presenter Screen")
+
+
 @app.get("/api/bootstrap")
 def api_bootstrap():
-    return jsonify({"companies": COMPANIES, "sectors": SECTORS})
+    return ok(companies=COMPANIES, max_rounds=MAX_ROUNDS, reaction_window=GAME["reaction_window"])
 
 
-@app.get("/api/latest_state")
-def api_state():
-    player = (request.args.get("player") or "").strip()
-    with state_lock:
-        port = portfolio_value(player) if player else None
-
-        # Players should NOT get an impact map (avoid hints). Presenter can.
-        if player:
-            safe_impact = {t: "NONE" for t in prices.keys()}
-        else:
-            safe_impact = dict(impact_levels) if impact_levels else {t: "NONE" for t in prices.keys()}
-
-        out = {
-            "round": round_no,
-            "status": status,
-            "timer_s": seconds_left(),
-            "news": public_news(current_news_internal),
-            "prices": prices,  # mid/mark price for UI simplicity
-            "leaderboard": compute_leaderboard(),
-            "movers": movers_top(6),
-            "reaction_meta": reaction_meta(),
-            "impact_map": safe_impact,
-            "quotes": quotes_for_all(),
-            "history": {t: list(h) for t, h in price_history.items()},
-            "ohlc": {t: list(h) for t, h in ohlc_history.items()},
-        }
-        if port:
-            out["portfolio"] = port
-        return jsonify(out)
-
-
-# Keep old route name too (frontend uses /api/state)
 @app.get("/api/state")
-def api_state_alias():
-    return api_state()
+def api_state():
+    with state_lock:
+        player = get_player_by_session()
+        if not player:
+            return err("Player not found. Rejoin from home.", 401)
+        return ok(state=_snapshot(player))
+
+
+@app.get("/api/presenter/state")
+def api_presenter_state():
+    with state_lock:
+        movers = sorted(_snapshot()["prices"], key=lambda x: abs(x["change_pct"]), reverse=True)[:5]
+        return ok(state=_snapshot(), movers=movers)
 
 
 @app.post("/api/trade")
 def api_trade():
-    data = request.get_json(force=True, silent=True) or {}
-    player = (data.get("player") or "").strip()
-    ticker = (data.get("ticker") or "").strip().upper()
-    side = (data.get("side") or "").strip().upper()
-    qty = int(data.get("qty") or 0)
-
-    if not player or ticker not in prices or side not in ("BUY", "SELL") or qty <= 0:
-        return jsonify({"ok": False, "error": "Invalid trade"}), 400
+    payload = request.get_json(silent=True) or {}
+    ticker = str(payload.get("ticker", "")).upper()
+    side = str(payload.get("side", "")).upper()
+    qty = int(payload.get("qty", 0) or 0)
 
     with state_lock:
-        ensure_player(player)
-        p = players[player]
+        _close_market_if_needed()
+        player = get_player_by_session()
+        if not player:
+            return err("Player not found. Rejoin from home.", 401)
+        if GAME["game_over"]:
+            return err("Game has ended. Trading is disabled.", 400)
+        if not GAME["market_open"]:
+            return err("Market is closed. Wait for next round.", 400)
+        if ticker not in GAME["prices"] or side not in {"BUY", "SELL"} or qty <= 0:
+            return err("Invalid trade payload.", 400)
 
-        fill, spread, slip = exec_price(ticker, side, qty)
-        notional = fill * qty
-        fee = max(MIN_FEE, notional * TRADE_FEE_PCT)
+        price = GAME["prices"][ticker]
+        holding = player["holdings"].setdefault(ticker, {"qty": 0, "avg_cost": 0.0})
 
         if side == "BUY":
-            cost = notional + fee
-            if p["cash"] < cost:
-                return jsonify({"ok": False, "error": "Not enough cash"}), 400
-            p["cash"] -= cost
+            cost = price * qty
+            if player["cash"] < cost:
+                return err("Insufficient cash.", 400)
+            old_qty = holding["qty"]
+            player["cash"] -= cost
+            holding["qty"] += qty
+            if holding["qty"] > 0:
+                holding["avg_cost"] = ((holding["avg_cost"] * old_qty) + cost) / holding["qty"]
+        else:
+            if holding["qty"] < qty:
+                return err("Cannot sell more shares than owned.", 400)
+            proceeds = price * qty
+            player["cash"] += proceeds
+            holding["qty"] -= qty
+            pnl = (price - holding["avg_cost"]) * qty
+            player["realized_pnl"] += pnl
+            if holding["qty"] == 0:
+                del player["holdings"][ticker]
 
-            h = p["holdings"].get(ticker)
-            if not h:
-                p["holdings"][ticker] = {"qty": qty, "avg": fill}
-            else:
-                new_qty = h["qty"] + qty
-                new_avg = (h["avg"] * h["qty"] + fill * qty) / new_qty
-                h["qty"] = new_qty
-                h["avg"] = new_avg
-
-        else:  # SELL
-            h = p["holdings"].get(ticker)
-            if not h or h["qty"] < qty:
-                return jsonify({"ok": False, "error": "Not enough holdings"}), 400
-
-            proceeds = notional - fee
-            p["cash"] += proceeds
-            h["qty"] -= qty
-            if h["qty"] == 0:
-                del p["holdings"][ticker]
-
-        # log trade (for UI)
-        p["trades"].append(
+        player["transactions"].append(
             {
                 "ts": int(time.time()),
                 "ticker": ticker,
                 "side": side,
                 "qty": qty,
-                "fill": round(fill, 4),
-                "fee": round(fee, 2),
+                "price": price,
             }
         )
-
-        return jsonify(
-            {
-                "ok": True,
-                "fill_price": round(fill, 4),
-                "spread_pct": round(spread * 100, 4),
-                "slip_pct": round(slip * 100, 4),
-                "fee": round(fee, 2),
-            }
-        )
+        return ok(message="Trade executed.", state=_snapshot(player))
 
 
-# -------- Admin APIs --------
 @app.post("/api/admin/login")
 def api_admin_login():
-    data = request.get_json(force=True, silent=True) or {}
-    if (data.get("password") or "") == CFG("ADMIN_PASSWORD", "admin123"):
-        return jsonify({"ok": True})
-    return jsonify({"ok": False}), 401
+    payload = request.get_json(silent=True) or {}
+    if payload.get("password") != ADMIN_PASSWORD:
+        return err("Unauthorized.", 401)
+    session["is_admin"] = True
+    return ok(message="Admin authenticated.")
+
+
+def _admin_guard():
+    return bool(session.get("is_admin"))
 
 
 @app.get("/api/admin/state")
 def api_admin_state():
     with state_lock:
-        return jsonify(
-            {
-                "round": round_no,
-                "status": status,
-                "timer_s": seconds_left(),
-                "headline": (current_news_internal or {}).get("headline"),
-            }
-        )
+        if not _admin_guard():
+            return err("Unauthorized.", 401)
+        players = [
+            {"id": p["id"], "name": p["name"], "cash": round(p["cash"], 2)} for p in GAME["players"].values()
+        ]
+        return ok(state=_snapshot(), players=players, reaction_window=GAME["reaction_window"])
 
 
-@app.get("/api/admin/news")
-def api_admin_news():
-    # Admin can see internal fields (direction/intensity/etc) for running the game.
-    return jsonify({"news": NEWS})
-
-
-def check_admin(password: str) -> bool:
-    return password == CFG("ADMIN_PASSWORD", "admin123")
-
-
-@app.post("/api/admin/trigger")
-def api_admin_trigger():
-    data = request.get_json(force=True, silent=True) or {}
-    password = data.get("password") or ""
-    news_id = data.get("news_id") or ""
-    if not check_admin(password):
-        return jsonify({"ok": False, "error": "Unauthorized"}), 401
-
-    item = next((n for n in NEWS if n.get("id") == news_id), None)
-    if not item:
-        return jsonify({"ok": False, "error": "News not found"}), 404
-
+@app.post("/api/admin/reaction_window")
+def api_admin_reaction_window():
+    payload = request.get_json(silent=True) or {}
     with state_lock:
-        apply_news_effect(item)
-    return jsonify({"ok": True})
+        if not _admin_guard():
+            return err("Unauthorized.", 401)
+        seconds = int(payload.get("seconds", GAME["reaction_window"]))
+        GAME["reaction_window"] = max(10, min(60, seconds))
+        return ok(reaction_window=GAME["reaction_window"])
 
 
-@app.post("/api/admin/random")
-def api_admin_random():
-    data = request.get_json(force=True, silent=True) or {}
-    password = data.get("password") or ""
-    if not check_admin(password):
-        return jsonify({"ok": False, "error": "Unauthorized"}), 401
-
-    item = random.choice(NEWS)
+@app.post("/api/admin/advance_round")
+def api_admin_advance_round():
     with state_lock:
-        apply_news_effect(item)
-    return jsonify({"ok": True, "news_id": item.get("id")})
+        if not _admin_guard():
+            return err("Unauthorized.", 401)
+        _close_market_if_needed()
+        if GAME["game_over"]:
+            return err("Game is already finished.", 400)
+        if GAME["market_open"]:
+            return err("Current round still open.", 400)
+
+        if GAME["round"] >= MAX_ROUNDS:
+            GAME["game_over"] = True
+            return err("All 30 rounds are complete.", 400)
+
+        news_item = NEWS[GAME["next_news_idx"] % len(NEWS)]
+        GAME["next_news_idx"] += 1
+        GAME["round"] += 1
+        GAME["current_news"] = news_item
+        _apply_round_price_update(news_item)
+        GAME["market_open"] = True
+        GAME["round_end"] = time.time() + GAME["reaction_window"]
+
+        if GAME["round"] >= MAX_ROUNDS:
+            # 30th round opens now; it will become game_over when window ends.
+            pass
+
+        return ok(state=_snapshot())
+
+
+@app.post("/api/admin/start")
+def api_admin_start():
+    with state_lock:
+        if not _admin_guard():
+            return err("Unauthorized.", 401)
+        GAME["game_over"] = False
+        GAME["market_open"] = False
+        GAME["round"] = 0
+        GAME["round_end"] = None
+        GAME["current_news"] = None
+        GAME["next_news_idx"] = 0
+        GAME["prices"] = _base_prices()
+        GAME["prev_prices"] = _base_prices()
+        for p in GAME["players"].values():
+            p["cash"] = START_CASH
+            p["holdings"] = {}
+            p["realized_pnl"] = 0.0
+            p["transactions"] = []
+        return ok(state=_snapshot())
 
 
 @app.post("/api/admin/reset")
 def api_admin_reset():
-    data = request.get_json(force=True, silent=True) or {}
-    password = data.get("password") or ""
-    if not check_admin(password):
-        return jsonify({"ok": False, "error": "Unauthorized"}), 401
-
-    global prices, prev_prices, players, round_no, status, reaction_start_ts, reaction_end_ts
-    global current_news_internal, impact_weights, impact_levels, reaction_start_price, round_card
-
     with state_lock:
-        prices = {c["ticker"]: float(c["start_price"]) for c in COMPANIES}
-        prev_prices = dict(prices)
+        if not _admin_guard():
+            return err("Unauthorized.", 401)
+        GAME["players"] = {}
+        GAME["game_over"] = False
+        GAME["market_open"] = False
+        GAME["round"] = 0
+        GAME["round_end"] = None
+        GAME["current_news"] = None
+        GAME["next_news_idx"] = 0
+        GAME["prices"] = _base_prices()
+        GAME["prev_prices"] = _base_prices()
+        session.clear()
+        return ok(message="Game reset complete.")
 
-        # reset histories
-        for c in COMPANIES:
-            t = c["ticker"]
-            sp = float(c["start_price"])
-            price_history[t].clear()
-            price_history[t].extend([sp] * 30)
-            ohlc_history[t].clear()
-            ohlc_history[t].append({"ts": int(time.time()), "o": sp, "h": sp, "l": sp, "c": sp})
 
-        # reset market model
-        for t in prices.keys():
-            trend[t] = 0.0
-            shock_vol[t] = 0.0
-            fair_value[t] = float(prices[t])
-
-        players = {}
-        round_no = 0
-        status = "IDLE"
-        reaction_start_ts = None
-        reaction_end_ts = None
-        current_news_internal = None
-        impact_weights = {}
-        impact_levels = {}
-        reaction_start_price = {}
-        round_card = None
-        _reset_deck()
-
-    return jsonify({"ok": True})
+@app.before_request
+def enforce_round_end_state():
+    with state_lock:
+        _close_market_if_needed()
+        if GAME["round"] >= MAX_ROUNDS and not GAME["market_open"]:
+            GAME["game_over"] = True
 
 
 if __name__ == "__main__":

@@ -1,196 +1,21 @@
-{% extends "base.html" %}
-
+{% extends 'base.html' %}
 {% block content %}
-<div class="grid presenter-grid">
-  <section class="stack">
-    <div class="card presenter-news">
-      <div class="label">Presenter View</div>
-      <div class="presenter-roundline">
-        <div class="presenter-stat">
-          <span class="label">Round</span>
-          <span id="pRound" class="big mono">0</span>
-        </div>
-        <div class="presenter-stat">
-          <span class="label">Status</span>
-          <span id="pStatus" class="big">IDLE</span>
-        </div>
-        <div class="presenter-stat">
-          <span class="label">Timer</span>
-          <span id="pTimer" class="big mono">--</span>
-        </div>
-      </div>
-
-      <h2 id="pHeadline" class="presenter-headline">Waiting for next news...</h2>
-      <p id="pSummary" class="presenter-summary">
-        The host can trigger news from the admin panel. Players trade based on what they think will move.
-      </p>
-      <div id="pBody" class="presenter-body muted"></div>
-      <ul id="pBullets" class="news-bullets presenter-bullets"></ul>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Market Snapshot</div>
-      <div class="tableWrap">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Ticker</th>
-              <th>Company</th>
-              <th>Sector</th>
-              <th class="right">Price</th>
-              <th class="right">Move</th>
-            </tr>
-          </thead>
-          <tbody id="pMarketBody"></tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
-  <aside class="stack">
-    <div class="card">
-      <div class="card-title">Top Movers</div>
-      <div id="pMovers" class="list"></div>
-    </div>
-    <div class="card">
-      <div class="card-title">Leaderboard (Top 20)</div>
-      <div id="pLeaders" class="list"></div>
-    </div>
-  </aside>
-</div>
+<section class="card panel presenter">
+  <h2>Presenter Screen</h2>
+  <div class="meta-row">
+    <span id="presenterRound">Round 0/30</span>
+    <span id="presenterTimer">00s</span>
+    <span id="presenterMarket" class="badge">Closed</span>
+  </div>
+  <h3 id="presenterHeadline">Waiting for news...</h3>
+  <p id="presenterBody" class="muted"></p>
+  <h4>Top Movers</h4>
+  <div id="presenterMovers"></div>
+  <h4>Leaderboard</h4>
+  <div id="presenterBoard"></div>
+</section>
 {% endblock %}
-
 {% block scripts %}
-<script>
-(() => {
-  let COMP_MAP = {};
-
-  const el = {
-    pRound: document.getElementById("pRound"),
-    pStatus: document.getElementById("pStatus"),
-    pTimer: document.getElementById("pTimer"),
-    pHeadline: document.getElementById("pHeadline"),
-    pSummary: document.getElementById("pSummary"),
-    pBody: document.getElementById("pBody"),
-    pBullets: document.getElementById("pBullets"),
-    pMarketBody: document.getElementById("pMarketBody"),
-    pMovers: document.getElementById("pMovers"),
-    pLeaders: document.getElementById("pLeaders")
-  };
-
-  const fmtMoney = (v) => (Number(v)||0).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
-  const fmtPrice = (v) => (Number(v)||0).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
-  const fmtPct = (v) => ((Number(v)||0)*100).toFixed(2) + "%";
-  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-
-  function pctClass(v){
-    if (v > 0) return "good-text";
-    if (v < 0) return "bad-text";
-    return "muted";
-  }
-
-  async function api(url, opts){
-    const r = await fetch(url, opts);
-    const d = await r.json().catch(()=>({}));
-    if (!r.ok) throw new Error(d.error || ("HTTP " + r.status));
-    return d;
-  }
-
-  async function bootstrap(){
-    const b = await api('/api/bootstrap');
-    COMP_MAP = Object.fromEntries((b.companies || []).map(c => [c.ticker, c]));
-  }
-
-  function renderList(container, rows, type){
-    if (!rows?.length){
-      container.innerHTML = `<div class="list-empty muted">No data yet.</div>`;
-      return;
-    }
-    if (type === 'movers'){
-      container.innerHTML = rows.map((m, i) => `
-        <div class="list-row">
-          <div class="list-left">
-            <span class="rank-badge">${i+1}</span>
-            <div>
-              <div class="list-title">${esc(m.ticker)} <span class="muted">· ${esc(m.name)}</span></div>
-              <div class="list-sub">${esc(m.sector)}</div>
-            </div>
-          </div>
-          <div class="list-right">
-            <div class="mono">${fmtPrice(m.price)}</div>
-            <div class="mono ${pctClass(m.pct)}">${fmtPct(m.pct)}</div>
-          </div>
-        </div>
-      `).join("");
-    } else {
-      container.innerHTML = rows.slice(0,20).map((r, i) => `
-        <div class="list-row">
-          <div class="list-left">
-            <span class="rank-badge ${i===0?'gold':''}">${i+1}</span>
-            <div class="list-title">${esc(r.player)}</div>
-          </div>
-          <div class="list-right mono accent">${fmtMoney(r.total)}</div>
-        </div>
-      `).join("");
-    }
-  }
-
-  function renderMarket(prices, movers){
-    const moverMap = Object.fromEntries((movers || []).map(m => [m.ticker, m]));
-    const rows = Object.keys(prices || {}).map(t => {
-      const c = COMP_MAP[t] || {name:t, sector:""};
-      const m = moverMap[t] || {pct:0, price:prices[t]};
-      return { ticker:t, name:c.name, sector:c.sector, price:prices[t], pct:m.pct || 0 };
-    });
-
-    rows.sort((a,b) => Math.abs(b.pct) - Math.abs(a.pct));
-
-    el.pMarketBody.innerHTML = rows.map(r => `
-      <tr>
-        <td><span class="ticker-pill">${esc(r.ticker)}</span></td>
-        <td>${esc(r.name)}</td>
-        <td><span class="sector-pill">${esc(r.sector)}</span></td>
-        <td class="right mono">${fmtPrice(r.price)}</td>
-        <td class="right mono ${pctClass(r.pct)}">${fmtPct(r.pct)}</td>
-      </tr>
-    `).join("");
-  }
-
-  async function refresh(){
-    const st = await api('/api/state');
-    el.pRound.textContent = st.round ?? 0;
-    el.pStatus.textContent = st.status || "IDLE";
-    el.pTimer.textContent = st.timer_s == null ? "--" : String(st.timer_s).padStart(2,'0') + "s";
-    el.pStatus.className = "big " + ((st.status === "REACTION") ? "accent pulse" : "");
-
-    const n = st.news;
-    if (!n){
-      el.pHeadline.textContent = "Waiting for next news...";
-      el.pSummary.textContent = "The host can trigger news from the admin panel.";
-      el.pBody.textContent = "";
-      el.pBullets.innerHTML = "";
-    } else {
-      el.pHeadline.textContent = n.headline || "News";
-      el.pSummary.textContent = n.summary || "";
-      el.pBody.textContent = n.body || "";
-      el.pBullets.innerHTML = (n.bullets || []).map(b => `<li>${esc(b)}</li>`).join("");
-    }
-
-    renderList(el.pMovers, st.movers || [], 'movers');
-    renderList(el.pLeaders, st.leaderboard || [], 'leaders');
-    renderMarket(st.prices || {}, st.movers || []);
-  }
-
-  (async () => {
-    try{
-      await bootstrap();
-      await refresh();
-      setInterval(() => refresh().catch(()=>{}), 1000);
-    }catch(err){
-      console.error(err);
-      alert("Presenter view failed to load.");
-    }
-  })();
-})();
-</script>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+<script>window.PAGE='presenter';</script>
 {% endblock %}
