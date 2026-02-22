@@ -1,3 +1,4 @@
+{% set page_id='presenter' %}
 {% extends 'base.html' %}
 {% block content %}
 <section class="card panel presenter">
@@ -17,5 +18,4 @@
 {% endblock %}
 {% block scripts %}
 <script src="{{ url_for('static', filename='app.js') }}"></script>
-<script>window.PAGE='presenter';</script>
 {% endblock %}
