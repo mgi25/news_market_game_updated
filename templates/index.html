@@ -1,13 +1,393 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="center">
-  <div class="card login">
-    <h1>Enter the trading floor</h1>
-    <p class="muted">Join the live market simulation, react to breaking headlines, and manage risk like a real trader.</p>
-    <form method="GET" action="/game" class="row">
-      <input name="player" placeholder="Trader name" maxlength="24" required />
-      <button class="btn">Launch Terminal</button>
-    </form>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>News Market Game — Join</title>
+
+  <style>
+    :root{
+      --bg:#070b18;
+      --panel:#0c1228;
+      --card:#0f1836;
+      --line:rgba(255,255,255,.10);
+      --text:#e9edff;
+      --muted:#a9b3df;
+
+      --ok:#29d391;
+      --bad:#ff4d6d;
+      --warn:#ffb020;
+      --accent:#6ea8ff;
+      --accent2:#9b7bff;
+
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1100px 600px at 12% 10%, rgba(110,168,255,.16), transparent 55%),
+        radial-gradient(900px 500px at 92% 18%, rgba(155,123,255,.14), transparent 55%),
+        radial-gradient(900px 700px at 60% 120%, rgba(41,211,145,.08), transparent 55%),
+        var(--bg);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
+
+    .wrap{
+      width:min(980px, 100%);
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:14px;
+    }
+    @media (max-width: 980px){
+      .wrap{grid-template-columns:1fr}
+    }
+
+    .card{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .head{
+      padding:16px 16px;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      background: rgba(0,0,0,.12);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+    }
+    .logo{
+      width:44px;height:44px;border-radius:15px;
+      display:grid;place-items:center;
+      font-weight:900;
+      letter-spacing:.5px;
+      background: linear-gradient(135deg, rgba(110,168,255,.95), rgba(155,123,255,.92));
+      box-shadow: var(--shadow);
+      flex:0 0 auto;
+    }
+    .title{
+      min-width:0;
+    }
+    .title .h1{
+      margin:0;
+      font-weight:900;
+      font-size:16px;
+      letter-spacing:.2px;
+      line-height:1.1;
+    }
+    .title .sub{
+      margin:4px 0 0;
+      color:var(--muted);
+      font-size:12px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 12px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background: rgba(255,255,255,.04);
+      color:var(--muted);
+      font-size:12px;
+      user-select:none;
+      white-space:nowrap;
+    }
+
+    .dot{
+      width:8px;height:8px;border-radius:50%;
+      background: rgba(255,255,255,.25);
+      box-shadow: 0 0 0 4px rgba(255,255,255,.06);
+    }
+    .dot.ok{background:var(--ok); box-shadow: 0 0 0 4px rgba(41,211,145,.12);}
+    .dot.bad{background:var(--bad); box-shadow: 0 0 0 4px rgba(255,77,109,.12);}
+    .dot.warn{background:var(--warn); box-shadow: 0 0 0 4px rgba(255,176,32,.12);}
+
+    .body{padding:16px}
+
+    .muted{color:var(--muted)}
+    .small{font-size:12px}
+    .mono{font-variant-numeric: tabular-nums; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+
+    label{display:block; font-size:12px; color:var(--muted); margin:0 0 6px}
+    input[type="text"]{
+      width:100%;
+      background: rgba(0,0,0,.22);
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:12px 12px;
+      color:var(--text);
+      outline:none;
+      font-size:13px;
+    }
+    input:focus{
+      border-color: rgba(110,168,255,.55);
+      box-shadow: 0 0 0 4px rgba(110,168,255,.12);
+    }
+
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+    .btn{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      padding:11px 12px;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:900;
+      letter-spacing:.1px;
+      user-select:none;
+      transition: transform .08s ease, background .12s ease, border-color .12s ease;
+      font-size:12px;
+      min-height:40px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+    }
+    .btn:hover{transform: translateY(-1px); border-color: rgba(255,255,255,.18); background: rgba(255,255,255,.09);}
+    .btn:active{transform: translateY(0px);}
+    .btn.primary{
+      border-color: rgba(110,168,255,.45);
+      background: linear-gradient(135deg, rgba(110,168,255,.18), rgba(155,123,255,.14));
+    }
+    .btn.ghost{background: transparent;}
+    a{color:inherit; text-decoration:none}
+
+    .kpis{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:10px;
+    }
+    @media (max-width: 520px){
+      .kpis{grid-template-columns: repeat(2, 1fr);}
+    }
+    .kpi{
+      padding:12px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background: rgba(0,0,0,.16);
+      min-height:64px;
+    }
+    .kpi .v{margin-top:6px; font-weight:900; font-size:14px}
+
+    .box{
+      padding:14px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background: rgba(0,0,0,.16);
+    }
+
+    .toast{
+      margin-top:12px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.22);
+      color:var(--muted);
+      font-size:12px;
+      display:none;
+    }
+    .toast.show{display:block}
+    .toast.ok{border-color: rgba(41,211,145,.35); color: rgba(41,211,145,.95); background: rgba(41,211,145,.10);}
+    .toast.bad{border-color: rgba(255,77,109,.35); color: rgba(255,77,109,.95); background: rgba(255,77,109,.10);}
+    .toast.warn{border-color: rgba(255,176,32,.35); color: rgba(255,176,32,.95); background: rgba(255,176,32,.10);}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <!-- LEFT: Join -->
+    <div class="card">
+      <div class="head">
+        <div class="brand">
+          <div class="logo">N</div>
+          <div class="title">
+            <p class="h1">News Market Game</p>
+            <p class="sub">Join the event and trade on scheduled headlines</p>
+          </div>
+        </div>
+
+        <div class="pill" id="connPill">
+          <span class="dot warn" id="connDot"></span>
+          <span id="connText">Connecting…</span>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="box">
+          <div class="row" style="justify-content:space-between">
+            <div class="pill" id="eventPill"><span class="dot" id="eventDot"></span><span id="eventText">Event idle</span></div>
+            <a class="btn ghost" href="/presenter" target="_blank">Presenter</a>
+            <a class="btn ghost" href="/admin" target="_blank">Admin</a>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="kpis">
+            <div class="kpi">
+              <div class="small muted">Day (Round)</div>
+              <div class="v mono" id="dayText">—</div>
+            </div>
+            <div class="kpi">
+              <div class="small muted">Time left in day</div>
+              <div class="v mono" id="dayLeft">—</div>
+            </div>
+            <div class="kpi">
+              <div class="small muted">Time left in event</div>
+              <div class="v mono" id="eventLeft">—</div>
+            </div>
+            <div class="kpi">
+              <div class="small muted">Next news ETA</div>
+              <div class="v mono" id="nextNews">—</div>
+            </div>
+          </div>
+
+          <div class="toast" id="toast"></div>
+        </div>
+
+        <div style="height:14px"></div>
+
+        <label>Player name</label>
+        <input id="player" type="text" placeholder="Enter your name (unique)"/>
+
+        <div style="height:12px"></div>
+
+        <div class="row">
+          <button class="btn primary" id="btnJoin">Join &amp; Trade</button>
+          <button class="btn" id="btnDemo">Use demo name</button>
+        </div>
+
+        <div class="small muted" style="margin-top:12px;">
+          Tip: You can open the Presenter view on a projector screen, and the Admin view on another device.
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: How it works -->
+    <div class="card">
+      <div class="head">
+        <p style="margin:0; font-weight:900; font-size:14px;">How it works</p>
+        <span class="pill"><span class="dot warn"></span> 90-minute session</span>
+      </div>
+
+      <div class="body">
+        <div class="box">
+          <div style="font-weight:900; margin-bottom:8px;">Rules (simple)</div>
+          <ul class="muted small" style="margin:0; padding-left:18px; line-height:1.55;">
+            <li>The session is divided into <b>Days (Rounds)</b> of about 2–3 minutes.</li>
+            <li>Each day may have <b>0–3 news releases</b> (usually 1–2).</li>
+            <li>When news hits, the impacted stocks become <b>highly volatile</b> and trend strongly until that day closes.</li>
+            <li>Trades execute using <b>bid/ask + slippage + fee</b>, similar to real markets.</li>
+            <li>Your goal: finish with the highest <b>total equity</b> (cash + holdings value).</li>
+          </ul>
+        </div>
+
+        <div style="height:12px"></div>
+
+        <div class="box">
+          <div style="font-weight:900; margin-bottom:8px;">Quick tip</div>
+          <div class="muted small" style="line-height:1.55;">
+            Focus on the stocks marked as <b>DIRECT/SECTOR</b> impact after a headline — those react the most.
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
-{% endblock %}
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    function setToast(msg, kind="") {
+      const el = $("toast");
+      el.className = "toast show" + (kind ? (" " + kind) : "");
+      el.textContent = msg;
+      clearTimeout(el._t);
+      el._t = setTimeout(() => el.className = "toast", 2400);
+    }
+
+    function fmtTime(sec){
+      if (sec === null || sec === undefined) return "—";
+      sec = Math.max(0, Math.floor(sec));
+      const m = Math.floor(sec/60);
+      const s = sec % 60;
+      return `${m}:${String(s).padStart(2,"0")}`;
+    }
+
+    function setConn(ok){
+      $("connDot").className = "dot " + (ok ? "ok" : "bad");
+      $("connText").textContent = ok ? "Connected" : "Disconnected";
+    }
+
+    function setEvent(running){
+      $("eventDot").className = "dot " + (running ? "ok" : "");
+      $("eventText").textContent = running ? "Event running" : "Event idle";
+    }
+
+    async function poll(){
+      try{
+        const res = await fetch("/api/state");
+        const st = await res.json();
+
+        setConn(true);
+        setEvent(!!st.event_running);
+
+        const running = !!st.event_running;
+        $("dayText").textContent = running ? `${st.day_no} / ${st.total_days}` : "—";
+        $("dayLeft").textContent = running ? fmtTime(st.seconds_left_in_day) : "—";
+        $("eventLeft").textContent = running ? fmtTime(st.seconds_left_in_event) : "—";
+        $("nextNews").textContent = running ? (st.next_news_eta === null ? "—" : fmtTime(st.next_news_eta)) : "—";
+
+      } catch(e){
+        setConn(false);
+      }
+    }
+
+    function go(){
+      const name = $("player").value.trim();
+      if (!name) return setToast("Enter your name.", "warn");
+      // prevent weird characters in URL
+      const safe = name.replace(/\s+/g, " ").slice(0, 24);
+      window.location.href = "/game?player=" + encodeURIComponent(safe);
+    }
+
+    $("btnJoin").addEventListener("click", go);
+
+    $("btnDemo").addEventListener("click", () => {
+      const n = Math.floor(Math.random()*9000) + 1000;
+      $("player").value = "Player" + n;
+      setToast("Demo name generated.", "ok");
+    });
+
+    $("player").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") go();
+    });
+
+    (function init(){
+      poll();
+      setInterval(poll, 1000);
+    })();
+  </script>
+</body>
+</html>

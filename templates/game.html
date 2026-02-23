@@ -1,184 +1,1193 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="grid">
-  <div class="col">
-    <div class="card">
-      <div class="card-head">
-        <div>
-          <div class="label">CURRENT ROUND</div>
-          <div class="big" id="roundNo">0</div>
-        </div>
-        <div>
-          <div class="label">STATUS</div>
-          <div class="big" id="statusText">IDLE</div>
-        </div>
-        <div>
-          <div class="label">TIMER</div>
-          <div class="big mono" id="timerText">—</div>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Game — News Market Game</title>
+
+  <style>
+    :root{
+      --bg:#070b18;
+      --panel:#0c1228;
+      --panel2:#0a1023;
+      --card:#0f1836;
+      --line:rgba(255,255,255,.10);
+      --text:#e9edff;
+      --muted:#a9b3df;
+
+      --ok:#29d391;
+      --bad:#ff4d6d;
+      --warn:#ffb020;
+      --accent:#6ea8ff;
+      --accent2:#9b7bff;
+
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 16px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1100px 600px at 12% 10%, rgba(110,168,255,.16), transparent 55%),
+        radial-gradient(900px 500px at 92% 18%, rgba(155,123,255,.14), transparent 55%),
+        radial-gradient(900px 700px at 60% 120%, rgba(41,211,145,.08), transparent 55%),
+        var(--bg);
+      min-height:100vh;
+    }
+
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:1280px; margin:0 auto; padding:18px 16px 42px}
+
+    /* Topbar */
+    .topbar{
+      position:sticky; top:0; z-index:10;
+      backdrop-filter: blur(10px);
+      background: rgba(7,11,24,.75);
+      border-bottom:1px solid var(--line);
+    }
+    .topbarInner{
+      max-width:1280px; margin:0 auto; padding:12px 16px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      min-width: 0;
+    }
+    .logo{
+      width:40px; height:40px; border-radius:14px;
+      display:grid; place-items:center;
+      font-weight:900; letter-spacing:.5px;
+      background: linear-gradient(135deg, rgba(110,168,255,.95), rgba(155,123,255,.92));
+      box-shadow: var(--shadow);
+      flex:0 0 auto;
+    }
+    .brandText{min-width:0}
+    .brandText .t{font-weight:900; font-size:14px; margin:0; line-height:1.1}
+    .brandText .s{margin:3px 0 0; color:var(--muted); font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+
+    .actions{
+      display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end;
+    }
+
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 12px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background: rgba(255,255,255,.04);
+      color:var(--muted);
+      font-size:12px;
+      user-select:none;
+    }
+    .pill.link:hover{
+      border-color: rgba(255,255,255,.18);
+      background: rgba(255,255,255,.07);
+    }
+    .dot{
+      width:8px; height:8px; border-radius:50%;
+      background: rgba(255,255,255,.25);
+      box-shadow: 0 0 0 4px rgba(255,255,255,.06);
+    }
+    .dot.ok{background:var(--ok); box-shadow: 0 0 0 4px rgba(41,211,145,.12);}
+    .dot.bad{background:var(--bad); box-shadow: 0 0 0 4px rgba(255,77,109,.12);}
+    .dot.warn{background:var(--warn); box-shadow: 0 0 0 4px rgba(255,176,32,.12);}
+
+    /* Layout */
+    .grid{
+      display:grid;
+      grid-template-columns: 1.35fr .65fr;
+      gap:14px;
+      margin-top:14px;
+    }
+    @media (max-width: 1100px){
+      .grid{grid-template-columns:1fr}
+    }
+
+    .card{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .cardHead{
+      padding:14px 16px;
+      border-bottom:1px solid var(--line);
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      background: rgba(0,0,0,.12);
+    }
+    .cardTitle{
+      font-size:14px; font-weight:900; margin:0; letter-spacing:.2px;
+    }
+    .cardBody{padding:16px}
+
+    .muted{color:var(--muted)}
+    .label{font-size:12px; color:var(--muted)}
+    .mono{font-variant-numeric: tabular-nums; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+
+    .kpis{
+      display:grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap:10px;
+    }
+    @media (max-width: 900px){
+      .kpis{grid-template-columns: repeat(2, 1fr);}
+    }
+    .kpi{
+      padding:12px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background: rgba(0,0,0,.16);
+      min-height:62px;
+    }
+    .kpi .v{
+      margin-top:6px;
+      font-weight:900;
+      font-size:14px;
+      letter-spacing:.1px;
+    }
+
+    .newsBox{
+      margin-top:12px;
+      padding:14px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background: rgba(0,0,0,.16);
+    }
+    .newsHL{margin:0 0 6px; font-weight:900; font-size:14px}
+    .newsSM{margin:0; font-size:12px; color:var(--muted); line-height:1.45}
+    .newsMeta{
+      margin-top:10px;
+      display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
+    }
+
+    .chip{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      font-size:12px;
+      color:var(--muted);
+    }
+    .chip.ok{border-color: rgba(41,211,145,.25); background: rgba(41,211,145,.10); color: rgba(41,211,145,.95);}
+    .chip.bad{border-color: rgba(255,77,109,.25); background: rgba(255,77,109,.10); color: rgba(255,77,109,.95);}
+    .chip.warn{border-color: rgba(255,176,32,.25); background: rgba(255,176,32,.10); color: rgba(255,176,32,.95);}
+    .chip.info{border-color: rgba(110,168,255,.25); background: rgba(110,168,255,.10); color: rgba(110,168,255,.95);}
+
+    .progressTrack{
+      margin-top:10px;
+      height:8px;
+      background: rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      border-radius:999px;
+      overflow:hidden;
+    }
+    .progressFill{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, rgba(255,176,32,.95), rgba(110,168,255,.95));
+    }
+
+    /* Controls */
+    .toolbar{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-bottom:10px;
+      align-items:center;
+    }
+    input, select{
+      background: rgba(0,0,0,.22);
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:10px 12px;
+      color:var(--text);
+      outline:none;
+      font-size:13px;
+    }
+    input:focus, select:focus{
+      border-color: rgba(110,168,255,.55);
+      box-shadow: 0 0 0 4px rgba(110,168,255,.12);
+    }
+    .btn{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:800;
+      letter-spacing:.1px;
+      user-select:none;
+      transition: transform .08s ease, background .12s ease, border-color .12s ease;
+      font-size:12px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      min-height:38px;
+    }
+    .btn:hover{transform: translateY(-1px); border-color: rgba(255,255,255,.18); background: rgba(255,255,255,.09);}
+    .btn:active{transform: translateY(0px);}
+    .btn.ok{border-color: rgba(41,211,145,.45); background: rgba(41,211,145,.12);}
+    .btn.bad{border-color: rgba(255,77,109,.45); background: rgba(255,77,109,.12);}
+    .btn.ghost{background: transparent;}
+    .btn.small{padding:8px 10px; min-height:34px}
+    .btn.disabled{opacity:.5; pointer-events:none}
+
+    /* Table */
+    .tableWrap{overflow:auto; border:1px solid var(--line); border-radius:14px; background: rgba(0,0,0,.14);}
+    table{width:100%; border-collapse:separate; border-spacing:0; min-width: 920px;}
+    th, td{
+      padding:10px 10px;
+      border-bottom:1px solid rgba(255,255,255,.06);
+      font-size:12px;
+      vertical-align:middle;
+      white-space:nowrap;
+    }
+    th{
+      position:sticky; top:0; z-index:2;
+      background: rgba(10,16,35,.95);
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-size: 11px;
+    }
+    tr:hover td{background: rgba(255,255,255,.03)}
+    .right{text-align:right}
+
+    .sym{
+      font-weight:900;
+      letter-spacing:.3px;
+    }
+    .subtxt{
+      display:block;
+      color:var(--muted);
+      font-size:11px;
+      margin-top:2px;
+      max-width: 260px;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .pct{
+      font-weight:900;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      min-width: 84px;
+      text-align:right;
+    }
+    .pct.up{color: rgba(41,211,145,.95); border-color: rgba(41,211,145,.25); background: rgba(41,211,145,.10);}
+    .pct.down{color: rgba(255,77,109,.95); border-color: rgba(255,77,109,.25); background: rgba(255,77,109,.10);}
+
+    .impact{
+      font-weight:900;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      font-size:11px;
+    }
+    .impact.direct{border-color: rgba(255,176,32,.25); background: rgba(255,176,32,.10); color: rgba(255,176,32,.95);}
+    .impact.sector{border-color: rgba(110,168,255,.25); background: rgba(110,168,255,.10); color: rgba(110,168,255,.95);}
+    .impact.linked{border-color: rgba(155,123,255,.25); background: rgba(155,123,255,.10); color: rgba(155,123,255,.95);}
+    .impact.none{color: var(--muted);}
+
+    .spark{
+      width:120px; height:28px;
+      display:inline-block;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:8px;
+      background: rgba(0,0,0,.18);
+      overflow:hidden;
+    }
+
+    .qtyInput{
+      width:90px;
+      text-align:right;
+    }
+
+    /* Right column cards */
+    .pGrid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:10px;
+    }
+    @media (max-width: 1100px){
+      .pGrid{grid-template-columns: repeat(2, 1fr);}
+    }
+    .pBox{
+      padding:12px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background: rgba(0,0,0,.16);
+    }
+    .pBox .v{
+      margin-top:6px;
+      font-weight:900;
+      font-size:14px;
+    }
+
+    /* Inline chart */
+    .chartArea{
+      border:1px solid var(--line);
+      border-radius:14px;
+      background: rgba(0,0,0,.16);
+      padding:12px;
+      overflow:hidden;
+    }
+    canvas{max-width:100%}
+
+    /* Modal */
+    .modal{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.65);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      z-index:50;
+    }
+    .modal.show{display:flex}
+    .modalCard{
+      width:min(980px, 100%);
+      border:1px solid var(--line);
+      border-radius:18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .modalTop{
+      padding:14px 16px;
+      border-bottom:1px solid var(--line);
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      background: rgba(0,0,0,.18);
+    }
+    .modalTitle{font-weight:900; font-size:14px; margin:0}
+    .modalBody{padding:16px; color: var(--muted); font-size:13px; line-height:1.55}
+    .modalBullets{padding:0 16px 16px 34px; margin:0; color: var(--muted); font-size:13px; line-height:1.55}
+
+    /* Banner when event not running */
+    .banner{
+      padding:12px 14px;
+      border:1px solid rgba(255,176,32,.25);
+      background: rgba(255,176,32,.10);
+      color: rgba(255,176,32,.95);
+      border-radius:14px;
+      font-weight:800;
+      font-size:12px;
+      margin-bottom:14px;
+    }
+
+    /* Toast */
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform:translateX(-50%);
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.75);
+      color: var(--muted);
+      font-size:12px;
+      display:none;
+      z-index:60;
+      max-width:min(720px, 92vw);
+      box-shadow: var(--shadow);
+    }
+    .toast.show{display:block}
+    .toast.ok{border-color: rgba(41,211,145,.35); color: rgba(41,211,145,.95); background: rgba(41,211,145,.10);}
+    .toast.bad{border-color: rgba(255,77,109,.35); color: rgba(255,77,109,.95); background: rgba(255,77,109,.10);}
+    .toast.warn{border-color: rgba(255,176,32,.35); color: rgba(255,176,32,.95); background: rgba(255,176,32,.10);}
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <div class="topbarInner">
+      <div class="brand">
+        <div class="logo">N</div>
+        <div class="brandText">
+          <p class="t">News Market Game</p>
+          <p class="s">Real-time simulated trading arena</p>
         </div>
       </div>
 
-      <div class="news">
-        <div class="label">NEWS</div>
-        <div class="news-headline" id="newsHeadline">Waiting for the next headline…</div>
-        <div class="news-summary" id="newsSummary"></div>
-        <div class="news-actions">
-          <button class="btn ghost small" id="readMoreBtn" style="display:none">Read more</button>
-        </div>
+      <div class="actions">
+        <span class="pill">Player: <b>{{ player_name }}</b></span>
+        <span class="pill" id="connPill"><span class="dot warn" id="connDot"></span><span id="connText">Connecting…</span></span>
+        <a class="pill link" href="/presenter" target="_blank">Presenter</a>
+        <a class="pill link" href="/admin" target="_blank">Admin</a>
+      </div>
+    </div>
+  </div>
 
-        <div class="reactionPanel" id="reactionPanel">
-          <div class="reactionTop">
-            <span class="label">MARKET PULSE</span>
-            <span class="pulse calm" id="pulseText">CALM</span>
+  <div class="wrap">
+    <div class="banner" id="eventBanner" style="display:none">
+      The event has not started yet. Wait for the admin to start the event.
+    </div>
+
+    <div class="grid">
+      <!-- LEFT -->
+      <div>
+        <div class="card">
+          <div class="cardHead">
+            <p class="cardTitle">Session Overview</p>
+            <span class="chip" id="statusChip"><span class="dot"></span><span id="statusText">—</span></span>
           </div>
-          <div class="reactionMeta muted">Affected stocks: <b id="affectedText">0</b></div>
-          <div class="progressTrack"><div class="progressFill" id="reactionProgress"></div></div>
+          <div class="cardBody">
+            <div class="kpis">
+              <div class="kpi">
+                <div class="label">Day (Round)</div>
+                <div class="v mono" id="dayText">—</div>
+              </div>
+              <div class="kpi">
+                <div class="label">Time left in day</div>
+                <div class="v mono" id="dayLeft">—</div>
+              </div>
+              <div class="kpi">
+                <div class="label">Time left in event</div>
+                <div class="v mono" id="eventLeft">—</div>
+              </div>
+              <div class="kpi">
+                <div class="label">Next news ETA</div>
+                <div class="v mono" id="nextNews">—</div>
+              </div>
+              <div class="kpi">
+                <div class="label">Reaction timer</div>
+                <div class="v mono" id="reactionLeft">—</div>
+              </div>
+            </div>
+
+            <div class="newsBox">
+              <p class="newsHL" id="newsHL">Waiting for the next headline…</p>
+              <p class="newsSM" id="newsSM">When news is released, affected stocks become more volatile and trend strongly until the day closes.</p>
+
+              <div class="newsMeta">
+                <div class="chip info" id="pulseChip">Market: <b id="pulseText">—</b></div>
+                <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center">
+                  <button class="btn ghost small" id="readMoreBtn" style="display:none">Read more</button>
+                </div>
+              </div>
+
+              <div class="progressTrack" title="Reaction window progress">
+                <div class="progressFill" id="reactionProgress"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div style="height:14px"></div>
+
+        <div class="card">
+          <div class="cardHead">
+            <p class="cardTitle">Market Terminal</p>
+            <div class="chip" id="marketHint">Trades use bid/ask spread + slippage + fees</div>
+          </div>
+
+          <div class="cardBody">
+            <div class="toolbar">
+              <input id="search" placeholder="Search ticker or company…" style="min-width:260px"/>
+              <select id="sectorFilter">
+                <option value="">All sectors</option>
+              </select>
+              <select id="sortMode">
+                <option value="impact">Sort: Impact first</option>
+                <option value="absmove">Sort: Biggest move</option>
+                <option value="ticker">Sort: Ticker</option>
+              </select>
+              <button class="btn ghost" id="btnRefreshNow">Refresh now</button>
+            </div>
+
+            <div class="tableWrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Ticker</th>
+                    <th>Company</th>
+                    <th>Sector</th>
+                    <th>Impact</th>
+                    <th class="right">Bid</th>
+                    <th class="right">Ask</th>
+                    <th class="right">Price</th>
+                    <th class="right">Move</th>
+                    <th class="right">Spread</th>
+                    <th>Trend</th>
+                    <th class="right">Qty</th>
+                    <th class="right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="marketBody"></tbody>
+              </table>
+            </div>
+
+            <div style="height:12px"></div>
+
+            <div class="card" style="box-shadow:none; border-radius:14px; background:transparent;">
+              <div class="cardHead" style="border-radius:14px 14px 0 0;">
+                <p class="cardTitle" id="chartTitleInline">Chart Window</p>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                  <button class="btn ghost small" id="btnLine">Line</button>
+                  <button class="btn ghost small" id="btnCandle">Candlestick</button>
+                </div>
+              </div>
+              <div class="cardBody">
+                <div class="chartArea">
+                  <canvas id="chartCanvasInline" width="980" height="300" aria-label="Chart canvas"></canvas>
+                </div>
+                <div class="muted" style="font-size:12px; margin-top:8px;">
+                  Tip: click “Chart” on any ticker row to load it here.
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="card">
-      <div class="card-title">Market Terminal</div>
-      <div class="toolbar">
-        <input id="search" placeholder="Search ticker or company..." />
-        <select id="sectorFilter">
-          <option value="">All sectors</option>
-        </select>
-      </div>
-      <div class="tableWrap">
-        <table class="table" id="marketTable">
-          <thead>
-            <tr>
-              <th>Ticker</th>
-              <th>Company</th>
-              <th>Sector</th>
-              <th>News impact</th>
-              <th class="right">Price</th>
-              <th class="right">Move</th>
-              <th class="right">Spread</th>
-              <th>Trend</th>
-              <th class="right">Qty</th>
-              <th class="right">Actions</th>
-            </tr>
-          </thead>
-          <tbody id="marketBody"></tbody>
-        </table>
-      </div>
-      <div class="hint muted">Trades include realistic bid/ask spread, slippage, and fees based on order size.</div>
-    </div>
+      <!-- RIGHT -->
+      <div>
+        <div class="card">
+          <div class="cardHead">
+            <p class="cardTitle">Portfolio</p>
+            <span class="chip info">Live</span>
+          </div>
+          <div class="cardBody">
+            <div class="pGrid">
+              <div class="pBox">
+                <div class="label">Cash</div>
+                <div class="v mono" id="cashText">—</div>
+              </div>
+              <div class="pBox">
+                <div class="label">Holdings value</div>
+                <div class="v mono" id="holdingsValueText">—</div>
+              </div>
+              <div class="pBox">
+                <div class="label">Total equity</div>
+                <div class="v mono" id="equityText">—</div>
+              </div>
+            </div>
 
-    <div class="card" id="inlineChartCard">
-      <div class="card-title" id="inlineChartTitle">Chart Window</div>
-      <div class="chartWindowBody">
-        <canvas id="inlineChartCanvas" width="820" height="320" aria-label="Inline stock chart canvas"></canvas>
+            <div style="height:12px"></div>
+
+            <div class="tableWrap">
+              <table style="min-width:760px">
+                <thead>
+                  <tr>
+                    <th>Ticker</th>
+                    <th>Company</th>
+                    <th class="right">Qty</th>
+                    <th class="right">Avg</th>
+                    <th class="right">Now</th>
+                    <th class="right">P/L</th>
+                    <th class="right">Value</th>
+                  </tr>
+                </thead>
+                <tbody id="holdingsBody">
+                  <tr><td colspan="7" class="muted">No holdings yet.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:14px"></div>
+
+        <div class="card">
+          <div class="cardHead">
+            <p class="cardTitle">Execution Blotter</p>
+            <span class="chip" id="blotterHint">Last 30 fills</span>
+          </div>
+          <div class="cardBody">
+            <div class="tableWrap">
+              <table style="min-width:680px">
+                <thead>
+                  <tr>
+                    <th>Time</th>
+                    <th>Ticker</th>
+                    <th>Side</th>
+                    <th class="right">Qty</th>
+                    <th class="right">Fill</th>
+                    <th class="right">Fee</th>
+                  </tr>
+                </thead>
+                <tbody id="tradesBody">
+                  <tr><td colspan="6" class="muted">No trades yet.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:14px"></div>
+
+        <div class="card">
+          <div class="cardHead">
+            <p class="cardTitle">Leaderboard</p>
+            <span class="chip">Top 20</span>
+          </div>
+          <div class="cardBody">
+            <div class="tableWrap">
+              <table style="min-width:520px">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Player</th>
+                    <th class="right">Equity</th>
+                  </tr>
+                </thead>
+                <tbody id="leaderBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
 
-  <div class="col">
-    <div class="card">
-      <div class="card-title">Portfolio Overview</div>
-      <div class="portfolioTop">
-        <div>
-          <div class="label">Cash</div>
-          <div class="big mono" id="cashText">0</div>
-        </div>
-        <div>
-          <div class="label">Holdings value</div>
-          <div class="big mono" id="holdingsText">0</div>
-        </div>
-        <div>
-          <div class="label">Total value</div>
-          <div class="big mono" id="totalText">0</div>
-        </div>
+  <!-- News modal -->
+  <div class="modal" id="newsModal" aria-hidden="true">
+    <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modalTop">
+        <div class="modalTitle" id="modalTitle">News</div>
+        <button class="btn ghost small" id="closeNewsBtn">Close</button>
       </div>
-      <div class="tableWrap">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Ticker</th>
-              <th>Company</th>
-              <th class="right">Qty</th>
-              <th class="right">Avg</th>
-              <th class="right">Now</th>
-              <th class="right">P/L</th>
-              <th class="right">Value</th>
-            </tr>
-          </thead>
-          <tbody id="holdingsBody">
-            <tr><td colspan="7" class="muted">No holdings yet.</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Execution Blotter</div>
-      <div class="tableWrap">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Time</th>
-              <th>Ticker</th>
-              <th>Side</th>
-              <th class="right">Qty</th>
-              <th class="right">Fill</th>
-              <th class="right">Fee</th>
-            </tr>
-          </thead>
-          <tbody id="tradesBody">
-            <tr><td colspan="6" class="muted">No trades yet.</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Performance Leaderboard</div>
-      <div class="tableWrap">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Player</th>
-              <th class="right">Total value</th>
-            </tr>
-          </thead>
-          <tbody id="leaderBody"></tbody>
-        </table>
-      </div>
+      <div class="modalBody" id="modalBody"></div>
+      <ul class="modalBullets" id="modalBullets"></ul>
     </div>
   </div>
-</div>
 
-<!-- News modal -->
-<div class="modal" id="newsModal" style="display:none" aria-hidden="true">
-  <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="modalTop">
-      <div class="modalTitle" id="modalTitle"></div>
-      <button class="btn ghost small" id="closeModalBtn">Close</button>
-    </div>
-    <div class="modalBody" id="modalBody"></div>
-    <ul class="modalBullets" id="modalBullets"></ul>
-  </div>
-</div>
+  <div class="toast" id="toast"></div>
 
-<!-- Chart modal -->
-<div class="modal" id="chartModal" style="display:none" aria-hidden="true">
-  <div class="modalCard chartCard" role="dialog" aria-modal="true" aria-labelledby="chartTitle">
-    <div class="modalTop">
-      <div class="modalTitle" id="chartTitle">Stock chart</div>
-      <div class="row">
-        <button class="btn ghost small" id="lineChartBtn">Line</button>
-        <button class="btn ghost small" id="candleChartBtn">Candlestick</button>
-        <button class="btn ghost small" id="closeChartBtn">Close</button>
-      </div>
-    </div>
-    <canvas id="chartCanvas" width="820" height="360" aria-label="Stock chart canvas"></canvas>
-  </div>
-</div>
+  <script>
+    window.NMG_PLAYER = {{ player_name|tojson }};
+  </script>
 
-<script>
-  window.NMG_PLAYER = {{ player_name|tojson }};
-</script>
-{% endblock %}
+  <script>
+    // ---------- Helpers ----------
+    const $ = (id) => document.getElementById(id);
+
+    function setToast(msg, kind="") {
+      const el = $("toast");
+      el.className = "toast show" + (kind ? (" " + kind) : "");
+      el.textContent = msg;
+      clearTimeout(el._t);
+      el._t = setTimeout(() => el.className = "toast", 2400);
+    }
+
+    function fmtMoney(x){
+      if (x === null || x === undefined || isNaN(x)) return "—";
+      const v = Number(x);
+      return v.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
+    }
+
+    function fmtTime(sec){
+      if (sec === null || sec === undefined) return "—";
+      sec = Math.max(0, Math.floor(sec));
+      const m = Math.floor(sec/60);
+      const s = sec % 60;
+      return `${m}:${String(s).padStart(2,"0")}`;
+    }
+
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    function impactRank(impact){
+      // DIRECT highest
+      if (impact === "DIRECT") return 0;
+      if (impact === "SECTOR") return 1;
+      if (impact === "LINKED") return 2;
+      return 3;
+    }
+
+    function sparkSvg(values, up){
+      // small inline svg sparkline
+      if (!Array.isArray(values) || values.length < 2) {
+        return `<svg viewBox="0 0 120 28" width="120" height="28"></svg>`;
+      }
+      const w = 120, h = 28, pad = 3;
+      let min = Infinity, max = -Infinity;
+      for (const v of values){ if (typeof v === "number") { min = Math.min(min, v); max = Math.max(max, v); } }
+      if (!isFinite(min) || !isFinite(max) || max === min) { max = min + 1; }
+      const n = values.length;
+      const pts = values.map((v,i) => {
+        const x = (i/(n-1)) * (w - pad*2) + pad;
+        const y = (1 - ((v - min)/(max - min))) * (h - pad*2) + pad;
+        return `${x.toFixed(1)},${y.toFixed(1)}`;
+      }).join(" ");
+
+      const stroke = up ? "rgba(41,211,145,.95)" : "rgba(255,77,109,.95)";
+      const fill = up ? "rgba(41,211,145,.10)" : "rgba(255,77,109,.10)";
+
+      return `
+        <svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" preserveAspectRatio="none">
+          <polyline points="${pts}" fill="none" stroke="${stroke}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="${pts} ${w-pad},${h-pad} ${pad},${h-pad}" fill="${fill}" stroke="none" opacity="1"/>
+        </svg>
+      `;
+    }
+
+    // ---------- Chart ----------
+    let chartMode = "line"; // "line" or "candle"
+    let chartTicker = null;
+    let latestState = null;
+
+    function drawLineChart(canvas, series){
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+
+      if (!Array.isArray(series) || series.length < 2) return;
+
+      let min = Infinity, max = -Infinity;
+      for (const v of series){ min = Math.min(min, v); max = Math.max(max, v); }
+      if (!isFinite(min) || !isFinite(max) || max === min) { max = min + 1; }
+
+      const w = canvas.width, h = canvas.height;
+      const pad = 18;
+
+      // grid
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = "rgba(255,255,255,.06)";
+      ctx.lineWidth = 1;
+      for (let i=1;i<=4;i++){
+        const y = pad + (i/5)*(h-pad*2);
+        ctx.beginPath(); ctx.moveTo(pad,y); ctx.lineTo(w-pad,y); ctx.stroke();
+      }
+
+      const n = series.length;
+      const toX = (i) => pad + (i/(n-1))*(w-pad*2);
+      const toY = (v) => pad + (1-((v-min)/(max-min)))*(h-pad*2);
+
+      ctx.strokeStyle = "rgba(110,168,255,.95)";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(toX(0), toY(series[0]));
+      for (let i=1;i<n;i++) ctx.lineTo(toX(i), toY(series[i]));
+      ctx.stroke();
+
+      // last point
+      ctx.fillStyle = "rgba(110,168,255,.95)";
+      ctx.beginPath();
+      ctx.arc(toX(n-1), toY(series[n-1]), 3, 0, Math.PI*2);
+      ctx.fill();
+
+      // labels
+      ctx.fillStyle = "rgba(255,255,255,.55)";
+      ctx.font = "12px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace";
+      ctx.fillText(max.toFixed(2), pad, pad-4);
+      ctx.fillText(min.toFixed(2), pad, h-6);
+    }
+
+    function drawCandles(canvas, ohlc){
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+
+      if (!Array.isArray(ohlc) || ohlc.length < 2) return;
+
+      // use last 60
+      const data = ohlc.slice(-60);
+      let min = Infinity, max = -Infinity;
+      for (const c of data){
+        min = Math.min(min, c.l);
+        max = Math.max(max, c.h);
+      }
+      if (!isFinite(min) || !isFinite(max) || max === min) { max = min + 1; }
+
+      const w = canvas.width, h = canvas.height;
+      const pad = 18;
+
+      // grid
+      ctx.strokeStyle = "rgba(255,255,255,.06)";
+      ctx.lineWidth = 1;
+      for (let i=1;i<=4;i++){
+        const y = pad + (i/5)*(h-pad*2);
+        ctx.beginPath(); ctx.moveTo(pad,y); ctx.lineTo(w-pad,y); ctx.stroke();
+      }
+
+      const n = data.length;
+      const slot = (w - pad*2) / n;
+      const bodyW = Math.max(2, slot * 0.55);
+
+      const toY = (v) => pad + (1-((v-min)/(max-min)))*(h-pad*2);
+
+      for (let i=0;i<n;i++){
+        const c = data[i];
+        const xMid = pad + i*slot + slot/2;
+        const yO = toY(c.o), yC = toY(c.c), yH = toY(c.h), yL = toY(c.l);
+        const up = c.c >= c.o;
+
+        // wick
+        ctx.strokeStyle = "rgba(255,255,255,.45)";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(xMid, yH);
+        ctx.lineTo(xMid, yL);
+        ctx.stroke();
+
+        // body
+        ctx.fillStyle = up ? "rgba(41,211,145,.85)" : "rgba(255,77,109,.85)";
+        const top = Math.min(yO, yC);
+        const bot = Math.max(yO, yC);
+        const hh = Math.max(2, bot - top);
+        ctx.fillRect(xMid - bodyW/2, top, bodyW, hh);
+      }
+
+      // labels
+      ctx.fillStyle = "rgba(255,255,255,.55)";
+      ctx.font = "12px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace";
+      ctx.fillText(max.toFixed(2), pad, pad-4);
+      ctx.fillText(min.toFixed(2), pad, h-6);
+    }
+
+    function refreshInlineChart(){
+      if (!latestState || !chartTicker) return;
+      const row = latestState.prices.find(r => r.ticker === chartTicker);
+      if (!row) return;
+      $("chartTitleInline").textContent = `Chart Window — ${row.ticker} • ${row.name}`;
+      const canvas = $("chartCanvasInline");
+      if (chartMode === "candle") drawCandles(canvas, row.ohlc || []);
+      else drawLineChart(canvas, row.spark || []);
+    }
+
+    $("btnLine").addEventListener("click", () => { chartMode = "line"; refreshInlineChart(); });
+    $("btnCandle").addEventListener("click", () => { chartMode = "candle"; refreshInlineChart(); });
+
+    // ---------- News modal ----------
+    function openNewsModal(n){
+      $("modalTitle").textContent = n?.headline || "News";
+      $("modalBody").textContent = n?.body || n?.summary || "";
+      const bullets = Array.isArray(n?.bullets) ? n.bullets : [];
+      $("modalBullets").innerHTML = bullets.map(b => `<li>${escapeHtml(b)}</li>`).join("");
+      $("newsModal").classList.add("show");
+      $("newsModal").setAttribute("aria-hidden","false");
+    }
+    function closeNewsModal(){
+      $("newsModal").classList.remove("show");
+      $("newsModal").setAttribute("aria-hidden","true");
+    }
+    $("closeNewsBtn").addEventListener("click", closeNewsModal);
+    $("newsModal").addEventListener("click", (e) => { if (e.target === $("newsModal")) closeNewsModal(); });
+
+    // ---------- Trading ----------
+    async function trade(ticker, side, qty){
+      const player = window.NMG_PLAYER;
+      if (!player) return setToast("Missing player.", "bad");
+
+      const body = {player, ticker, side, qty};
+      const res = await fetch("/api/trade", {
+        method:"POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify(body)
+      });
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok){
+        setToast(data.error || "Trade failed.", "bad");
+        return;
+      }
+      setToast(`${side} ${qty} ${ticker} placed.`, "ok");
+      // immediately refresh
+      await poll(true);
+    }
+
+    // ---------- Render ----------
+    function fillSectorOptions(sectors){
+      const sel = $("sectorFilter");
+      const current = sel.value;
+      sel.innerHTML = `<option value="">All sectors</option>` + (sectors || []).map(s => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join("");
+      sel.value = current;
+    }
+
+    function setConn(ok){
+      $("connDot").className = "dot " + (ok ? "ok" : "bad");
+      $("connText").textContent = ok ? "Connected" : "Disconnected";
+    }
+
+    function setStatusChip(status, reacting){
+      const chip = $("statusChip");
+      const dot = chip.querySelector(".dot");
+      if (reacting){
+        chip.className = "chip warn";
+        dot.className = "dot warn";
+        $("statusText").textContent = "REACTION";
+      } else {
+        chip.className = "chip";
+        dot.className = "dot";
+        $("statusText").textContent = status || "—";
+      }
+    }
+
+    function setPulseChip(reacting){
+      if (reacting){
+        $("pulseChip").className = "chip warn";
+        $("pulseText").textContent = "HOT";
+      } else {
+        $("pulseChip").className = "chip info";
+        $("pulseText").textContent = "NORMAL";
+      }
+    }
+
+    function renderMarket(rows){
+      const search = $("search").value.trim().toLowerCase();
+      const sector = $("sectorFilter").value;
+      const sortMode = $("sortMode").value;
+
+      let list = Array.isArray(rows) ? [...rows] : [];
+
+      if (search){
+        list = list.filter(r =>
+          (r.ticker || "").toLowerCase().includes(search) ||
+          (r.name || "").toLowerCase().includes(search)
+        );
+      }
+      if (sector){
+        list = list.filter(r => r.sector === sector);
+      }
+
+      if (sortMode === "absmove"){
+        list.sort((a,b) => Math.abs(b.change_pct||0) - Math.abs(a.change_pct||0));
+      } else if (sortMode === "ticker"){
+        list.sort((a,b) => String(a.ticker).localeCompare(String(b.ticker)));
+      } else { // impact
+        list.sort((a,b) => {
+          const ia = impactRank(a.impact);
+          const ib = impactRank(b.impact);
+          if (ia !== ib) return ia - ib;
+          return Math.abs(b.change_pct||0) - Math.abs(a.change_pct||0);
+        });
+      }
+
+      const body = $("marketBody");
+      body.innerHTML = list.map(r => {
+        const pct = Number(r.change_pct || 0);
+        const pctCls = pct >= 0 ? "up" : "down";
+        const imp = (r.impact || "NONE");
+        const impCls = imp.toLowerCase();
+        const spread = Number(r.spread_bps || 0);
+
+        const qtyId = `qty_${r.ticker}`;
+        const spark = sparkSvg(r.spark || [], pct >= 0);
+
+        return `
+          <tr>
+            <td class="sym">${escapeHtml(r.ticker)}</td>
+            <td>
+              <div style="font-weight:900">${escapeHtml(r.name)}</div>
+              <span class="subtxt muted">Mid ${Number(r.price).toFixed(4)}</span>
+            </td>
+            <td>${escapeHtml(r.sector)}</td>
+            <td><span class="impact ${impCls}">${escapeHtml(imp)}</span></td>
+            <td class="right mono">${Number(r.bid).toFixed(4)}</td>
+            <td class="right mono">${Number(r.ask).toFixed(4)}</td>
+            <td class="right mono">${Number(r.price).toFixed(4)}</td>
+            <td class="right"><span class="pct ${pctCls}">${pct.toFixed(2)}%</span></td>
+            <td class="right mono">${spread.toFixed(2)} bps</td>
+            <td><span class="spark">${spark}</span></td>
+            <td class="right">
+              <input class="qtyInput mono" id="${qtyId}" type="number" min="1" step="1" value="10"/>
+            </td>
+            <td class="right">
+              <div style="display:flex; gap:8px; justify-content:flex-end; flex-wrap:wrap;">
+                <button class="btn ok small" data-act="buy" data-t="${escapeHtml(r.ticker)}">Buy</button>
+                <button class="btn bad small" data-act="sell" data-t="${escapeHtml(r.ticker)}">Sell</button>
+                <button class="btn ghost small" data-act="chart" data-t="${escapeHtml(r.ticker)}">Chart</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+
+      // bind actions
+      body.querySelectorAll("button[data-act]").forEach(btn => {
+        btn.addEventListener("click", async () => {
+          const act = btn.getAttribute("data-act");
+          const t = btn.getAttribute("data-t");
+          if (act === "chart"){
+            chartTicker = t;
+            refreshInlineChart();
+            return;
+          }
+          const qtyEl = $(`qty_${t}`);
+          const qty = parseInt(qtyEl?.value || "0", 10);
+          if (!qty || qty <= 0) return setToast("Enter a valid quantity.", "warn");
+          if (!latestState?.event_running) return setToast("Event has not started yet.", "warn");
+          await trade(t, act === "buy" ? "BUY" : "SELL", qty);
+        });
+      });
+    }
+
+    function renderPortfolio(pf){
+      if (!pf) return;
+
+      $("cashText").textContent = fmtMoney(pf.cash);
+      $("holdingsValueText").textContent = fmtMoney(pf.holdings_value);
+      $("equityText").textContent = fmtMoney(pf.equity);
+
+      const holdings = pf.holdings || {};
+      const rows = [];
+      for (const [t, h] of Object.entries(holdings)){
+        const qty = Number(h.qty || 0);
+        const avg = Number(h.avg || 0);
+        const now = Number((latestState?.prices?.find(r => r.ticker === t)?.price) || 0);
+        const value = qty * now;
+        const pl = qty * (now - avg);
+        rows.push({t, qty, avg, now, value, pl});
+      }
+
+      const hb = $("holdingsBody");
+      if (!rows.length){
+        hb.innerHTML = `<tr><td colspan="7" class="muted">No holdings yet.</td></tr>`;
+      } else {
+        hb.innerHTML = rows.map(r => {
+          const plCls = r.pl >= 0 ? "up" : "down";
+          return `
+            <tr>
+              <td class="sym">${escapeHtml(r.t)}</td>
+              <td>${escapeHtml(latestState?.prices?.find(x=>x.ticker===r.t)?.name || "")}</td>
+              <td class="right mono">${r.qty}</td>
+              <td class="right mono">${r.avg.toFixed(4)}</td>
+              <td class="right mono">${r.now.toFixed(4)}</td>
+              <td class="right"><span class="pct ${plCls}">${r.pl.toFixed(2)}</span></td>
+              <td class="right mono">${r.value.toFixed(2)}</td>
+            </tr>
+          `;
+        }).join("");
+      }
+
+      // trades
+      const tb = $("tradesBody");
+      const trades = Array.isArray(pf.trades) ? pf.trades.slice(-30).reverse() : [];
+      if (!trades.length){
+        tb.innerHTML = `<tr><td colspan="6" class="muted">No trades yet.</td></tr>`;
+      } else {
+        tb.innerHTML = trades.map(tr => {
+          const d = new Date((tr.ts||0)*1000);
+          const ts = isFinite(d.getTime()) ? d.toLocaleTimeString() : "—";
+          const sideCls = (tr.side === "BUY") ? "up" : "down";
+          return `
+            <tr>
+              <td class="mono">${escapeHtml(ts)}</td>
+              <td class="sym">${escapeHtml(tr.ticker)}</td>
+              <td><span class="pct ${sideCls}">${escapeHtml(tr.side)}</span></td>
+              <td class="right mono">${Number(tr.qty||0)}</td>
+              <td class="right mono">${Number(tr.price||0).toFixed(4)}</td>
+              <td class="right mono">${Number(tr.fee||0).toFixed(4)}</td>
+            </tr>
+          `;
+        }).join("");
+      }
+    }
+
+    function renderLeaderboard(lb){
+      const body = $("leaderBody");
+      const rows = Array.isArray(lb) ? lb : [];
+      body.innerHTML = rows.map((r, idx) => `
+        <tr>
+          <td class="mono">${idx+1}</td>
+          <td>${escapeHtml(r.player || "")}</td>
+          <td class="right mono">${fmtMoney(r.equity)}</td>
+        </tr>
+      `).join("");
+    }
+
+    function renderNews(st){
+      const n = st.current_news;
+      if (!n){
+        $("newsHL").textContent = "Waiting for the next headline…";
+        $("newsSM").textContent = "When news is released, affected stocks become more volatile and trend strongly until the day closes.";
+        $("readMoreBtn").style.display = "none";
+        return;
+      }
+      $("newsHL").textContent = n.headline || "News";
+      $("newsSM").textContent = n.summary || "";
+      $("readMoreBtn").style.display = "inline-flex";
+      $("readMoreBtn").onclick = () => openNewsModal(n);
+    }
+
+    function renderSession(st){
+      const running = !!st.event_running;
+      $("eventBanner").style.display = running ? "none" : "block";
+
+      $("dayText").textContent = running ? `${st.day_no} / ${st.total_days}` : "—";
+      $("dayLeft").textContent = running ? fmtTime(st.seconds_left_in_day) : "—";
+      $("eventLeft").textContent = running ? fmtTime(st.seconds_left_in_event) : "—";
+      $("nextNews").textContent = running ? (st.next_news_eta === null ? "—" : fmtTime(st.next_news_eta)) : "—";
+
+      const reacting = (st.status === "REACTION");
+      $("reactionLeft").textContent = reacting ? fmtTime(st.reaction_seconds_left) : "—";
+      setStatusChip(st.status, reacting);
+      setPulseChip(reacting);
+
+      // reaction bar
+      if (reacting && st.reaction_seconds_left > 0){
+        // fill from 0 to 100 during window by using remaining seconds
+        // approximate: when it starts, remaining is REACTION_SECONDS. we don't know exact total here,
+        // so map remaining 0..30 sec visually
+        const total = Math.max(8, Math.min(30, (st.reaction_seconds_left + 6)));
+        const pct = Math.max(0, Math.min(100, (1 - (st.reaction_seconds_left / total)) * 100));
+        $("reactionProgress").style.width = `${pct.toFixed(0)}%`;
+      } else {
+        $("reactionProgress").style.width = `0%`;
+      }
+    }
+
+    // ---------- Poll ----------
+    let pollTimer = null;
+
+    async function poll(force=false){
+      try{
+        const player = window.NMG_PLAYER;
+        if (!player) return;
+
+        const res = await fetch(`/api/state?player=${encodeURIComponent(player)}`);
+        const st = await res.json();
+        latestState = st;
+
+        setConn(true);
+
+        fillSectorOptions(st.sectors || []);
+        renderSession(st);
+        renderNews(st);
+        renderMarket(st.prices || []);
+        renderPortfolio(st.portfolio);
+        renderLeaderboard(st.leaderboard || []);
+
+        // default chart ticker
+        if (!chartTicker && Array.isArray(st.prices) && st.prices.length){
+          chartTicker = st.prices[0].ticker;
+        }
+        refreshInlineChart();
+
+        return st;
+      } catch (e){
+        setConn(false);
+        if (force) setToast("Failed to refresh state.", "bad");
+      }
+    }
+
+    $("btnRefreshNow").addEventListener("click", () => poll(true));
+    $("search").addEventListener("input", () => { if (latestState) renderMarket(latestState.prices || []); });
+    $("sectorFilter").addEventListener("change", () => { if (latestState) renderMarket(latestState.prices || []); });
+    $("sortMode").addEventListener("change", () => { if (latestState) renderMarket(latestState.prices || []); });
+
+    // Read more button binds dynamically, but keep modal close on ESC
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeNewsModal();
+    });
+
+    // Start
+    (function init(){
+      poll();
+      pollTimer = setInterval(poll, 1000);
+    })();
+  </script>
+</body>
+</html>

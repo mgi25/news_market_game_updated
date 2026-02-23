@@ -1,61 +1,691 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="grid admin">
-  <div class="col">
-    <div class="card">
-      <div class="card-title">Control Center</div>
-      <div class="row">
-        <input id="adminPass" type="password" placeholder="Admin password"/>
-        <button class="btn" id="loginBtn">Unlock</button>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Admin — News Market Game</title>
+
+  <style>
+    :root{
+      --bg:#0b1020;
+      --panel:#0f1630;
+      --panel2:#0c1228;
+      --card:#111a38;
+      --text:#e8ecff;
+      --muted:#a9b3df;
+      --line:rgba(255,255,255,.10);
+      --ok:#29d391;
+      --bad:#ff4d6d;
+      --warn:#ffb020;
+      --accent:#6ea8ff;
+      --accent2:#9b7bff;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 16px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(1200px 600px at 15% 10%, rgba(110,168,255,.18), transparent 55%),
+        radial-gradient(900px 500px at 90% 20%, rgba(155,123,255,.16), transparent 55%),
+        radial-gradient(900px 700px at 60% 120%, rgba(41,211,145,.10), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      min-height:100vh;
+    }
+
+    .wrap{
+      max-width:1200px;
+      margin:0 auto;
+      padding:26px 18px 40px;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      margin-bottom:18px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .logo{
+      width:42px;height:42px;border-radius:14px;
+      background: linear-gradient(135deg, rgba(110,168,255,.95), rgba(155,123,255,.92));
+      box-shadow: var(--shadow);
+      display:grid;place-items:center;
+      font-weight:800;
+      letter-spacing:.5px;
+    }
+
+    .titleblock .h1{
+      font-size:18px;
+      font-weight:800;
+      line-height:1.1;
+      margin:0;
+    }
+    .titleblock .sub{
+      margin:3px 0 0;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background: rgba(255,255,255,.04);
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .dot{
+      width:8px;height:8px;border-radius:50%;
+      background:rgba(255,255,255,.25);
+      box-shadow: 0 0 0 4px rgba(255,255,255,.06);
+    }
+    .dot.ok{background:var(--ok); box-shadow: 0 0 0 4px rgba(41,211,145,.12);}
+    .dot.bad{background:var(--bad); box-shadow: 0 0 0 4px rgba(255,77,109,.12);}
+    .dot.warn{background:var(--warn); box-shadow: 0 0 0 4px rgba(255,176,32,.12);}
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:14px;
+    }
+
+    @media (max-width: 980px){
+      .grid{grid-template-columns:1fr}
+    }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .panel .head{
+      padding:14px 16px;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      background: rgba(0,0,0,.12);
+    }
+
+    .panel .head .h2{
+      font-size:14px;
+      font-weight:800;
+      margin:0;
+      letter-spacing:.2px;
+    }
+
+    .panel .body{
+      padding:16px;
+    }
+
+    .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:flex-end;
+    }
+
+    .field{
+      flex:1;
+      min-width: 180px;
+    }
+
+    label{
+      display:block;
+      font-size:12px;
+      color:var(--muted);
+      margin:0 0 6px;
+    }
+
+    input[type="password"], input[type="text"], input[type="number"]{
+      width:100%;
+      background: rgba(0,0,0,.22);
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:11px 12px;
+      color:var(--text);
+      outline:none;
+    }
+
+    input:focus{
+      border-color: rgba(110,168,255,.55);
+      box-shadow: 0 0 0 4px rgba(110,168,255,.12);
+    }
+
+    .check{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      background: rgba(0,0,0,.18);
+      color:var(--muted);
+      font-size:12px;
+      min-height:42px;
+    }
+    .check input{transform:scale(1.1)}
+
+    .btn{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      padding:11px 12px;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:700;
+      letter-spacing:.1px;
+      transition: transform .08s ease, background .12s ease, border-color .12s ease;
+      user-select:none;
+    }
+    .btn:hover{transform: translateY(-1px); border-color: rgba(255,255,255,.18); background: rgba(255,255,255,.09);}
+    .btn:active{transform: translateY(0px);}
+
+    .btn.primary{
+      border-color: rgba(110,168,255,.45);
+      background: linear-gradient(135deg, rgba(110,168,255,.18), rgba(155,123,255,.14));
+    }
+    .btn.ok{
+      border-color: rgba(41,211,145,.45);
+      background: linear-gradient(135deg, rgba(41,211,145,.18), rgba(41,211,145,.10));
+    }
+    .btn.bad{
+      border-color: rgba(255,77,109,.45);
+      background: linear-gradient(135deg, rgba(255,77,109,.18), rgba(255,77,109,.10));
+    }
+    .btn.warn{
+      border-color: rgba(255,176,32,.45);
+      background: linear-gradient(135deg, rgba(255,176,32,.18), rgba(255,176,32,.10));
+    }
+
+    .split{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    @media (max-width: 540px){
+      .split{grid-template-columns:1fr}
+    }
+
+    .kv{
+      display:grid;
+      grid-template-columns: 1fr auto;
+      gap:10px;
+      padding:12px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background: rgba(0,0,0,.16);
+    }
+    .kv .k{color:var(--muted); font-size:12px}
+    .kv .v{font-weight:800; font-size:12px}
+
+    .muted{color:var(--muted)}
+    .small{font-size:12px}
+
+    .newsbox{
+      border:1px solid var(--line);
+      border-radius:14px;
+      background: rgba(0,0,0,.16);
+      padding:14px;
+    }
+    .newsbox .hl{
+      font-weight:900;
+      margin:0 0 6px;
+      font-size:14px;
+      letter-spacing:.1px;
+    }
+    .newsbox .sm{
+      margin:0 0 10px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.4;
+    }
+    .newsbox ul{
+      margin:10px 0 0;
+      padding:0 0 0 18px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.5;
+    }
+
+    .toast{
+      margin-top:12px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.22);
+      color:var(--muted);
+      font-size:12px;
+      display:none;
+    }
+    .toast.show{display:block}
+    .toast.ok{border-color: rgba(41,211,145,.35); color: rgba(41,211,145,.95); background: rgba(41,211,145,.10);}
+    .toast.bad{border-color: rgba(255,77,109,.35); color: rgba(255,77,109,.95); background: rgba(255,77,109,.10);}
+    .toast.warn{border-color: rgba(255,176,32,.35); color: rgba(255,176,32,.95); background: rgba(255,176,32,.10);}
+
+    .movers{
+      display:grid;
+      gap:10px;
+    }
+    .mover{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:10px 12px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background: rgba(0,0,0,.16);
+      font-size:12px;
+    }
+    .mover .l{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      min-width: 0;
+    }
+    .mover .t{
+      font-weight:900;
+      letter-spacing:.2px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width: 320px;
+    }
+    .mover .s{
+      color:var(--muted);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .pct{
+      font-weight:900;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      min-width: 84px;
+      text-align:right;
+    }
+    .pct.up{color: rgba(41,211,145,.95); border-color: rgba(41,211,145,.25); background: rgba(41,211,145,.10);}
+    .pct.down{color: rgba(255,77,109,.95); border-color: rgba(255,77,109,.25); background: rgba(255,77,109,.10);}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">N</div>
+        <div class="titleblock">
+          <p class="h1">Admin Console</p>
+          <p class="sub">Start the event once — it runs automatically (days/rounds + scheduled news)</p>
+        </div>
       </div>
 
-      <div class="row" style="margin-top:10px">
-        <button class="btn ghost" id="randomNewsBtn" disabled>Trigger random news</button>
-        <button class="btn danger" id="resetBtn" disabled>Reset game</button>
-      </div>
-
-      <div class="muted" style="margin-top:10px">
-        Players will NOT see direction/intensity/sector tags. They only see the story.
+      <div class="pill" id="connPill">
+        <span class="dot warn" id="connDot"></span>
+        <span id="connText">Connecting…</span>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-title">Live Session Status</div>
-      <div class="kv">
-        <div><span class="k">Round</span><span class="v" id="roundNo">0</span></div>
-        <div><span class="k">Status</span><span class="v" id="statusText">IDLE</span></div>
-        <div><span class="k">Timer</span><span class="v mono" id="timerText">—</span></div>
-        <div><span class="k">Headline</span><span class="v" id="headlineText">—</span></div>
+    <div class="grid">
+      <!-- LEFT: Login + Controls -->
+      <div class="panel" id="leftPanel">
+        <div class="head">
+          <p class="h2">Session</p>
+          <div class="pill">
+            <span class="dot" id="authDot"></span>
+            <span id="authText">Not logged in</span>
+          </div>
+        </div>
+
+        <div class="body">
+          <!-- Login -->
+          <div id="loginBox">
+            <div class="row">
+              <div class="field" style="min-width:260px">
+                <label>Admin password</label>
+                <input id="pw" type="password" placeholder="Enter admin password" autocomplete="current-password"/>
+              </div>
+              <button class="btn primary" id="btnLogin">Login</button>
+              <button class="btn" id="btnLogout" style="display:none">Logout</button>
+            </div>
+            <div class="toast" id="toastLogin"></div>
+          </div>
+
+          <div style="height:14px"></div>
+
+          <!-- Controls -->
+          <div id="controlsBox" style="display:none">
+            <div class="split">
+              <div class="field">
+                <label>Event seed (optional)</label>
+                <input id="seed" type="number" placeholder="Leave empty for auto"/>
+              </div>
+
+              <div class="check">
+                <input id="resetPlayers" type="checkbox" checked />
+                <div>
+                  <div style="font-weight:800; color:var(--text);">Reset players on start</div>
+                  <div class="small muted">Recommended for fair gameplay</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="height:12px"></div>
+
+            <div class="row">
+              <button class="btn ok" id="btnStart">Start Event</button>
+              <button class="btn bad" id="btnStop">Stop Event</button>
+              <button class="btn warn" id="btnRandom">Trigger Random News (manual)</button>
+            </div>
+
+            <div style="height:12px"></div>
+
+            <div class="row">
+              <div class="field">
+                <label>Trigger specific news by ID (manual)</label>
+                <input id="newsId" type="text" placeholder="Example: N0017"/>
+              </div>
+              <button class="btn primary" id="btnTrigger">Trigger</button>
+            </div>
+
+            <div class="toast" id="toastAction"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Status -->
+      <div class="panel">
+        <div class="head">
+          <p class="h2">Live Status</p>
+          <div class="pill">
+            <span class="dot" id="eventDot"></span>
+            <span id="eventText">Event idle</span>
+          </div>
+        </div>
+
+        <div class="body">
+          <div class="split">
+            <div class="kv">
+              <div class="k">Day (Round)</div>
+              <div class="v" id="kvDay">—</div>
+            </div>
+            <div class="kv">
+              <div class="k">Time left in day</div>
+              <div class="v" id="kvDayLeft">—</div>
+            </div>
+            <div class="kv">
+              <div class="k">Time left in event</div>
+              <div class="v" id="kvEventLeft">—</div>
+            </div>
+            <div class="kv">
+              <div class="k">Next news ETA</div>
+              <div class="v" id="kvNextNews">—</div>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="newsbox" id="newsBox">
+            <p class="hl" id="newsHL">No news active</p>
+            <p class="sm" id="newsSM">When a scheduled news releases, you will see it here. The affected stocks will move more strongly until the day closes.</p>
+            <ul id="newsBullets" style="display:none"></ul>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="panel" style="border-radius:14px; box-shadow:none;">
+            <div class="head" style="border-radius:14px 14px 0 0;">
+              <p class="h2">Top movers (last tick)</p>
+              <div class="pill">
+                <span class="dot" id="reactDot"></span>
+                <span id="reactText">Normal</span>
+              </div>
+            </div>
+            <div class="body movers" id="moversBox">
+              <div class="mover">
+                <div class="l">
+                  <div class="t">—</div>
+                  <div class="s">Waiting for data…</div>
+                </div>
+                <div class="pct">—</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="small muted" style="margin-top:10px;">
+            Tip: If you run Gunicorn/Render, use a single worker so everyone sees the same market.
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="col">
-    <div class="card">
-      <div class="card-title">News Catalyst Library</div>
-      <div class="toolbar">
-        <input id="newsSearch" placeholder="Search news headline..." />
-      </div>
-      <div class="tableWrap">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Headline</th>
-              <th>Scope</th>
-              <th>Dir</th>
-              <th>Intensity</th>
-              <th class="right">Action</th>
-            </tr>
-          </thead>
-          <tbody id="newsBody"></tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
+  <script>
+    // ---------- Utilities ----------
+    const $ = (id) => document.getElementById(id);
 
-<script>
-  window.NMG_ADMIN = true;
-</script>
-{% endblock %}
+    function setToast(el, msg, kind="") {
+      el.className = "toast show" + (kind ? (" " + kind) : "");
+      el.textContent = msg;
+      clearTimeout(el._t);
+      el._t = setTimeout(() => el.className = "toast", 2600);
+    }
+
+    function fmtTime(sec) {
+      if (sec === null || sec === undefined) return "—";
+      sec = Math.max(0, Math.floor(sec));
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return `${m}:${String(s).padStart(2,"0")}`;
+    }
+
+    function setAuth(isAuthed) {
+      $("authDot").className = "dot " + (isAuthed ? "ok" : "");
+      $("authText").textContent = isAuthed ? "Logged in" : "Not logged in";
+      $("btnLogout").style.display = isAuthed ? "inline-flex" : "none";
+      $("controlsBox").style.display = isAuthed ? "block" : "none";
+      $("btnLogin").style.display = isAuthed ? "none" : "inline-flex";
+      $("pw").disabled = isAuthed;
+    }
+
+    function getPassword() {
+      return sessionStorage.getItem("admin_pw") || "";
+    }
+
+    function setPassword(pw) {
+      if (pw) sessionStorage.setItem("admin_pw", pw);
+      else sessionStorage.removeItem("admin_pw");
+    }
+
+    async function postJSON(url, body) {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify(body || {})
+      });
+      const data = await res.json().catch(() => ({}));
+      return {res, data};
+    }
+
+    // ---------- Login ----------
+    $("btnLogin").addEventListener("click", async () => {
+      const pw = $("pw").value.trim();
+      if (!pw) return setToast($("toastLogin"), "Enter the admin password.", "warn");
+      const {res, data} = await postJSON("/api/admin/login", {password: pw});
+      if (res.ok && data.ok) {
+        setPassword(pw);
+        setAuth(true);
+        setToast($("toastLogin"), "Logged in.", "ok");
+      } else {
+        setAuth(false);
+        setToast($("toastLogin"), "Login failed. Check password.", "bad");
+      }
+    });
+
+    $("btnLogout").addEventListener("click", () => {
+      setPassword("");
+      setAuth(false);
+      $("pw").value = "";
+      setToast($("toastLogin"), "Logged out.", "ok");
+    });
+
+    // ---------- Actions ----------
+    $("btnStart").addEventListener("click", async () => {
+      const pw = getPassword();
+      if (!pw) return setToast($("toastAction"), "Login first.", "warn");
+
+      const seedVal = $("seed").value.trim();
+      const resetPlayers = $("resetPlayers").checked;
+
+      const body = { password: pw, reset_players: resetPlayers };
+      if (seedVal) body.seed = parseInt(seedVal, 10);
+
+      const {res, data} = await postJSON("/api/admin/start_event", body);
+      if (res.ok && data.ok) {
+        setToast($("toastAction"), `Event started. Seed: ${data.seed}. Days: ${data.total_days}`, "ok");
+      } else {
+        setToast($("toastAction"), data.error || "Start failed.", "bad");
+      }
+    });
+
+    $("btnStop").addEventListener("click", async () => {
+      const pw = getPassword();
+      if (!pw) return setToast($("toastAction"), "Login first.", "warn");
+
+      const {res, data} = await postJSON("/api/admin/stop_event", {password: pw});
+      if (res.ok && data.ok) setToast($("toastAction"), "Event stopped.", "ok");
+      else setToast($("toastAction"), data.error || "Stop failed.", "bad");
+    });
+
+    $("btnRandom").addEventListener("click", async () => {
+      const pw = getPassword();
+      if (!pw) return setToast($("toastAction"), "Login first.", "warn");
+
+      const {res, data} = await postJSON("/api/admin/random", {password: pw});
+      if (res.ok && data.ok) setToast($("toastAction"), "Random news triggered (manual override).", "ok");
+      else setToast($("toastAction"), data.error || "Random trigger failed.", "bad");
+    });
+
+    $("btnTrigger").addEventListener("click", async () => {
+      const pw = getPassword();
+      if (!pw) return setToast($("toastAction"), "Login first.", "warn");
+
+      const id = $("newsId").value.trim();
+      if (!id) return setToast($("toastAction"), "Enter a news ID.", "warn");
+
+      const {res, data} = await postJSON("/api/admin/trigger", {password: pw, id});
+      if (res.ok && data.ok) setToast($("toastAction"), `Triggered: ${id}`, "ok");
+      else setToast($("toastAction"), data.error || "Trigger failed.", "bad");
+    });
+
+    // ---------- Live Poll ----------
+    async function poll() {
+      try{
+        const res = await fetch("/api/state");
+        const st = await res.json();
+
+        // Connection pill
+        $("connDot").className = "dot ok";
+        $("connText").textContent = "Connected";
+
+        // Event pill
+        const running = !!st.event_running;
+        $("eventDot").className = "dot " + (running ? "ok" : "");
+        $("eventText").textContent = running ? "Event running" : "Event idle";
+
+        // Day / time
+        $("kvDay").textContent = running ? `${st.day_no} / ${st.total_days}` : "—";
+        $("kvDayLeft").textContent = running ? fmtTime(st.seconds_left_in_day) : "—";
+        $("kvEventLeft").textContent = running ? fmtTime(st.seconds_left_in_event) : "—";
+        $("kvNextNews").textContent = running ? (st.next_news_eta === null ? "—" : fmtTime(st.next_news_eta)) : "—";
+
+        // Reaction indicator
+        const reacting = (st.status === "REACTION");
+        $("reactDot").className = "dot " + (reacting ? "warn" : "");
+        $("reactText").textContent = reacting ? `Reaction (${fmtTime(st.reaction_seconds_left)} left)` : "Normal";
+
+        // News box
+        const n = st.current_news;
+        if (!n) {
+          $("newsHL").textContent = "No news active";
+          $("newsSM").textContent = "When a scheduled news releases, you will see it here. The affected stocks will move more strongly until the day closes.";
+          $("newsBullets").style.display = "none";
+          $("newsBullets").innerHTML = "";
+        } else {
+          $("newsHL").textContent = n.headline || "News";
+          $("newsSM").textContent = n.summary || n.body || "";
+          const bullets = Array.isArray(n.bullets) ? n.bullets : [];
+          if (bullets.length) {
+            $("newsBullets").style.display = "block";
+            $("newsBullets").innerHTML = bullets.map(b => `<li>${escapeHtml(String(b))}</li>`).join("");
+          } else {
+            $("newsBullets").style.display = "none";
+            $("newsBullets").innerHTML = "";
+          }
+        }
+
+        // Movers
+        const rows = Array.isArray(st.prices) ? st.prices : [];
+        if (rows.length) {
+          // Sort by absolute change_pct for visibility, show top 6
+          const sorted = [...rows].sort((a,b) => Math.abs(b.change_pct) - Math.abs(a.change_pct)).slice(0, 6);
+          $("moversBox").innerHTML = sorted.map(r => {
+            const pct = Number(r.change_pct || 0);
+            const cls = pct >= 0 ? "up" : "down";
+            const name = `${r.ticker} • ${r.name}`;
+            const sec = `${r.sector} • impact: ${r.impact || "NONE"}`;
+            return `
+              <div class="mover">
+                <div class="l">
+                  <div class="t">${escapeHtml(name)}</div>
+                  <div class="s">${escapeHtml(sec)}</div>
+                </div>
+                <div class="pct ${cls}">${pct.toFixed(2)}%</div>
+              </div>
+            `;
+          }).join("");
+        }
+
+      } catch(e){
+        $("connDot").className = "dot bad";
+        $("connText").textContent = "Disconnected";
+      }
+    }
+
+    function escapeHtml(s){
+      return s.replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    // Initialize auth state
+    (function init(){
+      const pw = getPassword();
+      setAuth(!!pw);
+      if (pw) $("pw").value = "••••••••"; // do not reveal password
+      poll();
+      setInterval(poll, 1000);
+    })();
+  </script>
+</body>
+</html>
