@@ -35,7 +35,14 @@
         radial-gradient(900px 700px at 60% 120%, rgba(41,211,145,.08), transparent 55%),
         var(--bg);
       min-height:100vh;
+      overflow-x: hidden;
     }
+
+    /* Custom Scrollbars for dark theme */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.25); }
 
     .topbar{
       position:sticky; top:0; z-index:10;
@@ -94,22 +101,13 @@
 
     .wrap{max-width:1400px; margin:0 auto; padding:16px 16px 42px}
 
-    .grid{
-      display:grid;
-      grid-template-columns: 1.35fr .65fr;
-      gap:14px;
-      margin-top:14px;
-    }
-    @media (max-width: 1180px){
-      .grid{grid-template-columns:1fr}
-    }
-
     .card{
       border:1px solid var(--line);
       border-radius: var(--radius);
       background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
       box-shadow: var(--shadow);
       overflow:hidden;
+      width: 100%;
     }
     .cardHead{
       padding:14px 16px;
@@ -159,28 +157,32 @@
       background: rgba(255,255,255,.05);
       font-size:12px;
       color:var(--muted);
+      white-space: nowrap;
     }
     .chip.warn{border-color: rgba(255,176,32,.25); background: rgba(255,176,32,.10); color: rgba(255,176,32,.95);}
     .chip.info{border-color: rgba(110,168,255,.25); background: rgba(110,168,255,.10); color: rgba(110,168,255,.95);}
+    .chip.ok{border-color: rgba(41,211,145,.25); background: rgba(41,211,145,.10); color: rgba(41,211,145,.95);}
+    .chip.bad{border-color: rgba(255,77,109,.25); background: rgba(255,77,109,.10); color: rgba(255,77,109,.95);}
 
     .row{
       display:flex; gap:10px; flex-wrap:wrap; align-items:center;
     }
 
+    /* FULL WIDTH TABLE */
     .tableWrap{
-      overflow:auto;
+      overflow-x: auto;
       border:1px solid var(--line);
       border-radius:14px;
       background: rgba(0,0,0,.14);
     }
-    table{width:100%; border-collapse:separate; border-spacing:0; min-width: 980px;}
+    table{width:100%; border-collapse:separate; border-spacing:0; table-layout: auto;}
     th, td{
-      padding:10px 10px;
+      padding:10px 8px;
       border-bottom:1px solid rgba(255,255,255,.06);
       font-size:12px;
-      white-space:nowrap;
       vertical-align:middle;
     }
+    .nowrap { white-space: nowrap; }
     th{
       position:sticky; top:0; z-index:2;
       background: rgba(10,16,35,.95);
@@ -188,6 +190,7 @@
       text-transform: uppercase;
       letter-spacing: .08em;
       font-size: 11px;
+      white-space: nowrap;
     }
     tr:hover td{background: rgba(255,255,255,.03)}
     .right{text-align:right}
@@ -198,9 +201,7 @@
       color:var(--muted);
       font-size:11px;
       margin-top:2px;
-      max-width: 320px;
-      overflow:hidden;
-      text-overflow:ellipsis;
+      white-space:nowrap;
     }
 
     .pct{
@@ -209,33 +210,22 @@
       border-radius:999px;
       border:1px solid var(--line);
       background: rgba(255,255,255,.05);
-      min-width: 84px;
-      text-align:right;
+      min-width: 70px;
+      text-align:center;
+      display: inline-block;
     }
     .pct.up{color: rgba(41,211,145,.95); border-color: rgba(41,211,145,.25); background: rgba(41,211,145,.10);}
     .pct.down{color: rgba(255,77,109,.95); border-color: rgba(255,77,109,.25); background: rgba(255,77,109,.10);}
 
-    .impact{
-      font-weight:900;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.05);
-      font-size:11px;
-    }
-    .impact.direct{border-color: rgba(255,176,32,.25); background: rgba(255,176,32,.10); color: rgba(255,176,32,.95);}
-    .impact.sector{border-color: rgba(110,168,255,.25); background: rgba(110,168,255,.10); color: rgba(110,168,255,.95);}
-    .impact.linked{border-color: rgba(155,123,255,.25); background: rgba(155,123,255,.10); color: rgba(155,123,255,.95);}
-    .impact.none{color: var(--muted);}
-
     .spark{
-      width:120px; height:28px;
+      width: 80px; height: 24px;
       display:inline-block;
       border:1px solid rgba(255,255,255,.08);
-      border-radius:8px;
+      border-radius:6px;
       background: rgba(0,0,0,.18);
       overflow:hidden;
     }
+    .spark svg { width: 100%; height: 100%; display: block; }
 
     .banner{
       padding:12px 14px;
@@ -249,14 +239,23 @@
       display:none;
     }
 
-    /* NEW: split movers */
-    .moversGrid{
+    /* SPOTLIGHT GRID (3 Columns for Leaderboard, Gainers, Losers) */
+    .spotlightGrid{
       display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:12px;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+      margin-top:14px;
+      align-items: start;
     }
-    @media (max-width: 1180px){
-      .moversGrid{grid-template-columns:1fr}
+    @media (max-width: 1000px){
+      .spotlightGrid{grid-template-columns:1fr}
+    }
+
+    /* Scrollable areas for the cards */
+    .scrollableBox {
+      max-height: 380px;
+      overflow-y: auto;
+      padding-right: 4px;
     }
 
     .moversList{
@@ -269,28 +268,15 @@
       align-items:center;
       justify-content:space-between;
       gap:10px;
-      padding:10px 12px;
+      padding:12px 14px;
       border:1px solid var(--line);
       border-radius:14px;
       background: rgba(0,0,0,.16);
-      font-size:12px;
+      font-size:13px;
     }
-    .mover .l{display:flex; flex-direction:column; gap:2px; min-width:0}
+    .mover .l{display:flex; flex-direction:column; gap:4px; min-width:0}
     .mover .t{font-weight:900; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-    .mover .s{color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-    .tag{
-      font-weight:900;
-      font-size:10px;
-      padding:4px 8px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.05);
-      color: var(--muted);
-      margin-left:8px;
-    }
-    .tag.direct{border-color: rgba(255,176,32,.25); background: rgba(255,176,32,.10); color: rgba(255,176,32,.95);}
-    .tag.sector{border-color: rgba(110,168,255,.25); background: rgba(110,168,255,.10); color: rgba(110,168,255,.95);}
-    .tag.linked{border-color: rgba(155,123,255,.25); background: rgba(155,123,255,.10); color: rgba(155,123,255,.95);}
+    .mover .s{color:var(--muted); font-size: 11px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
   </style>
 </head>
 
@@ -301,7 +287,7 @@
         <div class="logo">P</div>
         <div class="brandText">
           <p class="t">Presenter View</p>
-          <p class="s">Big-screen market overview (Day/Round + timers + news + split movers + leaderboard)</p>
+          <p class="s">Big-screen competitive overview</p>
         </div>
       </div>
 
@@ -358,102 +344,87 @@
           </div>
 
           <p class="newsHL" id="newsHL">Waiting for the next headline…</p>
-          <p class="newsSM" id="newsSM">When news is released, impacted tickers should show up clearly in the movers lists.</p>
+          <p class="newsSM" id="newsSM">When news is released, watch the leaderboard and top movers react live.</p>
           <ul class="newsBullets" id="newsBullets" style="display:none"></ul>
         </div>
       </div>
     </div>
 
-    <div style="height:14px"></div>
-
-    <div class="grid">
-      <!-- LEFT: Market table -->
-      <div class="card">
-        <div class="cardHead">
-          <p class="cardTitle">Market</p>
-          <div class="row">
-            <span class="chip">Impact order</span>
-            <span class="chip" id="lastUpdate">Updated: —</span>
-          </div>
+    <div class="spotlightGrid">
+      
+      <div class="card" style="border-color: rgba(110,168,255,.3);">
+        <div class="cardHead" style="background: rgba(110,168,255,.05);">
+          <p class="cardTitle">🏆 Live Leaderboard</p>
+          <span class="chip">Rankings</span>
         </div>
-        <div class="cardBody">
-          <div class="tableWrap">
-            <table>
+        <div class="cardBody scrollableBox">
+          <div class="tableWrap" style="border: none; background: transparent; overflow: visible;">
+            <table style="min-width:100%">
               <thead>
                 <tr>
-                  <th>Ticker</th>
-                  <th>Company</th>
-                  <th>Sector</th>
-                  <th>Impact</th>
-                  <th class="right">Price</th>
-                  <th class="right">Move</th>
-                  <th class="right">Bid</th>
-                  <th class="right">Ask</th>
-                  <th class="right">Spread</th>
-                  <th>Trend</th>
+                  <th>#</th>
+                  <th>Player</th>
+                  <th class="right">Equity</th>
                 </tr>
               </thead>
-              <tbody id="marketBody"></tbody>
+              <tbody id="leaderBody"></tbody>
             </table>
           </div>
         </div>
       </div>
 
-      <!-- RIGHT: Split Movers + Leaderboard -->
-      <div style="display:grid; gap:14px;">
-        <div class="card">
-          <div class="cardHead">
-            <p class="cardTitle">Top Movers</p>
-            <span class="chip" id="moversHint">Pinned impacted tickers first</span>
-          </div>
-          <div class="cardBody">
-            <div class="moversGrid">
-              <div>
-                <div class="row" style="justify-content:space-between; margin-bottom:10px;">
-                  <div class="chip" style="color:rgba(41,211,145,.95); border-color:rgba(41,211,145,.25); background:rgba(41,211,145,.10);">
-                    Top Gainers
-                  </div>
-                  <div class="chip" id="gainersMeta">—</div>
-                </div>
-                <div class="moversList" id="gainersBox"></div>
-              </div>
-
-              <div>
-                <div class="row" style="justify-content:space-between; margin-bottom:10px;">
-                  <div class="chip" style="color:rgba(255,77,109,.95); border-color:rgba(255,77,109,.25); background:rgba(255,77,109,.10);">
-                    Top Losers
-                  </div>
-                  <div class="chip" id="losersMeta">—</div>
-                </div>
-                <div class="moversList" id="losersBox"></div>
-              </div>
-            </div>
-          </div>
+      <div class="card">
+        <div class="cardHead">
+          <p class="cardTitle" style="color: rgba(41,211,145,.95);">📈 Top Gainers</p>
+          <span class="chip" id="gainersMeta">Top Moves</span>
         </div>
-
-        <div class="card">
-          <div class="cardHead">
-            <p class="cardTitle">Leaderboard</p>
-            <span class="chip">Top 20</span>
-          </div>
-          <div class="cardBody">
-            <div class="tableWrap">
-              <table style="min-width:520px">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Player</th>
-                    <th class="right">Equity</th>
-                  </tr>
-                </thead>
-                <tbody id="leaderBody"></tbody>
-              </table>
-            </div>
-          </div>
+        <div class="cardBody scrollableBox">
+          <div class="moversList" id="gainersBox"></div>
         </div>
+      </div>
 
+      <div class="card">
+        <div class="cardHead">
+          <p class="cardTitle" style="color: rgba(255,77,109,.95);">📉 Top Losers</p>
+          <span class="chip" id="losersMeta">Top Drops</span>
+        </div>
+        <div class="cardBody scrollableBox">
+          <div class="moversList" id="losersBox"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="card" style="margin-top:14px;">
+      <div class="cardHead">
+        <p class="cardTitle">Full Market Terminal</p>
+        <div class="row">
+          <span class="chip">Alphabetical Order</span>
+          <span class="chip" id="lastUpdate">Updated: —</span>
+        </div>
+      </div>
+      <div class="cardBody">
+        <div class="tableWrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Ticker</th>
+                <th>Company</th>
+                <th>Sector</th>
+                <th class="right">Price</th>
+                <th class="right">Move</th>
+                <th class="right">Bid</th>
+                <th class="right">Ask</th>
+                <th class="right">Spread</th>
+                <th>Trend</th>
+              </tr>
+            </thead>
+            <tbody id="marketBody"></tbody>
+          </table>
+        </div>
       </div>
     </div>
+
   </div>
 
   <script>
@@ -476,16 +447,9 @@
       return String(s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     }
 
-    function impactRank(impact){
-      if (impact === "DIRECT") return 0;
-      if (impact === "SECTOR") return 1;
-      if (impact === "LINKED") return 2;
-      return 3;
-    }
-
     function sparkSvg(values, up){
       if (!Array.isArray(values) || values.length < 2) {
-        return `<svg viewBox="0 0 120 28" width="120" height="28"></svg>`;
+        return `<svg viewBox="0 0 120 28"></svg>`;
       }
       const w = 120, h = 28, pad = 3;
       let min = Infinity, max = -Infinity;
@@ -502,7 +466,7 @@
       const fill = up ? "rgba(41,211,145,.10)" : "rgba(255,77,109,.10)";
 
       return `
-        <svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" preserveAspectRatio="none">
+        <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
           <polyline points="${pts}" fill="none" stroke="${stroke}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           <polyline points="${pts} ${w-pad},${h-pad} ${pad},${h-pad}" fill="${fill}" stroke="none"/>
         </svg>
@@ -546,7 +510,7 @@
 
       if (!n){
         $("newsHL").textContent = "Waiting for the next headline…";
-        $("newsSM").textContent = "When news is released, impacted tickers should show up clearly in the movers lists.";
+        $("newsSM").textContent = "When news is released, watch the leaderboard and top movers react live.";
         $("newsBullets").style.display = "none";
         $("newsBullets").innerHTML = "";
         $("newsScopeText").textContent = "—";
@@ -573,98 +537,43 @@
 
     function renderMarket(rows){
       const list = Array.isArray(rows) ? [...rows] : [];
-      list.sort((a,b) => {
-        const ia = impactRank(a.impact);
-        const ib = impactRank(b.impact);
-        if (ia !== ib) return ia - ib;
-        return Math.abs(b.change_pct||0) - Math.abs(a.change_pct||0);
-      });
+      
+      // STRICT ALPHABETICAL SORT
+      list.sort((a,b) => String(a.ticker).localeCompare(String(b.ticker)));
 
       $("marketBody").innerHTML = list.map(r => {
         const pct = Number(r.change_pct || 0);
         const pctCls = pct >= 0 ? "up" : "down";
-        const imp = (r.impact || "NONE");
-        const impCls = imp.toLowerCase();
         const spread = Number(r.spread_bps || 0);
         const spark = sparkSvg(r.spark || [], pct >= 0);
 
         return `
           <tr>
-            <td class="sym">${escapeHtml(r.ticker)}</td>
+            <td class="sym nowrap">${escapeHtml(r.ticker)}</td>
             <td>
               <div style="font-weight:900">${escapeHtml(r.name)}</div>
-              <span class="subtxt muted">${escapeHtml(r.sector)} • impact ${escapeHtml(imp)}</span>
             </td>
-            <td>${escapeHtml(r.sector)}</td>
-            <td><span class="impact ${impCls}">${escapeHtml(imp)}</span></td>
-            <td class="right mono">${Number(r.price).toFixed(4)}</td>
-            <td class="right"><span class="pct ${pctCls}">${pct.toFixed(2)}%</span></td>
-            <td class="right mono">${Number(r.bid).toFixed(4)}</td>
-            <td class="right mono">${Number(r.ask).toFixed(4)}</td>
-            <td class="right mono">${spread.toFixed(2)} bps</td>
+            <td class="nowrap">${escapeHtml(r.sector)}</td>
+            <td class="right mono nowrap">${Number(r.price).toFixed(4)}</td>
+            <td class="right nowrap"><span class="pct ${pctCls}">${pct.toFixed(2)}%</span></td>
+            <td class="right mono nowrap">${Number(r.bid).toFixed(4)}</td>
+            <td class="right mono nowrap">${Number(r.ask).toFixed(4)}</td>
+            <td class="right mono nowrap">${spread.toFixed(2)} bps</td>
             <td><span class="spark">${spark}</span></td>
           </tr>
         `;
       }).join("");
     }
 
-    // NEW: pinned impacted tickers first, then fill with true movers
-    function buildPinnedList(rows, dir, limit){
-      // dir: "up" or "down"
-      const isUp = (dir === "up");
-      const signCond = (r) => isUp ? (Number(r.change_pct||0) > 0) : (Number(r.change_pct||0) < 0);
-
-      const impacted = (r) => (r.impact === "DIRECT" || r.impact === "SECTOR");
-      const impacted2 = (r) => (r.impact === "LINKED");
-
-      // 1) Pin DIRECT/SECTOR that match direction
-      const pins = rows
-        .filter(r => signCond(r) && impacted(r))
-        .sort((a,b) => {
-          const ia = impactRank(a.impact);
-          const ib = impactRank(b.impact);
-          if (ia !== ib) return ia - ib;
-          return Math.abs(Number(b.change_pct||0)) - Math.abs(Number(a.change_pct||0));
-        });
-
-      const pinnedSet = new Set(pins.map(x => x.ticker));
-
-      // 2) Fill with strongest movers in that direction (excluding pinned)
-      const movers = rows
-        .filter(r => signCond(r) && !pinnedSet.has(r.ticker))
-        .sort((a,b) => {
-          // prefer larger move; if tie, slightly prefer LINKED
-          const ma = Math.abs(Number(a.change_pct||0));
-          const mb = Math.abs(Number(b.change_pct||0));
-          if (mb !== ma) return mb - ma;
-          const la = impacted2(a) ? 0 : 1;
-          const lb = impacted2(b) ? 0 : 1;
-          return la - lb;
-        });
-
-      // Keep some pins even if small move (this is the point)
-      const out = [];
-      for (const p of pins) { if (out.length < Math.min(4, limit)) out.push(p); }
-      for (const m of movers) { if (out.length < limit) out.push(m); }
-
-      return out;
-    }
-
     function moverRow(r){
       const pct = Number(r.change_pct || 0);
       const cls = pct >= 0 ? "up" : "down";
-      const impact = r.impact || "NONE";
-
-      let tag = "";
-      if (impact === "DIRECT") tag = `<span class="tag direct">DIRECT</span>`;
-      else if (impact === "SECTOR") tag = `<span class="tag sector">SECTOR</span>`;
-      else if (impact === "LINKED") tag = `<span class="tag linked">LINKED</span>`;
-
+      
       return `
         <div class="mover">
           <div class="l">
-            <div class="t">${escapeHtml(r.ticker)} • ${escapeHtml(r.name)} ${tag}</div>
-            <div class="s">${escapeHtml(r.sector)} • impact: ${escapeHtml(impact)}</div>
+            <div class="t">${escapeHtml(r.ticker)} • ${escapeHtml(r.name)}</div>
+            <div class="s">${escapeHtml(r.sector)}</div>
           </div>
           <div class="pct ${cls}">${pct.toFixed(2)}%</div>
         </div>
@@ -674,26 +583,35 @@
     function renderSplitMovers(rows){
       const list = Array.isArray(rows) ? [...rows] : [];
 
-      const gainers = buildPinnedList(list, "up", 7);
-      const losers  = buildPinnedList(list, "down", 7);
+      // TOP GAINERS: Strictly sorted by daily change_pct
+      const gainers = list.filter(r => (r.change_pct || 0) > 0)
+                          .sort((a,b) => (b.change_pct || 0) - (a.change_pct || 0))
+                          .slice(0, 10); // Show up to 10 in the scrollable box
 
-      $("gainersBox").innerHTML = gainers.length ? gainers.map(moverRow).join("") : `<div class="muted">No gainers yet.</div>`;
-      $("losersBox").innerHTML  = losers.length  ? losers.map(moverRow).join("")  : `<div class="muted">No losers yet.</div>`;
+      // TOP LOSERS: Strictly sorted by daily change_pct
+      const losers = list.filter(r => (r.change_pct || 0) < 0)
+                         .sort((a,b) => (a.change_pct || 0) - (b.change_pct || 0))
+                         .slice(0, 10);
 
-      // meta: show how many pinned impacted included
-      const pinnedG = gainers.filter(r => r.impact === "DIRECT" || r.impact === "SECTOR").length;
-      const pinnedL = losers.filter(r => r.impact === "DIRECT" || r.impact === "SECTOR").length;
-      $("gainersMeta").textContent = `Pinned impacted: ${pinnedG}`;
-      $("losersMeta").textContent = `Pinned impacted: ${pinnedL}`;
+      const emptyHTML = `<div class="muted" style="padding:12px; text-align:center;">No significant moves yet.</div>`;
+
+      $("gainersBox").innerHTML = gainers.length ? gainers.map(moverRow).join("") : emptyHTML;
+      $("losersBox").innerHTML  = losers.length  ? losers.map(moverRow).join("")  : emptyHTML;
     }
 
     function renderLeaderboard(lb){
       const rows = Array.isArray(lb) ? lb : [];
+      
+      if(!rows.length) {
+          $("leaderBody").innerHTML = `<tr><td colspan="3" class="muted center" style="text-align:center;">No players yet.</td></tr>`;
+          return;
+      }
+
       $("leaderBody").innerHTML = rows.map((r, idx) => `
         <tr>
-          <td class="mono">${idx+1}</td>
-          <td>${escapeHtml(r.player || "")}</td>
-          <td class="right mono">${fmtMoney(r.equity)}</td>
+          <td class="mono nowrap" style="font-weight:900; color: ${idx < 3 ? 'var(--accent)' : 'inherit'};">${idx+1}</td>
+          <td style="font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width: 150px;">${escapeHtml(r.player || "")}</td>
+          <td class="right mono nowrap" style="font-weight:bold;">${fmtMoney(r.equity)}</td>
         </tr>
       `).join("");
     }

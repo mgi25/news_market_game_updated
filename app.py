@@ -902,7 +902,14 @@ def market_tick():
             news_term = float(news_shock.get(t, 0.0)) + float(news_drift.get(t, 0.0))
             flow_term = float(FLOW_IMPACT_K) * float(flow_impact_state.get(t, 0.0))
 
-            ret = pull + mr + news_term + flow_term + noise
+            # --- WHIPSAW VOLATILITY INJECTION ---
+            whipsaw_noise = 0.0
+            if status == "REACTION" and current_impact_map.get(t, "NONE") != "NONE":
+                move_size = abs(target - base_day_close_target.get(t, p0))
+                # Randomly swing up or down by up to 40% of the total move size EVERY TICK
+                whipsaw_noise = random.uniform(-move_size * 0.40, move_size * 0.40)
+
+            ret = pull + mr + news_term + flow_term + noise + whipsaw_noise
 
             # clamp single-tick extremes
             ret = max(-0.050, min(0.050, ret))
